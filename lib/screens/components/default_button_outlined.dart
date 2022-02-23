@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_ruang_nelayan/config/config.dart';
-import 'package:flutter_ruang_nelayan/constants/constants.dart';
+part of 'components.dart';
 
 class DefaultButtonOutlined extends StatelessWidget {
   const DefaultButtonOutlined({
@@ -27,7 +25,7 @@ class DefaultButtonOutlined extends StatelessWidget {
       side: const BorderSide(width: 2, color: kPrimaryColor),
     );
     return SizedBox(
-        width: isInfinity ? double.infinity : 43.0,
+        width: isInfinity ? double.infinity : null,
         height: getPropertionateScreenHeight(56),
         child: OutlinedButton(
           style: flabuttonStyle,

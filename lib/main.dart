@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ruang_nelayan/screens/nelayan_side/home_screen/home_screen.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/login_screen/login_screen.dart';
+import 'package:flutter_ruang_nelayan/screens/nelayan_side/otp_screen/otp_screen.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/register_screen/register_screen.dart';
-import 'package:flutter_ruang_nelayan/screens/onboarding_screen/onboarding_screen.dart';
 import 'package:flutter_ruang_nelayan/theme/theme.dart';
 
 void main() {
@@ -15,9 +16,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Ruang Nelayan',
       theme: theme(),
-      home: RegisterScreen(),
+      home: const HomeScreen(),
     );
   }
 }

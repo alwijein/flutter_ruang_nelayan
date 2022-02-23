@@ -1,9 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_ruang_nelayan/config/config.dart';
-import 'package:flutter_ruang_nelayan/constants/constants.dart';
-import 'package:flutter_ruang_nelayan/screens/components/default_button.dart';
-import 'package:flutter_ruang_nelayan/screens/components/default_button_outlined.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_ruang_nelayan/boostrap.dart';
 
 class OnboardingBody extends StatelessWidget {
   const OnboardingBody({Key? key}) : super(key: key);

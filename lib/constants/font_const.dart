@@ -5,6 +5,10 @@ TextStyle primaryTextStyle = GoogleFonts.poppins(
   color: kPrimaryTextColor,
 );
 
+TextStyle primaryLightTextStyle = GoogleFonts.poppins(
+  color: kPrimaryLightColor,
+);
+
 TextStyle secondaryTextStyle = GoogleFonts.poppins(
   color: kSecondaryTextColor,
 );

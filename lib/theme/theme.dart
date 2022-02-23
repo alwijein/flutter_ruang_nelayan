@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_ruang_nelayan/constants/constants.dart';
+import 'package:flutter_ruang_nelayan/boostrap.dart';
 
 part 'light_theme.dart';

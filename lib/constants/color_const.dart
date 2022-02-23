@@ -18,6 +18,15 @@ const Color kBackgroundColor5 = Color(0xff2B2844);
 
 // constant color for text style
 const Color kPrimaryTextColor = Color(0xff2E2E2E);
+const Color kPrimaryLightTextColor = Color(0xff2E2E2E);
 const Color kSecondaryTextColor = Color(0xff999999);
 const Color kSubtitleTextColor = Color(0xff504F5E);
 const Color kWhiteTextColor = Color.fromARGB(255, 255, 255, 255);
+
+final otpInputDecoration = InputDecoration(
+  contentPadding: EdgeInsets.symmetric(
+    vertical: getPropertionateScreenWidht(15),
+  ),
+  focusColor: kPrimaryColor,
+  border: InputBorder.none,
+);

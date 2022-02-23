@@ -1,7 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_ruang_nelayan/config/config.dart';
-import 'package:flutter_ruang_nelayan/constants/constants.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_ruang_nelayan/boostrap.dart';
+import 'package:flutter_ruang_nelayan/screens/nelayan_side/register_screen/components/register_form.dart';
 
 class RegisterBody extends StatelessWidget {
   const RegisterBody({Key? key}) : super(key: key);
@@ -50,12 +48,20 @@ class RegisterBody extends StatelessWidget {
               alignment: Alignment.bottomCenter,
               child: Container(
                 height: getPropertionateScreenHeight(550),
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: kBackgroundColor1,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(30),
                     topRight: Radius.circular(30),
                   ),
+                ),
+                padding: EdgeInsets.only(
+                  top: defaultPadding,
+                  left: defaultPadding,
+                  right: defaultPadding,
+                ),
+                child: const SingleChildScrollView(
+                  child: RegisterForm(),
                 ),
               ),
             ),

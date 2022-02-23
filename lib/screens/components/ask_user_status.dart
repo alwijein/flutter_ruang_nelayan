@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_ruang_nelayan/constants/constants.dart';
+part of 'components.dart';
 
 class AskUserStatus extends StatelessWidget {
   const AskUserStatus({
