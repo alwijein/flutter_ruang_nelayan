@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="61" height="61" viewBox="0 0 61 61">
+  <g id="add_form_icon" transform="translate(-82 -254)">
+    <g id="Rectangle_178" data-name="Rectangle 178" transform="translate(82 254)" fill="#fff" stroke="#707070" stroke-width="1" stroke-dasharray="5 5">
+      <rect width="61" height="61" rx="9" stroke="none"/>
+      <rect x="0.5" y="0.5" width="60" height="60" rx="8.5" fill="none"/>
+    </g>
+    <g id="Group_677" data-name="Group 677" transform="translate(102.48 274.78)">
+      <path id="Union_1" data-name="Union 1" d="M8.8,22V13.2H0V8.8H8.8V0h4.4V8.8H22v4.4H13.2V22Z" transform="translate(-0.48 -0.78)" fill="#999797"/>
+    </g>
+  </g>
+</svg>

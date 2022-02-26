@@ -54,8 +54,9 @@ class HomeBody extends StatelessWidget {
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                     text: TextSpan(
-                                        style: primaryLightTextStyle,
-                                        text: 'Pak Sutyo Mulyo'),
+                                      style: primaryLightTextStyle,
+                                      text: 'Pak Sutyo Mulyo',
+                                    ),
                                   ),
                                 ),
                               ],
@@ -81,7 +82,7 @@ class HomeBody extends StatelessWidget {
                       ],
                     ),
                     SizedBox(
-                      height: getPropertionateScreenHeight(20),
+                      height: getPropertionateScreenHeight(24),
                     ),
                     Column(
                       children: [
@@ -92,15 +93,15 @@ class HomeBody extends StatelessWidget {
                               image:
                                   'assets/images/illustration_data_nelayan.svg',
                               title: 'Data Nelayan',
-                              color1: kBackgroundColor3,
-                              color2: kBackgroundColor4,
+                              color1: kColorLightkBlue,
+                              color2: kColorDarkBlue,
                             ),
                             CardMenu(
                               image:
                                   'assets/images/illustration_konfirmasi_pesanan.svg',
                               title: 'Konfirmasi Pesanan',
-                              color1: kBackgroundColor3,
-                              color2: kBackgroundColor4,
+                              color1: kColorLightkOrange,
+                              color2: kColorDarkOrange,
                             ),
                           ],
                         ),
@@ -114,15 +115,15 @@ class HomeBody extends StatelessWidget {
                               image:
                                   'assets/images/illustration_data_hasil.svg',
                               title: 'Data Hasil Tangkapan',
-                              color1: kBackgroundColor3,
-                              color2: kBackgroundColor4,
+                              color1: kColorLightkPurple,
+                              color2: kColorDarkPurple,
                             ),
                             CardMenu(
                               image:
                                   'assets/images/illustration_laporan_harian.svg',
                               title: 'Laporan Harian',
-                              color1: kBackgroundColor3,
-                              color2: kBackgroundColor4,
+                              color1: kColorLightkGreen,
+                              color2: kColorDarkGreen,
                             ),
                           ],
                         ),

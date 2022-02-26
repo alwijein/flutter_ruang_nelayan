@@ -12,8 +12,19 @@ const Color kGreenColor = Color(0xFF51C17E);
 // constant color for background app
 const Color kBackgroundColor1 = Color.fromARGB(255, 255, 255, 255);
 const Color kBackgroundColor2 = Color(0xffE7F3FE);
-const Color kBackgroundColor3 = Color(0xff1F86FD);
-const Color kBackgroundColor4 = Color(0xff1FC4F6);
+
+const Color kColorDarkBlue = Color(0xff1F86FD);
+const Color kColorLightkBlue = Color(0xff1FC4F6);
+
+const Color kColorLightkOrange = Color(0xffFDFD00);
+const Color kColorDarkOrange = Color(0xffFF6F00);
+
+const Color kColorLightkPurple = Color(0xffFF429A);
+const Color kColorDarkPurple = Color(0xffA11AAA);
+
+const Color kColorDarkGreen = Color(0xff32B40C);
+const Color kColorLightkGreen = Color(0xff8BEC0C);
+
 const Color kBackgroundColor5 = Color(0xff2B2844);
 
 // constant color for text style

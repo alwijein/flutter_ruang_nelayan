@@ -6,17 +6,18 @@ class DefaultButtonOutlined extends StatelessWidget {
     required this.text,
     required this.press,
     this.isInfinity = true,
+    this.width = 56,
   }) : super(key: key);
 
   final Widget text;
   final Function() press;
   final bool isInfinity;
+  final double width;
 
   @override
   Widget build(BuildContext context) {
     final ButtonStyle flabuttonStyle = TextButton.styleFrom(
       padding: EdgeInsets.symmetric(
-        vertical: getPropertionateScreenWidht(8),
         horizontal: getPropertionateScreenWidht(24),
       ),
       shape: RoundedRectangleBorder(
@@ -26,7 +27,7 @@ class DefaultButtonOutlined extends StatelessWidget {
     );
     return SizedBox(
         width: isInfinity ? double.infinity : null,
-        height: getPropertionateScreenHeight(56),
+        height: getPropertionateScreenHeight(width),
         child: OutlinedButton(
           style: flabuttonStyle,
           onPressed: press,

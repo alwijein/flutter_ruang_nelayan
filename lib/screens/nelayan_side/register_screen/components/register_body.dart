@@ -18,8 +18,8 @@ class RegisterBody extends StatelessWidget {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    kBackgroundColor4,
-                    kBackgroundColor3,
+                    kColorDarkBlue,
+                    kColorLightkBlue,
                   ],
                 ),
               ),

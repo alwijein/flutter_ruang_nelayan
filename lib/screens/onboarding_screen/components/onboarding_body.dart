@@ -7,7 +7,7 @@ class OnboardingBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.all(defaultPadding),
+      padding: EdgeInsets.all(getPropertionateScreenWidht(24)),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

@@ -42,7 +42,7 @@ class CardMenu extends StatelessWidget {
             child: Text(
               title,
               style: whiteTextStyle.copyWith(
-                fontSize: 13,
+              fontSize: 13,
                 fontWeight: bold,
               ),
             ),
