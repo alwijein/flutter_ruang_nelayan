@@ -1,5 +1,4 @@
-import 'package:flutter_ruang_nelayan/boostrap.dart';
-import 'package:flutter_ruang_nelayan/screens/components/default_button_gradient.dart';
+part of 'components.dart';
 
 class AvatarProfile extends StatelessWidget {
   const AvatarProfile({

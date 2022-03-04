@@ -3,6 +3,7 @@ import 'package:flutter_ruang_nelayan/screens/nelayan_side/data_nelayan_screen/d
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/hasil_tangkapan_screen/tambah_ikan_screen/components/tambah_ikan_body.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/hasil_tangkapan_screen/tambah_ikan_screen/tambah_ikan_screen.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/home_screen/home_screen.dart';
+import 'package:flutter_ruang_nelayan/screens/nelayan_side/laporan_harian_screen/detail_laporan_harian_screen/detail_laporan_harian_screen.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/laporan_harian_screen/laporan_harian_screen.dart';
 import 'package:flutter_ruang_nelayan/screens/onboarding_screen/components/onboarding_body.dart';
 import 'package:flutter_ruang_nelayan/screens/onboarding_screen/onboarding_screen.dart';
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Ruang Nelayan',
       theme: theme(),
-      home: const TambahIkanScreen(),
+      home: const DetailLaporanHarianScreen(),
     );
   }
 }

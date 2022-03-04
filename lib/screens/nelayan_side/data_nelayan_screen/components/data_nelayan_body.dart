@@ -1,5 +1,4 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
-import 'package:flutter_ruang_nelayan/screens/components/default_button_gradient.dart';
 
 class DataNelayanBody extends StatelessWidget {
   const DataNelayanBody({Key? key}) : super(key: key);

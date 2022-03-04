@@ -1,4 +1,4 @@
-import 'package:flutter_ruang_nelayan/boostrap.dart';
+part of 'components.dart';
 
 class DefaultButtonGradient extends StatelessWidget {
   const DefaultButtonGradient({

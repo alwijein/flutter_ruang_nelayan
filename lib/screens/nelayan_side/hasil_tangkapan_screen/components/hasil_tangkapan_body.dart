@@ -1,5 +1,4 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
-import 'package:flutter_ruang_nelayan/screens/components/default_button_gradient.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/register_screen/components/register_form.dart';
 
 class HasilTangkapanBody extends StatelessWidget {
