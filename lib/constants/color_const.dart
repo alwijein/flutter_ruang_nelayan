@@ -41,3 +41,12 @@ final otpInputDecoration = InputDecoration(
   focusColor: kPrimaryColor,
   border: InputBorder.none,
 );
+
+List<BoxShadow> softShadow = [
+  BoxShadow(
+    color: Colors.grey.withOpacity(0.3),
+    spreadRadius: 3,
+    blurRadius: 4,
+    offset: Offset(0, 3), // changes position of shadow
+  )
+];
