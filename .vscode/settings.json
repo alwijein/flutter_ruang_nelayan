@@ -1,0 +1,12 @@
+{
+    "favorites.resources": [
+        {
+            "filePath": "lib\\screens",
+            "group": "Default"
+        },
+        {
+            "filePath": "lib\\services",
+            "group": "Default"
+        }
+    ]
+}

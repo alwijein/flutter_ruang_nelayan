@@ -7,47 +7,52 @@ class CardMenu extends StatelessWidget {
     required this.title,
     required this.color1,
     required this.color2,
+    required this.press,
   }) : super(key: key);
 
   final String image, title;
   final Color color1, color2;
+  final Function() press;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: getPropertionateScreenHeight(130),
-      width: getPropertionateScreenWidht(165),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            color1,
-            color2,
-          ],
-        ),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Expanded(
-            flex: 1,
-            child: SvgPicture.asset(
-              image,
-            ),
+    return InkWell(
+      onTap: press,
+      child: Container(
+        height: getPropertionateScreenHeight(130),
+        width: getPropertionateScreenWidht(165),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              color1,
+              color2,
+            ],
           ),
-          Expanded(
-            flex: 1,
-            child: Text(
-              title,
-              style: whiteTextStyle.copyWith(
-              fontSize: 13,
-                fontWeight: bold,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Expanded(
+              flex: 1,
+              child: SvgPicture.asset(
+                image,
               ),
             ),
-          )
-        ],
+            Expanded(
+              flex: 1,
+              child: Text(
+                title,
+                style: whiteTextStyle.copyWith(
+                  fontSize: 13,
+                  fontWeight: bold,
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

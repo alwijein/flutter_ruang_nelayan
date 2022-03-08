@@ -1,4 +1,5 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
+import 'package:get/get.dart';
 
 class TambahIkanBody extends StatefulWidget {
   const TambahIkanBody({Key? key}) : super(key: key);
@@ -170,7 +171,9 @@ class _TambahIkanBodyState extends State<TambahIkanBody> {
                       'Kembali',
                       style: primaryLightTextStyle,
                     ),
-                    press: () {},
+                    press: () {
+                      Get.back();
+                    },
                   ),
                   SizedBox(
                     width: getPropertionateScreenWidht(10),

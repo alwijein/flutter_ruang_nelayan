@@ -1,4 +1,5 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
+import 'package:get/get.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/register_screen/components/register_form.dart';
 
 class HasilTangkapanBody extends StatelessWidget {
@@ -69,7 +70,9 @@ class HasilTangkapanBody extends StatelessWidget {
                     ),
                   ],
                 ),
-                press: () {},
+                press: () {
+                  Get.toNamed("/hasil-tangkapan-nelayan/tambah-ikan");
+                },
                 isInfinity: false,
                 color1: kColorLightkPurple,
                 color2: kColorDarkPurple,

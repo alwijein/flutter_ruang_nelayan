@@ -1,10 +1,9 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/konfirmasi_pesanan_screen/components/alamat_pengantaran.dart';
-import 'package:flutter_ruang_nelayan/screens/nelayan_side/konfirmasi_pesanan_screen/components/list_pesanan.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/konfirmasi_pesanan_screen/components/profile_pembeli.dart';
 
-class KonfirmasiPesananBody extends StatelessWidget {
-  const KonfirmasiPesananBody({Key? key}) : super(key: key);
+class ProsesPemesananBody extends StatelessWidget {
+  const ProsesPemesananBody({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +16,22 @@ class KonfirmasiPesananBody extends StatelessWidget {
           ),
           child: Column(
             children: [
+              Text(
+                'Pesanan berhasil diproses',
+                style: primaryTextStyle.copyWith(
+                  fontWeight: bold,
+                  fontSize: 18,
+                ),
+              ),
+              SizedBox(
+                height: getPropertionateScreenHeight(24),
+              ),
+              SvgPicture.asset(
+                'assets/images/illustration_proses.svg',
+              ),
+              SizedBox(
+                height: getPropertionateScreenHeight(24),
+              ),
               ProfilePembeli(
                 image: 'assets/images/ikan_01.png',
                 name: 'Sutono',
@@ -30,12 +45,18 @@ class KonfirmasiPesananBody extends StatelessWidget {
                 kota: 'Sinjai',
                 kabupaten: 'Sulawesi Selatan',
               ),
-              ListPesanan(),
+              CardIkan(
+                qty: '10',
+                harga: '20.000',
+                jasa: 'fillet',
+                hargaPengerjaan: '10.000',
+                total: '30.000',
+              ),
               CardKurir(
                 logo: 'assets/images/logo_okjek.png',
                 kurir: 'OK - JEK EXPRESS',
-                berat: '30',
                 harga: '20.000',
+                berat: '30',
               ),
               CollapseCard(
                 content: [
@@ -59,7 +80,7 @@ class KonfirmasiPesananBody extends StatelessWidget {
               ),
               DefaultButton(
                 text: Text(
-                  'Proses Pesanan',
+                  'OK',
                   style: whiteTextStyle,
                 ),
                 press: () {},

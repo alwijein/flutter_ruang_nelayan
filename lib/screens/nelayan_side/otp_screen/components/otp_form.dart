@@ -1,18 +1,13 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
+import 'package:get/get.dart';
 
 class OtpForm extends StatefulWidget {
   const OtpForm({
     Key? key,
-    // required this.email,
-    // required this.password,
-    // required this.nama,
-    // required this.nomorUnik,
-    // required this.status,
   }) : super(key: key);
 
   @override
   State<OtpForm> createState() => _OtpFormState();
-  // final String email, password, nama, nomorUnik, status;
 }
 
 class _OtpFormState extends State<OtpForm> {
@@ -35,7 +30,7 @@ class _OtpFormState extends State<OtpForm> {
   @override
   void initState() {
     super.initState();
-
+    print(Get.arguments);
     pin2FocusNode = FocusNode();
   }
 

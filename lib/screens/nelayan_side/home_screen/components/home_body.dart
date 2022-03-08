@@ -1,5 +1,7 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
+import 'package:flutter_ruang_nelayan/screens/nelayan_side/home_screen/components/body_menu.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/home_screen/components/card_menu.dart';
+import 'package:flutter_ruang_nelayan/screens/nelayan_side/home_screen/components/header_menu.dart';
 
 class HomeBody extends StatelessWidget {
   const HomeBody({Key? key}) : super(key: key);
@@ -38,97 +40,11 @@ class HomeBody extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Expanded(
-                          flex: 7,
-                          child: DefaultButtonOutlined(
-                            isInfinity: false,
-                            text: Row(
-                              children: [
-                                SvgPicture.asset(
-                                    'assets/icons/person_icon.svg'),
-                                Flexible(
-                                  child: RichText(
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                    text: TextSpan(
-                                      style: primaryLightTextStyle,
-                                      text: 'Pak Sutyo Mulyo',
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            press: () {},
-                          ),
-                        ),
-                        Spacer(
-                          flex: 1,
-                        ),
-                        Expanded(
-                          flex: 7,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              SvgPicture.asset('assets/icons/alarm.svg'),
-                              SvgPicture.asset('assets/icons/chat.svg'),
-                              SvgPicture.asset('assets/icons/info.svg'),
-                              SvgPicture.asset('assets/icons/logout.svg'),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
+                    HeaderMenu(),
                     SizedBox(
                       height: getPropertionateScreenHeight(24),
                     ),
-                    Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            CardMenu(
-                              image:
-                                  'assets/images/illustration_data_nelayan.svg',
-                              title: 'Data Nelayan',
-                              color1: kColorLightkBlue,
-                              color2: kColorDarkBlue,
-                            ),
-                            CardMenu(
-                              image:
-                                  'assets/images/illustration_konfirmasi_pesanan.svg',
-                              title: 'Konfirmasi Pesanan',
-                              color1: kColorLightkOrange,
-                              color2: kColorDarkOrange,
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: getPropertionateScreenHeight(20),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            CardMenu(
-                              image:
-                                  'assets/images/illustration_data_hasil.svg',
-                              title: 'Data Hasil Tangkapan',
-                              color1: kColorLightkPurple,
-                              color2: kColorDarkPurple,
-                            ),
-                            CardMenu(
-                              image:
-                                  'assets/images/illustration_laporan_harian.svg',
-                              title: 'Laporan Harian',
-                              color1: kColorLightkGreen,
-                              color2: kColorDarkGreen,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                    BodyMenu(),
                   ],
                 ),
               ),

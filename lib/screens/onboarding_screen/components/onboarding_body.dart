@@ -1,4 +1,5 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
+import 'package:get/get.dart';
 
 class OnboardingBody extends StatelessWidget {
   const OnboardingBody({Key? key}) : super(key: key);
@@ -25,7 +26,9 @@ class OnboardingBody extends StatelessWidget {
                 fontWeight: medium,
               ),
             ),
-            press: () {},
+            press: () {
+              Get.offNamed('/home-nelayan');
+            },
           ),
           SizedBox(
             height: getPropertionateScreenHeight(18),
@@ -44,7 +47,9 @@ class OnboardingBody extends StatelessWidget {
                 ),
               ],
             ),
-            press: () {},
+            press: () {
+              Get.toNamed('/login-nelayan');
+            },
           )
         ],
       ),

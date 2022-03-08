@@ -1,4 +1,5 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
+import 'package:get/get.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({Key? key}) : super(key: key);
@@ -8,16 +9,13 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
-  TextEditingController nama = TextEditingController();
-  TextEditingController email = TextEditingController();
+  TextEditingController nomorTelp = TextEditingController();
   TextEditingController password = TextEditingController();
-  TextEditingController nomorUnik = TextEditingController();
-  TextEditingController status = TextEditingController();
 
   bool isLoading = false;
   bool showPass = true;
 
-  final List<String> errors = ["Register Failed"];
+  final List<String> errors = ["Login Failed"];
 
   final _formKey = GlobalKey<FormState>();
 
@@ -36,9 +34,9 @@ class _LoginFormState extends State<LoginForm> {
             ),
           ),
           buildFieldInput(
-            'telp',
+            'nomorTelp',
             'Masukkan Nomor Telepon Anda',
-            nomorUnik,
+            nomorTelp,
             Icons.phone,
           ),
           Text(
@@ -82,30 +80,22 @@ class _LoginFormState extends State<LoginForm> {
                         _formKey.currentState!.save();
                       });
                     }
-                    // if (errors.length == 1) {
-                    //   Navigator.of(context)
-                    //       .pushReplacement(MaterialPageRoute(builder: (_) {
-                    //     return OtpScreen(
-                    //         email: email.text,
-                    //         password: password.text,
-                    //         nama: nama.text,
-                    //         nomorUnik: nomorUnik.text,
-                    //         status: status.text);
-                    //   }));
-                    // } else {
-                    //   ScaffoldMessenger.of(context).showSnackBar(
-                    //     SnackBar(
-                    //       backgroundColor: Colors.red,
-                    //       content: Column(
-                    //         mainAxisSize: MainAxisSize.min,
-                    //         children: List.generate(
-                    //           errors.length,
-                    //           (index) => Text(errors[index]),
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   );
-                    // }
+                    if (errors.length == 1) {
+                      Get.offAllNamed('/home-nelayan');
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: Colors.red,
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: List.generate(
+                              errors.length,
+                              (index) => Text(errors[index]),
+                            ),
+                          ),
+                        ),
+                      );
+                    }
                     setState(() {
                       isLoading = false;
                     });
@@ -193,48 +183,26 @@ class _LoginFormState extends State<LoginForm> {
               fontSize: 14,
             ),
           ),
-          keyboardType: TextInputType.name,
+          keyboardType: TextInputType.number,
           controller: inputController,
           onChanged: (value) {
-            if (type == 'name') {
+            if (type == 'nomorTelp') {
               if (value.isNotEmpty && errors.contains(kNimNullError)) {
                 setState(() {
                   errors.remove(kNimNullError);
                 });
-              } else if (type == 'email') {
-                if (value.isNotEmpty && errors.contains(kAddressNullError)) {
-                  setState(() {
-                    errors.remove(kAddressNullError);
-                  });
-                } else if (emailValidatorRegExp.hasMatch(value) &&
-                    errors.contains(kInvalidEmailError)) {
-                  setState(() {
-                    errors.remove(kInvalidEmailError);
-                  });
-                }
               }
             }
           },
           validator: (value) {
-            if (type == 'name') {
+            if (type == 'nomorTelp') {
               if (value!.isEmpty && !errors.contains(kNimNullError)) {
                 setState(() {
                   errors.add(kNimNullError);
                 });
               }
-            } else if (type == 'email') {
-              if (value!.isEmpty && !errors.contains(kAddressNullError)) {
-                setState(() {
-                  errors.add(kAddressNullError);
-                });
-              } else if (!emailValidatorRegExp.hasMatch(value) &&
-                  !errors.contains(kInvalidEmailError)) {
-                setState(() {
-                  errors.add(kInvalidEmailError);
-                });
-              }
             }
-            return 'Something Wrong';
+            return null;
           }),
     );
   }

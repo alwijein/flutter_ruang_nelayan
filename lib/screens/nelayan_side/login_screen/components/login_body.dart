@@ -1,15 +1,17 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/login_screen/components/header.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/login_screen/components/login_form.dart';
+import 'package:get/get.dart';
 
 class LoginBody extends StatelessWidget {
   const LoginBody({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return SingleChildScrollView(
       child: Container(
         width: double.infinity,
+        height: SizeConfig.screenHeight,
         padding: EdgeInsets.all(defaultPadding),
         child: Column(
           children: [
@@ -23,7 +25,9 @@ class LoginBody extends StatelessWidget {
             AskUserStatus(
               title: 'Belum punya akun? ',
               subTitle: 'Daftar',
-              press: () {},
+              press: () {
+                Get.toNamed('register-nelayan');
+              },
             ),
           ],
         ),

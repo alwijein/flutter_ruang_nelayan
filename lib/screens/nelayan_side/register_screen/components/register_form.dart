@@ -1,4 +1,5 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
+import 'package:get/get.dart';
 
 class RegisterForm extends StatefulWidget {
   const RegisterForm({Key? key}) : super(key: key);
@@ -8,11 +9,10 @@ class RegisterForm extends StatefulWidget {
 }
 
 class _RegisterFormState extends State<RegisterForm> {
+  TextEditingController nik = TextEditingController();
   TextEditingController nama = TextEditingController();
-  TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
-  TextEditingController nomorUnik = TextEditingController();
-  TextEditingController status = TextEditingController();
+  TextEditingController nomorTelp = TextEditingController();
 
   bool isLoading = false;
   bool showPass = true;
@@ -35,7 +35,7 @@ class _RegisterFormState extends State<RegisterForm> {
               fontSize: 16,
             ),
           ),
-          buildFieldInput('nik', 'Masukkan NIK Anda', nama, Icons.person),
+          buildFieldInput('nik', 'Masukkan NIK Anda', nik, Icons.person),
           Text(
             'Nama Lengkap',
             style: primaryTextStyle.copyWith(
@@ -44,7 +44,7 @@ class _RegisterFormState extends State<RegisterForm> {
             ),
           ),
           buildFieldInput(
-              'name', 'Masukkan Nama Lengkap Anda', email, Icons.email),
+              'name', 'Masukkan Nama Lengkap Anda', nama, Icons.email),
           Text(
             'Nomor Telepon / HP',
             style: primaryTextStyle.copyWith(
@@ -52,7 +52,7 @@ class _RegisterFormState extends State<RegisterForm> {
               fontSize: 16,
             ),
           ),
-          buildFieldInput('telp', 'Masukkan Nomor Telepon Anda', nomorUnik,
+          buildFieldInput('telp', 'Masukkan Nomor Telepon Anda', nomorTelp,
               Icons.format_indent_increase_outlined),
           Text(
             'Kata Sandi',
@@ -103,30 +103,30 @@ class _RegisterFormState extends State<RegisterForm> {
                         _formKey.currentState!.save();
                       });
                     }
-                    // if (errors.length == 1) {
-                    //   Navigator.of(context)
-                    //       .pushReplacement(MaterialPageRoute(builder: (_) {
-                    //     return OtpScreen(
-                    //         email: email.text,
-                    //         password: password.text,
-                    //         nama: nama.text,
-                    //         nomorUnik: nomorUnik.text,
-                    //         status: status.text);
-                    //   }));
-                    // } else {
-                    //   ScaffoldMessenger.of(context).showSnackBar(
-                    //     SnackBar(
-                    //       backgroundColor: Colors.red,
-                    //       content: Column(
-                    //         mainAxisSize: MainAxisSize.min,
-                    //         children: List.generate(
-                    //           errors.length,
-                    //           (index) => Text(errors[index]),
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   );
-                    // }
+                    if (errors.length == 1) {
+                      Get.toNamed(
+                        '/otp-nelayan',
+                        arguments: [
+                          nomorTelp.text,
+                          password.text,
+                          nama.text,
+                          nomorTelp.text,
+                        ],
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: Colors.red,
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: List.generate(
+                              errors.length,
+                              (index) => Text(errors[index]),
+                            ),
+                          ),
+                        ),
+                      );
+                    }
                     setState(() {
                       isLoading = false;
                     });

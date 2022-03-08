@@ -1,5 +1,6 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/register_screen/components/register_form.dart';
+import 'package:get/get.dart';
 
 class RegisterBody extends StatelessWidget {
   const RegisterBody({Key? key}) : super(key: key);
@@ -7,7 +8,7 @@ class RegisterBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Container(
+      child: SizedBox(
         width: double.infinity,
         child: Stack(
           children: [
