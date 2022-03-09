@@ -1,4 +1,5 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
+import 'package:flutter_ruang_nelayan/providers/auth_provider.dart';
 import 'package:get/get.dart';
 
 class OtpForm extends StatefulWidget {
@@ -24,13 +25,12 @@ class _OtpFormState extends State<OtpForm> {
   TextEditingController input5 = TextEditingController();
   TextEditingController input6 = TextEditingController();
 
-  bool verify = false;
+  bool verify = true;
   String otp = '';
 
   @override
   void initState() {
     super.initState();
-    print(Get.arguments);
     pin2FocusNode = FocusNode();
   }
 
@@ -50,6 +50,8 @@ class _OtpFormState extends State<OtpForm> {
 
   @override
   Widget build(BuildContext context) {
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+
     return Form(
       child: Column(
         children: [
@@ -234,25 +236,34 @@ class _OtpFormState extends State<OtpForm> {
                     setState(() {
                       isLoading = true;
                     });
-                    if (verify == false) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          backgroundColor: Colors.red,
-                          content: Text('Verifikasi Gagal'),
-                        ),
-                      );
-                    } else if (verify == true) {
-                      if (isLoading) {
-                        Navigator.of(context).pop();
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            backgroundColor: Colors.red,
-                            content: Text('Login Gagal'),
-                          ),
-                        );
-                      }
-                    }
+                    // if (verify == false) {
+                    //   ScaffoldMessenger.of(context).showSnackBar(
+                    //     const SnackBar(
+                    //       backgroundColor: Colors.red,
+                    //       content: Text('Verifikasi Gagal'),
+                    //     ),
+                    //   );
+                    // } else if (verify == true) {
+                    // if (isLoading) {
+                    var data = Get.arguments;
+
+                    if (await authProvider.register(
+                      noKtp: '1234567890111',
+                      name: 'Admin',
+                      noTelp: '123456789000',
+                      password: 'labfik771',
+                    )) {
+                      Get.offAllNamed('/home-nelayan');
+                    } else {}
+                    // } else {
+                    //   ScaffoldMessenger.of(context).showSnackBar(
+                    //     const SnackBar(
+                    //       backgroundColor: Colors.red,
+                    //       content: Text('Login Gagal'),
+                    //     ),
+                    //   );
+                    // }
+                    // }
                     setState(() {
                       isLoading = false;
                     });

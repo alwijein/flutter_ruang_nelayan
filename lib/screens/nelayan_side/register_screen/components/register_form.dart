@@ -9,10 +9,10 @@ class RegisterForm extends StatefulWidget {
 }
 
 class _RegisterFormState extends State<RegisterForm> {
-  TextEditingController nik = TextEditingController();
+  TextEditingController noKtp = TextEditingController();
   TextEditingController nama = TextEditingController();
   TextEditingController password = TextEditingController();
-  TextEditingController nomorTelp = TextEditingController();
+  TextEditingController noTelp = TextEditingController();
 
   bool isLoading = false;
   bool showPass = true;
@@ -35,7 +35,7 @@ class _RegisterFormState extends State<RegisterForm> {
               fontSize: 16,
             ),
           ),
-          buildFieldInput('nik', 'Masukkan NIK Anda', nik, Icons.person),
+          buildFieldInput('nik', 'Masukkan NIK Anda', noKtp, Icons.person),
           Text(
             'Nama Lengkap',
             style: primaryTextStyle.copyWith(
@@ -52,7 +52,7 @@ class _RegisterFormState extends State<RegisterForm> {
               fontSize: 16,
             ),
           ),
-          buildFieldInput('telp', 'Masukkan Nomor Telepon Anda', nomorTelp,
+          buildFieldInput('telp', 'Masukkan Nomor Telepon Anda', noTelp,
               Icons.format_indent_increase_outlined),
           Text(
             'Kata Sandi',
@@ -107,10 +107,10 @@ class _RegisterFormState extends State<RegisterForm> {
                       Get.toNamed(
                         '/otp-nelayan',
                         arguments: [
-                          nomorTelp.text,
-                          password.text,
-                          nama.text,
-                          nomorTelp.text,
+                          {'no_ktp': noKtp.text},
+                          {'nama': nama.text},
+                          {'no_telp': noTelp.text},
+                          {'password': password.text},
                         ],
                       );
                     } else {
