@@ -1,10 +1,13 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class HeaderMenu extends StatelessWidget {
-  const HeaderMenu({
+  HeaderMenu({
     Key? key,
   }) : super(key: key);
 
+  final loginState = GetStorage();
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -43,7 +46,12 @@ class HeaderMenu extends StatelessWidget {
               SvgPicture.asset('assets/icons/alarm.svg'),
               SvgPicture.asset('assets/icons/chat.svg'),
               SvgPicture.asset('assets/icons/info.svg'),
-              SvgPicture.asset('assets/icons/logout.svg'),
+              GestureDetector(
+                  onTap: () {
+                    loginState.write('status', false);
+                    Get.offAllNamed('/onboarding');
+                  },
+                  child: SvgPicture.asset('assets/icons/logout.svg')),
             ],
           ),
         ),

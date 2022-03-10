@@ -1,6 +1,8 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
+import 'package:flutter_ruang_nelayan/controllers/login_controller.dart';
 import 'package:flutter_ruang_nelayan/providers/auth_provider.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class OtpForm extends StatefulWidget {
   const OtpForm({
@@ -25,8 +27,9 @@ class _OtpFormState extends State<OtpForm> {
   TextEditingController input5 = TextEditingController();
   TextEditingController input6 = TextEditingController();
 
-  bool verify = true;
-  String otp = '';
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -46,7 +49,29 @@ class _OtpFormState extends State<OtpForm> {
     }
   }
 
-  bool isLoading = false;
+  void signInWithPhoneAuthCredential(
+      PhoneAuthCredential phoneAuthCredential) async {
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+      final authCredential =
+          await _auth.signInWithCredential(phoneAuthCredential);
+
+      setState(() {
+        isLoading = false;
+      });
+
+      if (authCredential.user != null) {
+        Get.offAllNamed('/home-nelayan');
+      }
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -195,22 +220,6 @@ class _OtpFormState extends State<OtpForm> {
           SizedBox(
             height: getPropertionateScreenHeight(24),
           ),
-          // Row(
-          //   children: [
-          //     Text(
-          //       'Belum Masuk? ',
-          //       style: primaryTextStyle,
-          //     ),
-          //     GestureDetector(
-          //       child: Text(
-          //         'Kirim Ulang  ',
-          //         style: primaryTextStyle.copyWith(
-          //           color: kPrimaryLightColor,
-          //         ),
-          //       ),
-          //     ),
-          //   ],
-          // ),
           isLoading
               ? DefaultButton(
                   text: Padding(
@@ -224,7 +233,8 @@ class _OtpFormState extends State<OtpForm> {
                       ),
                     ),
                   ),
-                  press: () {})
+                  press: () {},
+                )
               : DefaultButton(
                   text: Text(
                     'Lanjutkan',
@@ -236,34 +246,40 @@ class _OtpFormState extends State<OtpForm> {
                     setState(() {
                       isLoading = true;
                     });
-                    // if (verify == false) {
-                    //   ScaffoldMessenger.of(context).showSnackBar(
-                    //     const SnackBar(
-                    //       backgroundColor: Colors.red,
-                    //       content: Text('Verifikasi Gagal'),
-                    //     ),
-                    //   );
-                    // } else if (verify == true) {
-                    // if (isLoading) {
-                    var data = Get.arguments;
+
+                    var noKtp = Get.arguments[0]['no_ktp'];
+                    var nama = Get.arguments[1]['nama'];
+                    var noTelp = Get.arguments[2]['no_telp'];
+                    var password = Get.arguments[3]['password'];
+                    var verificationId = Get.arguments[4]['verificationId'];
 
                     if (await authProvider.register(
-                      noKtp: '1234567890111',
-                      name: 'Admin',
-                      noTelp: '123456789000',
-                      password: 'labfik771',
+                      noKtp: noKtp,
+                      name: nama,
+                      noTelp: noTelp,
+                      password: password,
                     )) {
-                      Get.offAllNamed('/home-nelayan');
-                    } else {}
-                    // } else {
-                    //   ScaffoldMessenger.of(context).showSnackBar(
-                    //     const SnackBar(
-                    //       backgroundColor: Colors.red,
-                    //       content: Text('Login Gagal'),
-                    //     ),
-                    //   );
-                    // }
-                    // }
+                      PhoneAuthCredential phoneAuthCredential =
+                          PhoneAuthProvider.credential(
+                        verificationId: verificationId,
+                        smsCode: input1.text +
+                            input2.text +
+                            input3.text +
+                            input4.text +
+                            input5.text +
+                            input6.text,
+                      );
+
+                      signInWithPhoneAuthCredential(phoneAuthCredential);
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          backgroundColor: Colors.red,
+                          content: Text('Register Gagal'),
+                        ),
+                      );
+                    }
+
                     setState(() {
                       isLoading = false;
                     });

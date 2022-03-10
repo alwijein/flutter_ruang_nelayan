@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "426857488547",
+    "project_id": "ruang-nelayan",
+    "storage_bucket": "ruang-nelayan.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:426857488547:android:cb75cab44a54a22a5bdf16",
+        "android_client_info": {
+          "package_name": "com.example.flutter_ruang_nelayan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "426857488547-jie9jrar6chnh7bsub7aapmhtv6pnd3b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.flutter_ruang_nelayan",
+            "certificate_hash": "82bae1a79360ca5fece0c02c11884a8ee7181a58"
+          }
+        },
+        {
+          "client_id": "426857488547-vtj8afartvng67v1a20877kr3prt69ir.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBelHfGLVA5lOBxbN3Oyg8q5shstxRWUGY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "426857488547-vtj8afartvng67v1a20877kr3prt69ir.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -16,6 +16,9 @@ class _RegisterFormState extends State<RegisterForm> {
 
   bool isLoading = false;
   bool showPass = true;
+  String verificationId = '';
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   final List<String> errors = ["Register Failed"];
 
@@ -35,7 +38,11 @@ class _RegisterFormState extends State<RegisterForm> {
               fontSize: 16,
             ),
           ),
-          buildFieldInput('nik', 'Masukkan NIK Anda', noKtp, Icons.person),
+          buildFieldInput(
+              type: 'nik',
+              hintText: 'Masukkan NIK Anda',
+              inputController: noKtp,
+              icon: 'assets/icons/identity_icon.svg'),
           Text(
             'Nama Lengkap',
             style: primaryTextStyle.copyWith(
@@ -44,7 +51,10 @@ class _RegisterFormState extends State<RegisterForm> {
             ),
           ),
           buildFieldInput(
-              'name', 'Masukkan Nama Lengkap Anda', nama, Icons.email),
+              type: 'name',
+              hintText: 'Masukkan Nama Lengkap Anda',
+              inputController: nama,
+              icon: 'assets/icons/person_icon.svg'),
           Text(
             'Nomor Telepon / HP',
             style: primaryTextStyle.copyWith(
@@ -52,8 +62,11 @@ class _RegisterFormState extends State<RegisterForm> {
               fontSize: 16,
             ),
           ),
-          buildFieldInput('telp', 'Masukkan Nomor Telepon Anda', noTelp,
-              Icons.format_indent_increase_outlined),
+          buildFieldInput(
+              type: 'noTelp',
+              hintText: 'Masukkan Nomor Telpon Anda',
+              inputController: noTelp,
+              icon: 'assets/icons/62_icon.svg'),
           Text(
             'Kata Sandi',
             style: primaryTextStyle.copyWith(
@@ -104,14 +117,41 @@ class _RegisterFormState extends State<RegisterForm> {
                       });
                     }
                     if (errors.length == 1) {
-                      Get.toNamed(
-                        '/otp-nelayan',
-                        arguments: [
-                          {'no_ktp': noKtp.text},
-                          {'nama': nama.text},
-                          {'no_telp': noTelp.text},
-                          {'password': password.text},
-                        ],
+                      String numberPhone = noTelp.text;
+                      String combine = "+62" + numberPhone;
+                      await _auth.verifyPhoneNumber(
+                        phoneNumber: combine,
+                        verificationCompleted: (phoneAuthCredential) async {
+                          setState(() {
+                            print("Berhasilllllll");
+
+                            isLoading = false;
+                          });
+                        },
+                        verificationFailed: (verificationFailed) async {
+                          setState(() {
+                            print(combine);
+                            print("salahhhhhhhhhhhhhhhhh");
+                            isLoading = false;
+                          });
+                        },
+                        codeSent: (verificationId, resendingToken) async {
+                          setState(() {
+                            isLoading = false;
+                            this.verificationId = verificationId;
+                            Get.toNamed(
+                              '/otp-nelayan',
+                              arguments: [
+                                {'no_ktp': noKtp.text},
+                                {'nama': nama.text},
+                                {'no_telp': noTelp.text},
+                                {'password': password.text},
+                                {'verificationId': verificationId},
+                              ],
+                            );
+                          });
+                        },
+                        codeAutoRetrievalTimeout: (verificationId) async {},
                       );
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -200,16 +240,21 @@ class _RegisterFormState extends State<RegisterForm> {
     );
   }
 
-  TextFieldContainer buildFieldInput(String type, String hintText,
-      TextEditingController inputController, IconData icon) {
+  TextFieldContainer buildFieldInput({
+    required String type,
+    required String hintText,
+    required TextEditingController inputController,
+    required String icon,
+  }) {
     return TextFieldContainer(
       isWrapSize: false,
       child: TextFormField(
           style: primaryTextStyle,
           decoration: InputDecoration(
-            icon: Icon(
+            icon: SvgPicture.asset(
               icon,
               color: kPrimaryLightColor,
+              width: getPropertionateScreenWidht(30),
             ),
             border: InputBorder.none,
             hintText: hintText,
@@ -258,7 +303,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 });
               }
             }
-            return 'Something Wrong';
+            return null;
           }),
     );
   }

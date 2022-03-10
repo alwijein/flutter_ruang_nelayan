@@ -1,4 +1,5 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
+import 'package:flutter_ruang_nelayan/controllers/login_controller.dart';
 import 'package:flutter_ruang_nelayan/providers/auth_provider.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/data_nelayan_screen/data_nelayan_screen.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/hasil_tangkapan_screen/hasil_tangkapan_screen.dart';
@@ -11,16 +12,23 @@ import 'package:flutter_ruang_nelayan/screens/nelayan_side/otp_screen/otp_screen
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/register_screen/register_screen.dart';
 import 'package:flutter_ruang_nelayan/screens/onboarding_screen/onboarding_screen.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await GetStorage.init();
+  await Firebase.initializeApp();
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  MyApp({Key? key}) : super(key: key);
+
+  final loginState = GetStorage();
 
   @override
   Widget build(BuildContext context) {
+    loginState.writeIfNull('status', false);
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
@@ -31,7 +39,8 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Ruang Nelayan',
         theme: theme(),
-        initialRoute: '/onboarding',
+        initialRoute:
+            loginState.read('status') ? '/home-nelayan' : '/onboarding',
         getPages: [
           // Nelayan Side
 
