@@ -1,5 +1,4 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
-import 'package:flutter_ruang_nelayan/controllers/login_controller.dart';
 import 'package:flutter_ruang_nelayan/providers/auth_provider.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/data_nelayan_screen/data_nelayan_screen.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/hasil_tangkapan_screen/hasil_tangkapan_screen.dart';
@@ -11,6 +10,7 @@ import 'package:flutter_ruang_nelayan/screens/nelayan_side/login_screen/login_sc
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/otp_screen/otp_screen.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/register_screen/register_screen.dart';
 import 'package:flutter_ruang_nelayan/screens/onboarding_screen/onboarding_screen.dart';
+import 'package:flutter_ruang_nelayan/screens/splash_screen/splash_screen.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -39,11 +39,11 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Ruang Nelayan',
         theme: theme(),
-        initialRoute:
-            loginState.read('status') ? '/home-nelayan' : '/onboarding',
+        initialRoute: '/splash-screen',
         getPages: [
           // Nelayan Side
 
+          GetPage(name: '/splash-screen', page: () => const SplashScreen()),
           GetPage(name: '/onboarding', page: () => const OnboardingScreen()),
           GetPage(name: '/login-nelayan', page: () => const LoginScreen()),
           GetPage(

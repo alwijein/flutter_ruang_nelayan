@@ -1,10 +1,17 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
+import 'package:flutter_ruang_nelayan/controllers/state_controller.dart';
+import 'package:flutter_ruang_nelayan/providers/auth_provider.dart';
+import 'package:flutter_ruang_nelayan/screens/nelayan_side/data_nelayan_screen/components/avatar_profile.dart';
+import 'package:get/get.dart';
 
 class DataNelayanBody extends StatelessWidget {
   const DataNelayanBody({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+    StateController stateController = Get.put(StateController());
+
     return SafeArea(
       child: SizedBox(
         width: double.infinity,
@@ -37,128 +44,64 @@ class DataNelayanBody extends StatelessWidget {
                   left: getPropertionateScreenWidht(24),
                   right: getPropertionateScreenWidht(24),
                 ),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Data Nelayan',
-                          style: primaryTextStyle.copyWith(
-                            fontWeight: bold,
-                            fontSize: 18,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Data Nelayan',
+                            style: primaryTextStyle.copyWith(
+                              fontWeight: bold,
+                              fontSize: 18,
+                            ),
                           ),
-                        ),
-                        SizedBox(
-                          width: getPropertionateScreenWidht(10),
-                        ),
-                        DefaultButtonGradient(
-                          isInfinity: false,
-                          text: Row(
-                            children: [
-                              const Icon(
-                                Icons.verified_user_outlined,
-                                color: kWhiteTextColor,
-                                size: 14,
-                              ),
-                              SizedBox(
-                                width: getPropertionateScreenWidht(5),
-                              ),
-                              Text(
-                                'Edit Profile',
-                                style: whiteTextStyle.copyWith(
-                                  fontWeight: bold,
-                                  fontSize: 12,
+                          SizedBox(
+                            width: getPropertionateScreenWidht(10),
+                          ),
+                          DefaultButtonGradient(
+                            isInfinity: false,
+                            text: Row(
+                              children: [
+                                const Icon(
+                                  Icons.verified_user_outlined,
+                                  color: kWhiteTextColor,
+                                  size: 14,
                                 ),
-                              )
-                            ],
+                                SizedBox(
+                                  width: getPropertionateScreenWidht(5),
+                                ),
+                                Obx(() => Text(
+                                      stateController.titleEditProfile.value,
+                                      style: whiteTextStyle.copyWith(
+                                        fontWeight: bold,
+                                        fontSize: 12,
+                                      ),
+                                    ))
+                              ],
+                            ),
+                            color1: kColorLightkOrange,
+                            color2: kColorDarkOrange,
+                            press: () {
+                              stateController.editProfile();
+                            },
                           ),
-                          color1: kColorLightkOrange,
-                          color2: kColorDarkOrange,
-                          press: () {},
-                        ),
-                      ],
-                    ),
-                    AvatarProfile(),
-                  ],
+                        ],
+                      ),
+                      Obx(() => AvatarProfile(
+                            isEdit: stateController.isEditProfile.value,
+                            name: authProvider.user.name ?? '',
+                            noTelp: authProvider.user.noTelp ?? '',
+                            alamat: authProvider.user.alamat ?? '',
+                          )),
+                    ],
+                  ),
                 ),
               ),
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class AvatarProfile extends StatelessWidget {
-  const AvatarProfile({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        vertical: getPropertionateScreenHeight(24),
-      ),
-      child: Row(
-        children: [
-          CircleAvatar(
-            backgroundImage: AssetImage(
-              'assets/images/logo.png',
-            ),
-            radius: getPropertionateScreenWidht(30),
-          ),
-          SizedBox(
-            width: getPropertionateScreenWidht(20),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  SvgPicture.asset('assets/icons/face_icon.svg'),
-                  SizedBox(
-                    width: getPropertionateScreenWidht(14),
-                  ),
-                  Text(
-                    'Dg. Tompo',
-                    style: subtitleTextStyle,
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  SvgPicture.asset(
-                    'assets/icons/phone_icon.svg',
-                  ),
-                  SizedBox(
-                    width: getPropertionateScreenWidht(14),
-                  ),
-                  Text(
-                    '089xxxx',
-                    style: subtitleTextStyle,
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  SvgPicture.asset(
-                    'assets/icons/location_icon.svg',
-                  ),
-                  SizedBox(
-                    width: getPropertionateScreenWidht(22),
-                  ),
-                  Text(
-                    'Jl. Gunung Latimojong',
-                    style: subtitleTextStyle,
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ],
       ),
     );
   }

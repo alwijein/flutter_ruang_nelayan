@@ -1,5 +1,4 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
-import 'package:flutter_ruang_nelayan/controllers/login_controller.dart';
 import 'package:flutter_ruang_nelayan/providers/auth_provider.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -256,7 +255,7 @@ class _OtpFormState extends State<OtpForm> {
                     if (await authProvider.register(
                       noKtp: noKtp,
                       name: nama,
-                      noTelp: noTelp,
+                      noTelp: "0$noTelp",
                       password: password,
                     )) {
                       PhoneAuthCredential phoneAuthCredential =

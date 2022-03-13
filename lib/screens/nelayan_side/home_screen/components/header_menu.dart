@@ -1,4 +1,5 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
+import 'package:flutter_ruang_nelayan/providers/auth_provider.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -10,6 +11,8 @@ class HeaderMenu extends StatelessWidget {
   final loginState = GetStorage();
   @override
   Widget build(BuildContext context) {
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -26,13 +29,15 @@ class HeaderMenu extends StatelessWidget {
                     maxLines: 1,
                     text: TextSpan(
                       style: primaryLightTextStyle,
-                      text: 'Pak Sutyo Mulyo',
+                      text: " ${authProvider.user.name}",
                     ),
                   ),
                 ),
               ],
             ),
-            press: () {},
+            press: () {
+              Get.toNamed('/data-nelayan');
+            },
           ),
         ),
         Spacer(
@@ -47,9 +52,18 @@ class HeaderMenu extends StatelessWidget {
               SvgPicture.asset('assets/icons/chat.svg'),
               SvgPicture.asset('assets/icons/info.svg'),
               GestureDetector(
-                  onTap: () {
-                    loginState.write('status', false);
-                    Get.offAllNamed('/onboarding');
+                  onTap: () async {
+                    if (await authProvider.logout()) {
+                      loginState.write('status', false);
+                      Get.offAllNamed('/onboarding');
+                    } else {
+                      Get.snackbar(
+                        'Error',
+                        'Gagal Logout',
+                        colorText: kWhiteTextColor,
+                        backgroundColor: Colors.red,
+                      );
+                    }
                   },
                   child: SvgPicture.asset('assets/icons/logout.svg')),
             ],

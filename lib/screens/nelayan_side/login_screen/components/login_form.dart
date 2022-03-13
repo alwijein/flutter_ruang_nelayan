@@ -1,5 +1,7 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
+import 'package:flutter_ruang_nelayan/providers/auth_provider.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({Key? key}) : super(key: key);
@@ -15,12 +17,13 @@ class _LoginFormState extends State<LoginForm> {
   bool isLoading = false;
   bool showPass = true;
 
-  final List<String> errors = ["Login Failed"];
+  final List<String> errors = [];
 
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
     return Form(
       key: _formKey,
       child: Column(
@@ -59,7 +62,7 @@ class _LoginFormState extends State<LoginForm> {
                     child: const CircularProgressIndicator(
                       strokeWidth: 3,
                       valueColor: AlwaysStoppedAnimation(
-                        kPrimaryColor,
+                        kBackgroundColor1,
                       ),
                     ),
                   ),
@@ -80,19 +83,42 @@ class _LoginFormState extends State<LoginForm> {
                         _formKey.currentState!.save();
                       });
                     }
-                    if (errors.length == 1) {
-                      Get.offAllNamed('/home-nelayan');
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
+                    if (errors.isEmpty) {
+                      if (await authProvider.login(
+                          noTelp: nomorTelp.text, password: password.text)) {
+                        Get.offAllNamed('/home-nelayan');
+                      } else {
+                        Get.snackbar(
+                          'Error',
+                          'Password Salah',
                           backgroundColor: Colors.red,
-                          content: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: List.generate(
-                              errors.length,
-                              (index) => Text(errors[index]),
+                          colorText: kWhiteTextColor,
+                          margin: EdgeInsets.symmetric(
+                            vertical: getPropertionateScreenHeight(10),
+                            horizontal: getPropertionateScreenHeight(24),
+                          ),
+                        );
+                      }
+                    } else {
+                      Get.snackbar(
+                        'Error',
+                        'message',
+                        messageText: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: List.generate(
+                            errors.length,
+                            (index) => Text(
+                              errors[index],
+                              style: whiteTextStyle,
                             ),
                           ),
+                        ),
+                        backgroundColor: Colors.red,
+                        colorText: kWhiteTextColor,
+                        margin: EdgeInsets.symmetric(
+                          vertical: getPropertionateScreenHeight(10),
+                          horizontal: getPropertionateScreenHeight(24),
                         ),
                       );
                     }
@@ -186,19 +212,27 @@ class _LoginFormState extends State<LoginForm> {
           keyboardType: TextInputType.number,
           controller: inputController,
           onChanged: (value) {
-            if (type == 'nomorTelp') {
-              if (value.isNotEmpty && errors.contains(kNimNullError)) {
+            if (type == 'noTelp') {
+              if (value.isNotEmpty && errors.contains(kNoTelpNullError)) {
                 setState(() {
-                  errors.remove(kNimNullError);
+                  errors.remove(kNoTelpNullError);
+                });
+              } else if (!errors.contains(kInvalidNoTelpError)) {
+                setState(() {
+                  errors.remove(kInvalidNoTelpError);
                 });
               }
             }
           },
           validator: (value) {
-            if (type == 'nomorTelp') {
-              if (value!.isEmpty && !errors.contains(kNimNullError)) {
+            if (type == 'noTelp') {
+              if (value!.isEmpty && !errors.contains(kNoTelpNullError)) {
                 setState(() {
-                  errors.add(kNimNullError);
+                  errors.add(kNoTelpNullError);
+                });
+              } else if (!errors.contains(kInvalidNoTelpError)) {
+                setState(() {
+                  errors.add(kInvalidNoTelpError);
                 });
               }
             }

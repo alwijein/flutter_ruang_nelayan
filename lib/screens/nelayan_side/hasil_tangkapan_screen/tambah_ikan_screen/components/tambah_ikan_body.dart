@@ -1,4 +1,5 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
+import 'package:flutter_ruang_nelayan/controllers/counter_controller.dart';
 import 'package:get/get.dart';
 
 class TambahIkanBody extends StatefulWidget {
@@ -21,6 +22,7 @@ class _TambahIkanBodyState extends State<TambahIkanBody> {
 
   @override
   Widget build(BuildContext context) {
+    CounterController counterController = Get.put(CounterController());
     return SingleChildScrollView(
       child: Padding(
         padding: EdgeInsets.all(
@@ -75,23 +77,33 @@ class _TambahIkanBodyState extends State<TambahIkanBody> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Icon(
-                        Icons.remove_circle_outline,
-                      ),
-                      SizedBox(
-                        width: getPropertionateScreenWidht(10),
-                      ),
-                      Text(
-                        '4',
-                        style: subtitleTextStyle.copyWith(
-                          fontSize: 16,
+                      GestureDetector(
+                        onTap: () {
+                          if (counterController.jumlah.value != 0) {
+                            counterController.decrementJumlah();
+                          }
+                        },
+                        child: Icon(
+                          Icons.remove_circle_outline,
                         ),
                       ),
                       SizedBox(
                         width: getPropertionateScreenWidht(10),
                       ),
-                      Icon(
-                        Icons.add_circle_outline,
+                      Obx(() => Text(
+                            counterController.jumlah.value.toString(),
+                            style: subtitleTextStyle.copyWith(
+                              fontSize: 16,
+                            ),
+                          )),
+                      SizedBox(
+                        width: getPropertionateScreenWidht(10),
+                      ),
+                      GestureDetector(
+                        onTap: () => counterController.incrementJumlah(),
+                        child: Icon(
+                          Icons.add_circle_outline,
+                        ),
                       ),
                       SizedBox(
                         width: getPropertionateScreenWidht(10),
@@ -271,45 +283,8 @@ class _TambahIkanBodyState extends State<TambahIkanBody> {
           ),
           keyboardType: TextInputType.name,
           controller: inputController,
-          onChanged: (value) {
-            if (type == 'name') {
-              if (value.isNotEmpty && errors.contains(kNimNullError)) {
-                setState(() {
-                  errors.remove(kNimNullError);
-                });
-              } else if (type == 'email') {
-                if (value.isNotEmpty && errors.contains(kAddressNullError)) {
-                  setState(() {
-                    errors.remove(kAddressNullError);
-                  });
-                } else if (emailValidatorRegExp.hasMatch(value) &&
-                    errors.contains(kInvalidEmailError)) {
-                  setState(() {
-                    errors.remove(kInvalidEmailError);
-                  });
-                }
-              }
-            }
-          },
+          onChanged: (value) {},
           validator: (value) {
-            if (type == 'name') {
-              if (value!.isEmpty && !errors.contains(kNimNullError)) {
-                setState(() {
-                  errors.add(kNimNullError);
-                });
-              }
-            } else if (type == 'email') {
-              if (value!.isEmpty && !errors.contains(kAddressNullError)) {
-                setState(() {
-                  errors.add(kAddressNullError);
-                });
-              } else if (!emailValidatorRegExp.hasMatch(value) &&
-                  !errors.contains(kInvalidEmailError)) {
-                setState(() {
-                  errors.add(kInvalidEmailError);
-                });
-              }
-            }
             return 'Something Wrong';
           }),
     );

@@ -12,10 +12,12 @@ class _RegisterFormState extends State<RegisterForm> {
   TextEditingController noKtp = TextEditingController();
   TextEditingController nama = TextEditingController();
   TextEditingController password = TextEditingController();
+  TextEditingController rePassword = TextEditingController();
   TextEditingController noTelp = TextEditingController();
 
   bool isLoading = false;
   bool showPass = true;
+  String checkPass = '';
   String verificationId = '';
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -39,7 +41,7 @@ class _RegisterFormState extends State<RegisterForm> {
             ),
           ),
           buildFieldInput(
-              type: 'nik',
+              type: 'noKtp',
               hintText: 'Masukkan NIK Anda',
               inputController: noKtp,
               icon: 'assets/icons/identity_icon.svg'),
@@ -74,7 +76,10 @@ class _RegisterFormState extends State<RegisterForm> {
               fontSize: 16,
             ),
           ),
-          buildFieldPass(),
+          buildFieldPass(
+            type: 'pass',
+            controller: password,
+          ),
           Text(
             'Konfirmasi Kata Sandi',
             style: primaryTextStyle.copyWith(
@@ -82,7 +87,10 @@ class _RegisterFormState extends State<RegisterForm> {
               fontSize: 16,
             ),
           ),
-          buildFieldPass(),
+          buildFieldPass(
+            type: 'rePass',
+            controller: rePassword,
+          ),
           SizedBox(
             height: getPropertionateScreenHeight(20),
           ),
@@ -116,53 +124,65 @@ class _RegisterFormState extends State<RegisterForm> {
                         _formKey.currentState!.save();
                       });
                     }
-                    if (errors.length == 1) {
-                      String numberPhone = noTelp.text;
-                      String combine = "+62" + numberPhone;
-                      await _auth.verifyPhoneNumber(
-                        phoneNumber: combine,
-                        verificationCompleted: (phoneAuthCredential) async {
-                          setState(() {
-                            print("Berhasilllllll");
+                    String numberPhone = noTelp.text;
+                    if (password.text == rePassword.text) {
+                      if (errors.length == 1) {
+                        String combine = "+62" + numberPhone;
+                        await _auth.verifyPhoneNumber(
+                          phoneNumber: combine,
+                          verificationCompleted: (phoneAuthCredential) async {
+                            setState(() {
+                              print("Berhasilllllll");
 
-                            isLoading = false;
-                          });
-                        },
-                        verificationFailed: (verificationFailed) async {
-                          setState(() {
-                            print(combine);
-                            print("salahhhhhhhhhhhhhhhhh");
-                            isLoading = false;
-                          });
-                        },
-                        codeSent: (verificationId, resendingToken) async {
-                          setState(() {
-                            isLoading = false;
-                            this.verificationId = verificationId;
-                            Get.toNamed(
-                              '/otp-nelayan',
-                              arguments: [
-                                {'no_ktp': noKtp.text},
-                                {'nama': nama.text},
-                                {'no_telp': noTelp.text},
-                                {'password': password.text},
-                                {'verificationId': verificationId},
-                              ],
-                            );
-                          });
-                        },
-                        codeAutoRetrievalTimeout: (verificationId) async {},
-                      );
+                              isLoading = false;
+                            });
+                          },
+                          verificationFailed: (verificationFailed) async {
+                            setState(() {
+                              print(combine);
+                              print("salahhhhhhhhhhhhhhhhh");
+                              isLoading = false;
+                            });
+                          },
+                          codeSent: (verificationId, resendingToken) async {
+                            setState(() {
+                              isLoading = false;
+                              this.verificationId = verificationId;
+                              Get.toNamed(
+                                '/otp-nelayan',
+                                arguments: [
+                                  {'no_ktp': noKtp.text},
+                                  {'nama': nama.text},
+                                  {'no_telp': noTelp.text},
+                                  {'password': password.text},
+                                  {'verificationId': verificationId},
+                                ],
+                              );
+                            });
+                          },
+                          codeAutoRetrievalTimeout: (verificationId) async {},
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            backgroundColor: Colors.red,
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: List.generate(
+                                errors.length,
+                                (index) => Text(errors[index]),
+                              ),
+                            ),
+                          ),
+                        );
+                      }
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           backgroundColor: Colors.red,
-                          content: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: List.generate(
-                              errors.length,
-                              (index) => Text(errors[index]),
-                            ),
+                          content: Text(
+                            'Password Tidak Sesuai',
+                            textAlign: TextAlign.center,
                           ),
                         ),
                       );
@@ -179,7 +199,10 @@ class _RegisterFormState extends State<RegisterForm> {
     );
   }
 
-  TextFieldContainer buildFieldPass() {
+  TextFieldContainer buildFieldPass({
+    required TextEditingController controller,
+    required String type,
+  }) {
     return TextFieldContainer(
       isWrapSize: false,
       child: TextFormField(
@@ -212,30 +235,46 @@ class _RegisterFormState extends State<RegisterForm> {
           border: InputBorder.none,
         ),
         onChanged: (value) {
-          if (value.isNotEmpty && errors.contains(kPassNullError)) {
-            setState(() {
-              errors.remove(kPassNullError);
-            });
-          } else if (value.length >= 8 && errors.contains(kShortPassError)) {
-            setState(() {
-              errors.remove(kShortPassError);
-            });
+          if (type == 'pass') {
+            if (value.isEmpty && errors.contains(kPassNullError)) {
+              setState(() {
+                errors.remove(kPassNullError);
+              });
+            } else if (value.length < 8 && errors.contains(kShortPassError)) {
+              setState(() {
+                errors.remove(kShortPassError);
+              });
+            }
+          } else if (type == 'rePass') {
+            if (value.isEmpty && errors.contains(kPassNullError)) {
+              setState(() {
+                errors.remove(kPassNullError);
+              });
+            }
           }
         },
         keyboardType: TextInputType.visiblePassword,
         validator: (value) {
-          if (value!.isEmpty && !errors.contains(kPassNullError)) {
-            setState(() {
-              errors.add(kPassNullError);
-            });
-          } else if (value.length < 8 && !errors.contains(kShortPassError)) {
-            setState(() {
-              errors.add(kShortPassError);
-            });
+          if (type == 'pass') {
+            if (value!.isEmpty && !errors.contains(kPassNullError)) {
+              setState(() {
+                errors.add(kPassNullError);
+              });
+            } else if (value.length < 8 && !errors.contains(kShortPassError)) {
+              setState(() {
+                errors.add(kShortPassError);
+              });
+            }
+          } else if (type == 'rePass') {
+            if (value!.isEmpty && !errors.contains(kPassNullError)) {
+              setState(() {
+                errors.add(kPassNullError);
+              });
+            }
           }
           return null;
         },
-        controller: password,
+        controller: controller,
       ),
     );
   }
@@ -265,44 +304,57 @@ class _RegisterFormState extends State<RegisterForm> {
           keyboardType: TextInputType.name,
           controller: inputController,
           onChanged: (value) {
-            if (type == 'name') {
-              if (value.isNotEmpty && errors.contains(kNimNullError)) {
+            if (type == 'noKtp') {
+              if (value.isNotEmpty && errors.contains(kNoKtpNullError)) {
                 setState(() {
-                  errors.remove(kNimNullError);
+                  errors.remove(kNoKtpNullError);
                 });
-              } else if (type == 'email') {
-                if (value.isNotEmpty && errors.contains(kAddressNullError)) {
-                  setState(() {
-                    errors.remove(kAddressNullError);
-                  });
-                } else if (emailValidatorRegExp.hasMatch(value) &&
-                    errors.contains(kInvalidEmailError)) {
-                  setState(() {
-                    errors.remove(kInvalidEmailError);
-                  });
-                }
+              }
+            } else if (type == 'name') {
+              if (value.isNotEmpty && errors.contains(kNamelNullError)) {
+                setState(() {
+                  errors.remove(kNamelNullError);
+                });
+              }
+            } else if (type == 'noTelp') {
+              if (value.isNotEmpty && errors.contains(kNoTelpNullError)) {
+                setState(() {
+                  errors.remove(kNoTelpNullError);
+                });
+              } else if (value[0] != '0' &&
+                  errors.contains(kInvalidNoTelpError)) {
+                setState(() {
+                  errors.remove(kInvalidNoTelpError);
+                });
               }
             }
           },
           validator: (value) {
-            if (type == 'name') {
-              if (value!.isEmpty && !errors.contains(kNimNullError)) {
+            if (type == 'noKtp') {
+              if (value!.isEmpty && !errors.contains(kNoKtpNullError)) {
                 setState(() {
-                  errors.add(kNimNullError);
+                  errors.add(kNoKtpNullError);
                 });
               }
-            } else if (type == 'email') {
-              if (value!.isEmpty && !errors.contains(kAddressNullError)) {
+            } else if (type == 'name') {
+              if (value!.isEmpty && !errors.contains(kNamelNullError)) {
                 setState(() {
-                  errors.add(kAddressNullError);
+                  errors.add(kNamelNullError);
                 });
-              } else if (!emailValidatorRegExp.hasMatch(value) &&
-                  !errors.contains(kInvalidEmailError)) {
+              }
+            } else if (type == 'noTelp') {
+              if (value!.isEmpty && !errors.contains(kNoTelpNullError)) {
                 setState(() {
-                  errors.add(kInvalidEmailError);
+                  errors.add(kNoTelpNullError);
+                });
+              } else if (value[0] == '0' &&
+                  !errors.contains(kInvalidNoTelpError)) {
+                setState(() {
+                  errors.add(kInvalidNoTelpError);
                 });
               }
             }
+
             return null;
           }),
     );

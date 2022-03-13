@@ -7,7 +7,6 @@ part 'rounded_input_field.dart';
 part 'rounded_password_field.dart';
 part 'text_field_container.dart';
 part 'default_button_gradient.dart';
-part 'avatar_profile.dart';
 part 'collapse_card.dart';
 part 'card_ikan.dart';
 part 'card_kurir.dart';
