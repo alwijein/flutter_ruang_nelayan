@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter_ruang_nelayan/boostrap.dart';
 import 'package:flutter_ruang_nelayan/controllers/counter_controller.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 class TambahIkanBody extends StatefulWidget {
   const TambahIkanBody({Key? key}) : super(key: key);
@@ -22,6 +25,7 @@ class _TambahIkanBodyState extends State<TambahIkanBody> {
 
   @override
   Widget build(BuildContext context) {
+    HasilTangkapanServices hasilTangkapanServices = HasilTangkapanServices();
     CounterController counterController = Get.put(CounterController());
     return SingleChildScrollView(
       child: Padding(
@@ -146,14 +150,27 @@ class _TambahIkanBodyState extends State<TambahIkanBody> {
               SizedBox(
                 height: getPropertionateScreenHeight(50),
               ),
-              Text(
-                'Upload Gambar Ikan',
-                style: subtitleTextStyle,
+              GestureDetector(
+                onTap: () async {
+                  File? file = await getImage();
+                  hasilTangkapanServices.tambahHasilTangkapan(file!);
+                },
+                child: Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Upload Gambar Ikan',
+                        style: subtitleTextStyle,
+                      ),
+                      SizedBox(
+                        height: getPropertionateScreenHeight(10),
+                      ),
+                      SvgPicture.asset('assets/icons/add_form_icon.svg'),
+                    ],
+                  ),
+                ),
               ),
-              SizedBox(
-                height: getPropertionateScreenHeight(10),
-              ),
-              SvgPicture.asset('assets/icons/add_form_icon.svg'),
               SizedBox(
                 height: getPropertionateScreenHeight(50),
               ),
@@ -289,4 +306,10 @@ class _TambahIkanBodyState extends State<TambahIkanBody> {
           }),
     );
   }
+}
+
+Future<File?> getImage() async {
+  ImagePicker _picker = ImagePicker();
+  XFile? selectImage = await _picker.pickImage(source: ImageSource.gallery);
+  return File(selectImage!.path);
 }

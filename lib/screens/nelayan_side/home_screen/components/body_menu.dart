@@ -1,4 +1,7 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
+import 'package:flutter_ruang_nelayan/models/user_model.dart';
+import 'package:flutter_ruang_nelayan/providers/auth_provider.dart';
+import 'package:flutter_ruang_nelayan/providers/hasil_tangkapan_provider.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/home_screen/components/card_menu.dart';
 import 'package:get/get.dart';
 
@@ -9,6 +12,10 @@ class BodyMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    HasilTangkapanProvider tangkapanProvider =
+        Provider.of<HasilTangkapanProvider>(context);
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+    UserModel userModel = authProvider.user;
     return Column(
       children: [
         Row(
@@ -45,7 +52,9 @@ class BodyMenu extends StatelessWidget {
               title: 'Data Hasil Tangkapan',
               color1: kColorLightkPurple,
               color2: kColorDarkPurple,
-              press: () {
+              press: () async {
+                int id = int.parse(userModel.id.toString());
+                await tangkapanProvider.getHasilTangkapan(id);
                 Get.toNamed('/hasil-tangkapan-nelayan');
               },
             ),

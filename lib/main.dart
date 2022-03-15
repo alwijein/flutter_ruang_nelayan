@@ -1,5 +1,6 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
 import 'package:flutter_ruang_nelayan/providers/auth_provider.dart';
+import 'package:flutter_ruang_nelayan/providers/hasil_tangkapan_provider.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/data_nelayan_screen/data_nelayan_screen.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/hasil_tangkapan_screen/hasil_tangkapan_screen.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/hasil_tangkapan_screen/tambah_ikan_screen/tambah_ikan_screen.dart';
@@ -33,6 +34,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (context) => AuthProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => HasilTangkapanProvider(),
         ),
       ],
       child: GetMaterialApp(

@@ -1,7 +1,7 @@
 part of 'services.dart';
 
 class AuthServices {
-  var baseUrl = 'http://10.153.209.188:8000/api';
+  var baseUrl = 'http://10.153.221.132:8000/api';
 
   final loginState = GetStorage();
 

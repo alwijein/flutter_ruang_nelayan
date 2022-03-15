@@ -42,12 +42,14 @@ dependencies:
 dev_dependencies:
   firebase_auth: ^3.3.9
   firebase_core: ^1.13.1
+  firebase_storage: ^10.2.9
   flutter_lints: ^1.0.0
   flutter_test:
     sdk: flutter
   get: ^4.6.1
   get_storage: ^2.0.3
   http: ^0.13.4
+  image_picker: ^0.8.4+11
   provider: ^6.0.2
 
 # For information on the generic Dart part of this file, see the
