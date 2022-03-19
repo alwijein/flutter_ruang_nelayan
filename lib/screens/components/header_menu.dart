@@ -1,7 +1,4 @@
-import 'package:flutter_ruang_nelayan/boostrap.dart';
-import 'package:flutter_ruang_nelayan/providers/auth_provider.dart';
-import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
+part of 'components.dart';
 
 class HeaderMenu extends StatelessWidget {
   HeaderMenu({

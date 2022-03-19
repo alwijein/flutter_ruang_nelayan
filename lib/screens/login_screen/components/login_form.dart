@@ -24,6 +24,9 @@ class _LoginFormState extends State<LoginForm> {
   @override
   Widget build(BuildContext context) {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
+
+    GetStorage role = GetStorage();
+
     return Form(
       key: _formKey,
       child: Column(
@@ -84,20 +87,42 @@ class _LoginFormState extends State<LoginForm> {
                       });
                     }
                     if (errors.isEmpty) {
-                      if (await authProvider.login(
-                          noTelp: nomorTelp.text, password: password.text)) {
-                        Get.offAllNamed('/home-nelayan');
+                      if (role.read('role').toString() == 'nelayan') {
+                        if (await authProvider.loginNelayan(
+                          noTelp: nomorTelp.text,
+                          password: password.text,
+                        )) {
+                          Get.offAllNamed('/home-nelayan');
+                        } else {
+                          Get.snackbar(
+                            'Error',
+                            'Password Salah',
+                            backgroundColor: Colors.red,
+                            colorText: kWhiteTextColor,
+                            margin: EdgeInsets.symmetric(
+                              vertical: getPropertionateScreenHeight(10),
+                              horizontal: getPropertionateScreenHeight(24),
+                            ),
+                          );
+                        }
                       } else {
-                        Get.snackbar(
-                          'Error',
-                          'Password Salah',
-                          backgroundColor: Colors.red,
-                          colorText: kWhiteTextColor,
-                          margin: EdgeInsets.symmetric(
-                            vertical: getPropertionateScreenHeight(10),
-                            horizontal: getPropertionateScreenHeight(24),
-                          ),
-                        );
+                        if (await authProvider.loginCostumer(
+                          noTelp: nomorTelp.text,
+                          password: password.text,
+                        )) {
+                          Get.offAllNamed('/home-costumer');
+                        } else {
+                          Get.snackbar(
+                            'Error',
+                            'Password Salah',
+                            backgroundColor: Colors.red,
+                            colorText: kWhiteTextColor,
+                            margin: EdgeInsets.symmetric(
+                              vertical: getPropertionateScreenHeight(10),
+                              horizontal: getPropertionateScreenHeight(24),
+                            ),
+                          );
+                        }
                       }
                     } else {
                       Get.snackbar(

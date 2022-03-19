@@ -15,11 +15,13 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> register(
-      {required String noKtp,
-      required String name,
-      required String noTelp,
-      required String password}) async {
+  Future<bool> register({
+    required String noKtp,
+    required String name,
+    required String noTelp,
+    required String password,
+    required String role,
+  }) async {
     try {
       print('Succcccccccccessss===========-');
       UserModel user = await AuthServices().register(
@@ -27,6 +29,7 @@ class AuthProvider with ChangeNotifier {
         name: name,
         noTelp: noTelp,
         password: password,
+        role: role,
       );
 
       print("ini user na user $user");
@@ -40,23 +43,55 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> login({
+  Future<bool> loginNelayan({
     required String noTelp,
     required String password,
   }) async {
     try {
       print('Succcccccccccessss===========-');
+
       UserModel user = await AuthServices().login(
         noTelp: noTelp,
         password: password,
       );
 
-      print("ini user na user");
+      loginState.write('token', user.token);
+
+      if (user.role == 'costumer') {
+        await AuthServices().logout();
+        return false;
+      } else {
+        _user = user;
+
+        return true;
+      }
+    } catch (e) {
+      print("Errornya = $e");
+      return false;
+    }
+  }
+
+  Future<bool> loginCostumer({
+    required String noTelp,
+    required String password,
+  }) async {
+    try {
+      print('Succcccccccccessss===========-');
+
+      UserModel user = await AuthServices().login(
+        noTelp: noTelp,
+        password: password,
+      );
 
       loginState.write('token', user.token);
 
-      _user = user;
-      return true;
+      if (user.role == 'nelayan') {
+        await AuthServices().logout();
+        return false;
+      } else {
+        _user = user;
+        return true;
+      }
     } catch (e) {
       print("Errornya = $e");
       return false;

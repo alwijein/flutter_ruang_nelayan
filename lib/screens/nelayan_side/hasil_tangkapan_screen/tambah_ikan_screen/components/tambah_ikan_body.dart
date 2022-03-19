@@ -2,6 +2,12 @@ import 'dart:io';
 
 import 'package:flutter_ruang_nelayan/boostrap.dart';
 import 'package:flutter_ruang_nelayan/controllers/counter_controller.dart';
+import 'package:flutter_ruang_nelayan/models/jasa_pengerjaan_model.dart';
+import 'package:flutter_ruang_nelayan/models/jenis_ikan_model.dart';
+import 'package:flutter_ruang_nelayan/providers/auth_provider.dart';
+import 'package:flutter_ruang_nelayan/providers/hasil_tangkapan_provider.dart';
+import 'package:flutter_ruang_nelayan/providers/jenis_ikan_provider.dart';
+import 'package:flutter_ruang_nelayan/providers/jenis_pengerjaan_ikan.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -14,12 +20,18 @@ class TambahIkanBody extends StatefulWidget {
 
 class _TambahIkanBodyState extends State<TambahIkanBody> {
   TextEditingController namaIkan = TextEditingController();
+  TextEditingController jenisIkan = TextEditingController();
   TextEditingController jenisPengerjaan = TextEditingController();
+  TextEditingController harga = TextEditingController();
 
   bool isLoading = false;
   bool showPass = true;
 
   final List<String> errors = ["Register Failed"];
+
+  int? idJenisIkan;
+  int? idJenisPengerjaanIkan;
+  File? file;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -27,6 +39,21 @@ class _TambahIkanBodyState extends State<TambahIkanBody> {
   Widget build(BuildContext context) {
     HasilTangkapanServices hasilTangkapanServices = HasilTangkapanServices();
     CounterController counterController = Get.put(CounterController());
+    HasilTangkapanProvider hasilTangkapanProvider =
+        Provider.of<HasilTangkapanProvider>(context);
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+
+    //Model for jenis ikan drop down
+    JenisIkanProvider jenisIkanProvider =
+        Provider.of<JenisIkanProvider>(context);
+    List<JenisIkanModel> jenisIkanModel = jenisIkanProvider.jenisIkan;
+
+    //Model for jenis pengerjaan ikan drop down
+    JenisPengerjaanIkanProvider jenisPengerjaanIkanProvider =
+        Provider.of<JenisPengerjaanIkanProvider>(context);
+    List<JasaPengerjaanModel> jenisPengerjaanIkanModel =
+        jenisPengerjaanIkanProvider.jenisPengerjaanIkan;
+
     return SingleChildScrollView(
       child: Padding(
         padding: EdgeInsets.all(
@@ -57,11 +84,12 @@ class _TambahIkanBodyState extends State<TambahIkanBody> {
                   fontSize: 16,
                 ),
               ),
-              buildFieldInput(
-                'namaIkan',
-                'Masukkan Jenis Ikan',
-                namaIkan,
-                Icons.directions_boat_filled_sharp,
+              buildJenisIkan(
+                icon: Icons.water,
+                input: jenisIkan,
+                jenisIkanModel: jenisIkanModel,
+                hintText: 'Pilih Jenis Ikan',
+                selected: idJenisIkan,
               ),
               SizedBox(
                 height: getPropertionateScreenHeight(10),
@@ -143,6 +171,7 @@ class _TambahIkanBodyState extends State<TambahIkanBody> {
                       decoration: InputDecoration(
                         hintText: '35.000',
                       ),
+                      controller: harga,
                     ),
                   ),
                 ],
@@ -152,8 +181,7 @@ class _TambahIkanBodyState extends State<TambahIkanBody> {
               ),
               GestureDetector(
                 onTap: () async {
-                  File? file = await getImage();
-                  hasilTangkapanServices.tambahHasilTangkapan(file!);
+                  file = await getImage();
                 },
                 child: Container(
                   child: Column(
@@ -181,11 +209,12 @@ class _TambahIkanBodyState extends State<TambahIkanBody> {
                   fontSize: 16,
                 ),
               ),
-              buildFieldInput(
-                'namaIkan',
-                'Masukkan Jenis Pengerjaan',
-                jenisPengerjaan,
-                Icons.kitchen_outlined,
+              buildJasaPengerjaanIkan(
+                icon: Icons.kitesurfing_sharp,
+                input: jenisPengerjaan,
+                jasaPengerjaanIkan: jenisPengerjaanIkanModel,
+                hintText: 'Pilih Jenis Pengerjaan Ikan',
+                selected: idJenisPengerjaanIkan,
               ),
               SizedBox(
                 height: getPropertionateScreenHeight(50),
@@ -218,11 +247,12 @@ class _TambahIkanBodyState extends State<TambahIkanBody> {
                             child: const CircularProgressIndicator(
                               strokeWidth: 3,
                               valueColor: AlwaysStoppedAnimation(
-                                kPrimaryColor,
+                                kBackgroundColor1,
                               ),
                             ),
                           ),
-                          press: () {})
+                          press: () {},
+                        )
                       : DefaultButton(
                           width: 45,
                           isInfinity: false,
@@ -241,30 +271,31 @@ class _TambahIkanBodyState extends State<TambahIkanBody> {
                                 _formKey.currentState!.save();
                               });
                             }
-                            // if (errors.length == 1) {
-                            //   Navigator.of(context)
-                            //       .pushReplacement(MaterialPageRoute(builder: (_) {
-                            //     return OtpScreen(
-                            //         email: email.text,
-                            //         password: password.text,
-                            //         nama: nama.text,
-                            //         nomorUnik: nomorUnik.text,
-                            //         status: status.text);
-                            //   }));
-                            // } else {
-                            //   ScaffoldMessenger.of(context).showSnackBar(
-                            //     SnackBar(
-                            //       backgroundColor: Colors.red,
-                            //       content: Column(
-                            //         mainAxisSize: MainAxisSize.min,
-                            //         children: List.generate(
-                            //           errors.length,
-                            //           (index) => Text(errors[index]),
-                            //         ),
-                            //       ),
-                            //     ),
-                            //   );
-                            // }
+                            if (errors.length == 1) {
+                              hasilTangkapanServices.tambahHasilTangkapan(
+                                idUsers: authProvider.user.id!,
+                                namaIkan: namaIkan.text,
+                                idJenisIkan: idJenisIkan!,
+                                jumlah: counterController.jumlah.value,
+                                harga: int.parse(harga.text),
+                                gambar: file!,
+                                idJasaPengerjaanIkan: idJenisPengerjaanIkan!,
+                              );
+                              Get.back();
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  backgroundColor: Colors.red,
+                                  content: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: List.generate(
+                                      errors.length,
+                                      (index) => Text(errors[index]),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }
                             setState(() {
                               isLoading = false;
                             });
@@ -277,6 +308,106 @@ class _TambahIkanBodyState extends State<TambahIkanBody> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  TextFieldContainer buildJenisIkan({
+    required TextEditingController input,
+    required List<JenisIkanModel> jenisIkanModel,
+    required IconData icon,
+    required String hintText,
+    required int? selected,
+  }) {
+    return TextFieldContainer(
+      isWrapSize: false,
+      child: DropdownButtonFormField2(
+        decoration: InputDecoration(
+          icon: Icon(
+            icon,
+            color: kPrimaryLightColor,
+          ),
+          border: InputBorder.none,
+          hintText: hintText,
+          hintStyle: subtitleTextStyle.copyWith(
+            fontSize: 14,
+          ),
+        ),
+        isExpanded: true,
+        icon: const Icon(
+          Icons.arrow_drop_down,
+          color: Colors.black45,
+        ),
+        dropdownDecoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        items: jenisIkanModel
+            .map((item) => DropdownMenuItem<JenisIkanModel>(
+                  value: item,
+                  child: Text(
+                    item.jenisIkan.toString(),
+                    style: primaryTextStyle,
+                  ),
+                  onTap: () {
+                    selected = item.id;
+                  },
+                ))
+            .toList(),
+        onChanged: (value) {},
+        onSaved: (value) {
+          idJenisIkan = selected;
+        },
+      ),
+    );
+  }
+
+  TextFieldContainer buildJasaPengerjaanIkan({
+    required TextEditingController input,
+    required List<JasaPengerjaanModel> jasaPengerjaanIkan,
+    required IconData icon,
+    required String hintText,
+    required int? selected,
+  }) {
+    return TextFieldContainer(
+      isWrapSize: false,
+      child: DropdownButtonFormField2(
+        decoration: InputDecoration(
+          icon: Icon(
+            icon,
+            color: kPrimaryLightColor,
+          ),
+          border: InputBorder.none,
+          hintText: hintText,
+          hintStyle: subtitleTextStyle.copyWith(
+            fontSize: 14,
+          ),
+        ),
+        isExpanded: true,
+        icon: const Icon(
+          Icons.arrow_drop_down,
+          color: Colors.black45,
+        ),
+        dropdownDecoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        items: jasaPengerjaanIkan
+            .map((item) => DropdownMenuItem<JasaPengerjaanModel>(
+                  value: item,
+                  child: Text(
+                    item.jenisPengerjaan.toString(),
+                    style: primaryTextStyle,
+                  ),
+                  onTap: () {
+                    selected = item.id;
+                  },
+                ))
+            .toList(),
+        onChanged: (value) {
+          print('test = ' + selected.toString());
+        },
+        onSaved: (value) {
+          idJenisPengerjaanIkan = selected;
+        },
       ),
     );
   }
@@ -300,16 +431,14 @@ class _TambahIkanBodyState extends State<TambahIkanBody> {
           ),
           keyboardType: TextInputType.name,
           controller: inputController,
-          onChanged: (value) {},
-          validator: (value) {
-            return 'Something Wrong';
-          }),
+          validator: (value) {}),
     );
   }
 }
 
 Future<File?> getImage() async {
   ImagePicker _picker = ImagePicker();
-  XFile? selectImage = await _picker.pickImage(source: ImageSource.gallery);
+  XFile? selectImage =
+      await _picker.pickImage(source: ImageSource.gallery, imageQuality: 30);
   return File(selectImage!.path);
 }

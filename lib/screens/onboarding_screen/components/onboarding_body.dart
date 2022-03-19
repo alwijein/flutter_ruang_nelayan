@@ -1,11 +1,13 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class OnboardingBody extends StatelessWidget {
   const OnboardingBody({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    GetStorage role = GetStorage();
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(getPropertionateScreenWidht(24)),
@@ -27,7 +29,8 @@ class OnboardingBody extends StatelessWidget {
               ),
             ),
             press: () {
-              Get.offNamed('/home-nelayan');
+              role.write('role', 'costumer');
+              Get.toNamed('/login');
             },
           ),
           SizedBox(
@@ -48,7 +51,9 @@ class OnboardingBody extends StatelessWidget {
               ],
             ),
             press: () {
-              Get.toNamed('/login-nelayan');
+              role.write('role', 'nelayan');
+
+              Get.toNamed('/login');
             },
           )
         ],

@@ -1,15 +1,17 @@
 part of 'services.dart';
 
 class AuthServices {
-  var baseUrl = 'http://10.153.221.132:8000/api';
+  var baseUrl = baseUrlName;
 
   final loginState = GetStorage();
 
-  Future<UserModel> register(
-      {required String noKtp,
-      required String name,
-      required String noTelp,
-      required String password}) async {
+  Future<UserModel> register({
+    required String noKtp,
+    required String name,
+    required String noTelp,
+    required String password,
+    required String role,
+  }) async {
     var url = Uri.parse("$baseUrl/register");
 
     var headers = {'Content-Type': 'application/json'};
@@ -19,6 +21,7 @@ class AuthServices {
       'name': name,
       'no_hp': noTelp,
       'password': password,
+      'role': role,
       // 'alamat': '',
       // 'avatar': 'https://ui-avatars.com/api/?name',
     });

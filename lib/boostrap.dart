@@ -15,3 +15,5 @@ export 'package:provider/provider.dart';
 export 'package:firebase_auth/firebase_auth.dart';
 export 'package:firebase_core/firebase_core.dart';
 export 'package:provider/provider.dart';
+export 'package:dropdown_button2/dropdown_button2.dart';
+export 'package:carousel_slider/carousel_slider.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
-import 'package:flutter_ruang_nelayan/screens/nelayan_side/otp_screen/components/otp_form.dart';
+import 'package:flutter_ruang_nelayan/screens/otp_screen/components/otp_form.dart';
 
 class OtpBody extends StatelessWidget {
   const OtpBody({Key? key}) : super(key: key);

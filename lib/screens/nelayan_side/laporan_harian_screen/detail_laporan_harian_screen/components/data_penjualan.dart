@@ -1,5 +1,6 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/laporan_harian_screen/data_penjualan_screen/data_penjualan_screen.dart';
+import 'package:get/get.dart';
 
 class DataPenjualan extends StatelessWidget {
   const DataPenjualan({
@@ -23,9 +24,7 @@ class DataPenjualan extends StatelessWidget {
         ),
         GestureDetector(
           onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (_) {
-              return DataPenjualanScreen();
-            }));
+            Get.toNamed('laporan-harian-nelayan/detail/data-penjualan');
           },
           child: Container(
             width: double.infinity,

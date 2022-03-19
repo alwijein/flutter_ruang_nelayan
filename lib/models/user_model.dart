@@ -1,6 +1,6 @@
 class UserModel {
   int? id;
-  String? name, noTelp, alamat, noKtp, avatar, token;
+  String? name, noTelp, alamat, noKtp, avatar, role, token;
 
   UserModel({
     this.id,
@@ -9,6 +9,7 @@ class UserModel {
     this.noKtp,
     this.alamat,
     this.avatar,
+    this.role,
     this.token,
   });
 
@@ -19,6 +20,7 @@ class UserModel {
     alamat = json['alamat'];
     noKtp = json['nik_ktp'];
     avatar = json['avatar'];
+    role = json['role'];
     token = json['token'];
   }
 
@@ -30,6 +32,7 @@ class UserModel {
       'nik_ktp': noKtp,
       'alamat': alamat,
       'avatar': avatar,
+      'role': role,
       'token': token,
     };
   }

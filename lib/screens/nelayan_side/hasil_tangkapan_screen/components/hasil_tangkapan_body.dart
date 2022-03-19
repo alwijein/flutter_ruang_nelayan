@@ -1,8 +1,10 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
 import 'package:flutter_ruang_nelayan/providers/hasil_tangkapan_provider.dart';
+import 'package:flutter_ruang_nelayan/providers/jenis_ikan_provider.dart';
+import 'package:flutter_ruang_nelayan/providers/jenis_pengerjaan_ikan.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/hasil_tangkapan_screen/components/card_hasil_tangkapan.dart';
 import 'package:get/get.dart';
-import 'package:flutter_ruang_nelayan/screens/nelayan_side/register_screen/components/register_form.dart';
+import 'package:flutter_ruang_nelayan/screens/register_screen/components/register_form.dart';
 
 class HasilTangkapanBody extends StatelessWidget {
   const HasilTangkapanBody({Key? key}) : super(key: key);
@@ -11,6 +13,10 @@ class HasilTangkapanBody extends StatelessWidget {
   Widget build(BuildContext context) {
     HasilTangkapanProvider hasilTangkapan =
         Provider.of<HasilTangkapanProvider>(context);
+    JenisIkanProvider jenisIkanProvider =
+        Provider.of<JenisIkanProvider>(context);
+    JenisPengerjaanIkanProvider jenisPengerjaanIkanProvider =
+        Provider.of<JenisPengerjaanIkanProvider>(context);
     return SafeArea(
       child: Container(
         width: double.infinity,
@@ -74,7 +80,9 @@ class HasilTangkapanBody extends StatelessWidget {
                     ),
                   ],
                 ),
-                press: () {
+                press: () async {
+                  await jenisIkanProvider.getJenisIkan();
+                  await jenisPengerjaanIkanProvider.getJenisPengerjaanIkan();
                   Get.toNamed("/hasil-tangkapan-nelayan/tambah-ikan");
                 },
                 isInfinity: false,

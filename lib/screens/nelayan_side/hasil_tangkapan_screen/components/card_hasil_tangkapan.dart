@@ -37,10 +37,10 @@ class CardHasilTangkapan extends StatelessWidget {
               Container(
                 width: getPropertionateScreenWidht(90),
                 height: getPropertionateScreenHeight(110),
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage(
-                      'assets/images/ikan_01.png',
+                    image: NetworkImage(
+                      hasilTangkapanModel.gambar.toString(),
                     ),
                     fit: BoxFit.fill,
                   ),

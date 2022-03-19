@@ -1,5 +1,6 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
-import 'package:flutter_ruang_nelayan/screens/nelayan_side/register_screen/components/register_form.dart';
+import 'package:flutter_ruang_nelayan/screens/register_screen/components/register_form.dart';
+import 'package:get/get.dart';
 
 class LaporanHarianBody extends StatelessWidget {
   const LaporanHarianBody({Key? key}) : super(key: key);
@@ -68,49 +69,55 @@ class LaporanHarianBody extends StatelessWidget {
                 child: SingleChildScrollView(
                   child: SizedBox(
                     width: double.infinity,
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                        vertical: getPropertionateScreenHeight(16),
-                      ),
-                      decoration: BoxDecoration(
-                        color: kBackgroundColor1,
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.3),
-                            spreadRadius: 3,
-                            blurRadius: 4,
-                            offset: Offset(0, 3), // changes position of shadow
-                          ),
-                        ],
-                      ),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Column(
-                              children: [
-                                Text(
-                                  '11',
-                                  style: subtitleTextStyle.copyWith(
-                                    fontSize: 34,
-                                  ),
-                                ),
-                                Text(
-                                  'Agustus',
-                                  style: primaryTextStyle.copyWith(
-                                    fontSize: 18,
-                                  ),
-                                ),
-                              ],
+                    child: GestureDetector(
+                      onTap: () {
+                        Get.toNamed('/laporan-harian-nelayan/detail');
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                          vertical: getPropertionateScreenHeight(16),
+                        ),
+                        decoration: BoxDecoration(
+                          color: kBackgroundColor1,
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.3),
+                              spreadRadius: 3,
+                              blurRadius: 4,
+                              offset:
+                                  Offset(0, 3), // changes position of shadow
                             ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              'Laporan Harian 11 Agustus 2020 Lihat Selengkapnya >>',
-                              style: subtitleTextStyle,
+                          ],
+                        ),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Column(
+                                children: [
+                                  Text(
+                                    '11',
+                                    style: subtitleTextStyle.copyWith(
+                                      fontSize: 34,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Agustus',
+                                    style: primaryTextStyle.copyWith(
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                            Expanded(
+                              child: Text(
+                                'Laporan Harian 11 Agustus 2020 Lihat Selengkapnya >>',
+                                style: subtitleTextStyle,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),

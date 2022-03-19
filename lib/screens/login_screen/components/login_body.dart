@@ -1,6 +1,6 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
-import 'package:flutter_ruang_nelayan/screens/nelayan_side/login_screen/components/header.dart';
-import 'package:flutter_ruang_nelayan/screens/nelayan_side/login_screen/components/login_form.dart';
+import 'package:flutter_ruang_nelayan/screens/login_screen/components/header.dart';
+import 'package:flutter_ruang_nelayan/screens/login_screen/components/login_form.dart';
 import 'package:get/get.dart';
 
 class LoginBody extends StatelessWidget {
@@ -26,7 +26,7 @@ class LoginBody extends StatelessWidget {
               title: 'Belum punya akun? ',
               subTitle: 'Daftar',
               press: () {
-                Get.toNamed('register-nelayan');
+                Get.toNamed('register');
               },
             ),
           ],

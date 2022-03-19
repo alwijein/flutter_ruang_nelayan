@@ -13,6 +13,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 final loginState = GetStorage();
+final role = GetStorage();
 
 class _SplashScreenState extends State<SplashScreen> {
   @override
@@ -23,9 +24,15 @@ class _SplashScreenState extends State<SplashScreen> {
 
   getInit() async {
     await Provider.of<AuthProvider>(context, listen: false).getUser();
-    loginState.read('status')
-        ? Get.offNamed('/home-nelayan')
-        : Get.offNamed('/onboarding');
+    if (loginState.read('status')) {
+      if (role.read('role').toString() != 'costumer') {
+        Get.offNamed('/home-nelayan');
+      } else if (role.read('role').toString() != 'nelayan') {
+        Get.offNamed('/home-costumer');
+      }
+    } else {
+      Get.offNamed('/onboarding');
+    }
   }
 
   @override

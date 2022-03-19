@@ -103,7 +103,7 @@ class _RegisterFormState extends State<RegisterForm> {
                     child: const CircularProgressIndicator(
                       strokeWidth: 3,
                       valueColor: AlwaysStoppedAnimation(
-                        kPrimaryColor,
+                        kBackgroundColor1,
                       ),
                     ),
                   ),
@@ -149,7 +149,7 @@ class _RegisterFormState extends State<RegisterForm> {
                               isLoading = false;
                               this.verificationId = verificationId;
                               Get.toNamed(
-                                '/otp-nelayan',
+                                '/otp',
                                 arguments: [
                                   {'no_ktp': noKtp.text},
                                   {'nama': nama.text},

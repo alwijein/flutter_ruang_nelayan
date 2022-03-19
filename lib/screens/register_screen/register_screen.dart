@@ -1,5 +1,5 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
-import 'package:flutter_ruang_nelayan/screens/nelayan_side/register_screen/components/register_body.dart';
+import 'package:flutter_ruang_nelayan/screens/register_screen/components/register_body.dart';
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({Key? key}) : super(key: key);

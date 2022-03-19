@@ -1,5 +1,5 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
-import 'package:flutter_ruang_nelayan/screens/nelayan_side/register_screen/components/register_form.dart';
+import 'package:flutter_ruang_nelayan/screens/register_screen/components/register_form.dart';
 import 'package:get/get.dart';
 
 class RegisterBody extends StatelessWidget {

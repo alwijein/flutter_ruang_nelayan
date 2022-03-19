@@ -30,6 +30,8 @@ class _OtpFormState extends State<OtpForm> {
 
   bool isLoading = false;
 
+  GetStorage role = GetStorage();
+
   @override
   void initState() {
     super.initState();
@@ -63,7 +65,11 @@ class _OtpFormState extends State<OtpForm> {
       });
 
       if (authCredential.user != null) {
-        Get.offAllNamed('/home-nelayan');
+        if (role.read('status').toString() != 'costumer') {
+          Get.offAllNamed('/home-nelayan');
+        } else if (role.read('status').toString() != 'nelayan') {
+          Get.offAllNamed('/home-costumer');
+        }
       }
     } on FirebaseAuthException catch (e) {
       setState(() {
@@ -257,6 +263,7 @@ class _OtpFormState extends State<OtpForm> {
                       name: nama,
                       noTelp: "0$noTelp",
                       password: password,
+                      role: role.read('role').toString(),
                     )) {
                       PhoneAuthCredential phoneAuthCredential =
                           PhoneAuthProvider.credential(

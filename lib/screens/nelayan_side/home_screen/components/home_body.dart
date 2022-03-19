@@ -2,7 +2,6 @@ import 'package:flutter_ruang_nelayan/boostrap.dart';
 import 'package:flutter_ruang_nelayan/providers/auth_provider.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/home_screen/components/body_menu.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/home_screen/components/card_menu.dart';
-import 'package:flutter_ruang_nelayan/screens/nelayan_side/home_screen/components/header_menu.dart';
 
 class HomeBody extends StatelessWidget {
   const HomeBody({Key? key}) : super(key: key);
