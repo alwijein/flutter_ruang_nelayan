@@ -1,4 +1,6 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
+import 'package:flutter_ruang_nelayan/providers/ikan_air_tawar_provider.dart';
+import 'package:get/get.dart';
 
 class HomeScreenCostumerBody extends StatelessWidget {
   const HomeScreenCostumerBody({Key? key}) : super(key: key);
@@ -25,6 +27,10 @@ class HomeScreenCostumerBody extends StatelessWidget {
         'color2': kColorDarkPurple,
       },
     ];
+
+    IkanAirTawarProvider ikanAirTawarProvider =
+        Provider.of<IkanAirTawarProvider>(context);
+
     return SafeArea(
       child: SizedBox(
         width: double.infinity,
@@ -91,148 +97,22 @@ class HomeScreenCostumerBody extends StatelessWidget {
                         img: 'assets/images/ikan_air_tawar_image.png',
                         title: 'Ikan Air Tawar',
                         desc: 'Lihat selengkapnya daftar ikan air tawar disini',
+                        press: () async {
+                          await ikanAirTawarProvider.getAll();
+                          Get.toNamed('/ikan-air-tawar-costumer');
+                        },
                       ),
                       CardCategory(
                         img: 'assets/images/ikan_air_laut_image.png',
                         title: 'Ikan Air Laut',
                         desc: 'Lihat selengkapnya daftar ikan air laut disini',
+                        press: () {},
                       ),
                       SizedBox(
                         height: getPropertionateScreenHeight(24),
                       ),
-                      Text(
-                        'Populer',
-                        style: primaryTextStyle.copyWith(
-                          fontWeight: bold,
-                          fontSize: 18,
-                        ),
-                      ),
-                      SizedBox(
-                        height: getPropertionateScreenHeight(24),
-                      ),
-                      SizedBox(
-                        width: double.infinity,
-                        height: getPropertionateScreenHeight(500),
-                        child: GridView.builder(
-                            physics: NeverScrollableScrollPhysics(),
-                            itemCount: 4,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2),
-                            itemBuilder: (_, count) {
-                              return CardIkanPopuler();
-                            }),
-                      ),
-                      Text(
-                        'Terbaru',
-                        style: primaryTextStyle.copyWith(
-                          fontWeight: bold,
-                          fontSize: 18,
-                        ),
-                      ),
-                      SizedBox(
-                        width: double.infinity,
-                        height: getPropertionateScreenHeight(900),
-                        child: GridView.builder(
-                            physics: NeverScrollableScrollPhysics(),
-                            itemCount: 4,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              childAspectRatio: 0.52,
-                              crossAxisSpacing: 10,
-                              mainAxisSpacing: 10,
-                            ),
-                            itemBuilder: (_, count) {
-                              return Container(
-                                padding: EdgeInsets.symmetric(
-                                  vertical: getPropertionateScreenHeight(18),
-                                  horizontal: getPropertionateScreenWidht(18),
-                                ),
-                                decoration: BoxDecoration(
-                                  color: kBackgroundColor1,
-                                  boxShadow: softShadow,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Container(
-                                      width: double.infinity,
-                                      height: getPropertionateScreenHeight(170),
-                                      decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                            'assets/images/ikan_01.png',
-                                          ),
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
-                                    Text(
-                                      'Ikan Kembung',
-                                      style: primaryLightTextStyle.copyWith(
-                                        fontWeight: bold,
-                                      ),
-                                    ),
-                                    Text(
-                                      '1 Kg',
-                                      style: primaryTextStyle.copyWith(
-                                        fontWeight: light,
-                                      ),
-                                    ),
-                                    Text(
-                                      'Rp20.000',
-                                      style: primaryTextStyle.copyWith(
-                                        fontWeight: bold,
-                                      ),
-                                    ),
-                                    Row(
-                                      children: [
-                                        CircleAvatar(
-                                          backgroundImage: AssetImage(
-                                            'assets/images/logo.png',
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width:
-                                              getPropertionateScreenWidht(10),
-                                        ),
-                                        Text(
-                                          'Dg. Tompo',
-                                          style: primaryLightTextStyle.copyWith(
-                                            fontWeight: bold,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: getPropertionateScreenHeight(10),
-                                    ),
-                                    DefaultButton(
-                                        isInfinity: false,
-                                        text: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Icon(
-                                              Icons.add_shopping_cart,
-                                              color: kBackgroundColor1,
-                                            ),
-                                            Text(
-                                              'Beli',
-                                              style: whiteTextStyle,
-                                            ),
-                                          ],
-                                        ),
-                                        press: () {}),
-                                  ],
-                                ),
-                              );
-                            }),
-                      ),
+                      PopulerMenu(),
+                      TerbaruMenu(),
                     ],
                   ),
                 ),
@@ -240,6 +120,170 @@ class HomeScreenCostumerBody extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class TerbaruMenu extends StatelessWidget {
+  const TerbaruMenu({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: getPropertionateScreenWidht(10)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Terbaru',
+            style: primaryTextStyle.copyWith(
+              fontWeight: bold,
+              fontSize: 18,
+            ),
+          ),
+          SizedBox(
+            width: double.infinity,
+            height: getPropertionateScreenHeight(900),
+            child: GridView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: 4,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 0.52,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                ),
+                itemBuilder: (_, count) {
+                  return Container(
+                    padding: EdgeInsets.symmetric(
+                      vertical: getPropertionateScreenHeight(18),
+                      horizontal: getPropertionateScreenWidht(18),
+                    ),
+                    decoration: BoxDecoration(
+                      color: kBackgroundColor1,
+                      boxShadow: softShadow,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          width: double.infinity,
+                          height: getPropertionateScreenHeight(170),
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage(
+                                'assets/images/ikan_01.png',
+                              ),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        Text(
+                          'Ikan Kembung',
+                          style: primaryLightTextStyle.copyWith(
+                            fontWeight: bold,
+                          ),
+                        ),
+                        Text(
+                          '1 Kg',
+                          style: primaryTextStyle.copyWith(
+                            fontWeight: light,
+                          ),
+                        ),
+                        Text(
+                          'Rp20.000',
+                          style: primaryTextStyle.copyWith(
+                            fontWeight: bold,
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            CircleAvatar(
+                              backgroundImage: AssetImage(
+                                'assets/images/logo.png',
+                              ),
+                            ),
+                            SizedBox(
+                              width: getPropertionateScreenWidht(10),
+                            ),
+                            Text(
+                              'Dg. Tompo',
+                              style: primaryLightTextStyle.copyWith(
+                                fontWeight: bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: getPropertionateScreenHeight(10),
+                        ),
+                        DefaultButton(
+                            isInfinity: false,
+                            text: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.add_shopping_cart,
+                                  color: kBackgroundColor1,
+                                ),
+                                Text(
+                                  'Beli',
+                                  style: whiteTextStyle,
+                                ),
+                              ],
+                            ),
+                            press: () {}),
+                      ],
+                    ),
+                  );
+                }),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class PopulerMenu extends StatelessWidget {
+  const PopulerMenu({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: getPropertionateScreenWidht(24)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Populer',
+            style: primaryTextStyle.copyWith(
+              fontWeight: bold,
+              fontSize: 18,
+            ),
+          ),
+          SizedBox(
+            height: getPropertionateScreenHeight(24),
+          ),
+          SizedBox(
+            width: double.infinity,
+            height: getPropertionateScreenHeight(500),
+            child: GridView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: 4,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2),
+                itemBuilder: (_, count) {
+                  return CardIkanPopuler();
+                }),
+          ),
+        ],
       ),
     );
   }
@@ -294,42 +338,47 @@ class CardCategory extends StatelessWidget {
     required this.title,
     required this.desc,
     required this.img,
+    required this.press,
   }) : super(key: key);
 
   final String title, desc, img;
+  final Function() press;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: getPropertionateScreenHeight(160),
-      decoration: BoxDecoration(
-        color: kPrimaryColor,
-        image: DecorationImage(
-          image: AssetImage(
-            img,
-          ),
-          scale: 0.9,
-          fit: BoxFit.none,
-        ),
-      ),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              title,
-              style: whiteTextStyle.copyWith(
-                fontWeight: bold,
-                fontSize: 24,
-              ),
+    return InkWell(
+      onTap: press,
+      child: Container(
+        height: getPropertionateScreenHeight(160),
+        decoration: BoxDecoration(
+          color: kPrimaryColor,
+          image: DecorationImage(
+            image: AssetImage(
+              img,
             ),
-            Text(
-              desc,
-              style: whiteTextStyle.copyWith(
-                fontSize: 12,
+            scale: 0.9,
+            fit: BoxFit.none,
+          ),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                title,
+                style: whiteTextStyle.copyWith(
+                  fontWeight: bold,
+                  fontSize: 24,
+                ),
               ),
-            )
-          ],
+              Text(
+                desc,
+                style: whiteTextStyle.copyWith(
+                  fontSize: 12,
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

@@ -1,9 +1,11 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
 import 'package:flutter_ruang_nelayan/providers/auth_provider.dart';
 import 'package:flutter_ruang_nelayan/providers/hasil_tangkapan_provider.dart';
+import 'package:flutter_ruang_nelayan/providers/ikan_air_tawar_provider.dart';
 import 'package:flutter_ruang_nelayan/providers/jenis_ikan_provider.dart';
 import 'package:flutter_ruang_nelayan/providers/jenis_pengerjaan_ikan.dart';
 import 'package:flutter_ruang_nelayan/screens/costumer_side/home_screen_costumer/home_screen_costumer.dart';
+import 'package:flutter_ruang_nelayan/screens/costumer_side/ikan_air_tawar_screen/ikan_air_tawar_screen.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/data_nelayan_screen/data_nelayan_screen.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/hasil_tangkapan_screen/hasil_tangkapan_screen.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/hasil_tangkapan_screen/tambah_ikan_screen/tambah_ikan_screen.dart';
@@ -48,6 +50,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => JenisPengerjaanIkanProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => IkanAirTawarProvider(),
         ),
       ],
       child: GetMaterialApp(
@@ -97,6 +102,9 @@ class MyApp extends StatelessWidget {
           // Costumer Side
           GetPage(
               name: '/home-costumer', page: () => const HomeScreenCostumer()),
+          GetPage(
+              name: '/ikan-air-tawar-costumer',
+              page: () => const IkanAirTawarScreen()),
         ],
 
         // Costumer Side

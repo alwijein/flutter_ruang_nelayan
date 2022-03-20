@@ -1,3 +1,3 @@
 part of 'shared.dart';
 
-String baseUrlName = "http://10.153.215.128:8000/api";
+String baseUrlName = "http://172.125.1.143:8000/api";
