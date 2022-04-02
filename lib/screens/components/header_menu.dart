@@ -45,9 +45,27 @@ class HeaderMenu extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              SvgPicture.asset('assets/icons/alarm.svg'),
-              SvgPicture.asset('assets/icons/chat.svg'),
-              SvgPicture.asset('assets/icons/info.svg'),
+              GestureDetector(
+                  onTap: () {
+                    Get.toNamed("/chat");
+                  },
+                  child: SvgPicture.asset('assets/icons/alarm.svg')),
+              GestureDetector(
+                  onTap: () async {
+                    await authProvider.getWithRole();
+                    Get.toNamed("/chat");
+                  },
+                  child: SvgPicture.asset('assets/icons/chat.svg')),
+              authProvider.user.role.toString() == 'nelayan'
+                  ? GestureDetector(
+                      child: SvgPicture.asset('assets/icons/info.svg'),
+                    )
+                  : GestureDetector(
+                      onTap: () {
+                        Get.toNamed('/cart');
+                      },
+                      child: Icon(Icons.shopping_cart, color: kPrimaryColor),
+                    ),
               GestureDetector(
                   onTap: () async {
                     if (await authProvider.logout()) {

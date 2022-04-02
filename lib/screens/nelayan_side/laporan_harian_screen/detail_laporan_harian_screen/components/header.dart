@@ -1,10 +1,14 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/laporan_harian_screen/components/profile_image.dart';
+import 'package:get/get.dart';
 
 class Header extends StatelessWidget {
   const Header({
     Key? key,
+    required this.date,
   }) : super(key: key);
+
+  final String date;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +18,8 @@ class Header extends StatelessWidget {
         DefaultButton(
           isInfinity: false,
           text: Text(
-            '11 Februari 2022, 14:30',
+            // '11 Februari 2022, 14:30',
+            date,
             style: whiteTextStyle.copyWith(
               fontWeight: bold,
             ),

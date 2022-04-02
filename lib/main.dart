@@ -1,16 +1,28 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
 import 'package:flutter_ruang_nelayan/providers/auth_provider.dart';
+import 'package:flutter_ruang_nelayan/providers/cart_provider.dart';
 import 'package:flutter_ruang_nelayan/providers/hasil_tangkapan_provider.dart';
 import 'package:flutter_ruang_nelayan/providers/ikan_air_tawar_provider.dart';
+import 'package:flutter_ruang_nelayan/providers/jasa_pengantaran_provider.dart';
 import 'package:flutter_ruang_nelayan/providers/jenis_ikan_provider.dart';
 import 'package:flutter_ruang_nelayan/providers/jenis_pengerjaan_ikan.dart';
+import 'package:flutter_ruang_nelayan/providers/laporan_harian_provider.dart';
+import 'package:flutter_ruang_nelayan/providers/transaction_provider.dart';
+import 'package:flutter_ruang_nelayan/screens/chat_screen/chat_screen.dart';
+import 'package:flutter_ruang_nelayan/screens/chat_screen/detail_chat_screen/detail_chat_screen.dart';
+import 'package:flutter_ruang_nelayan/screens/costumer_side/cart_screen/cart_screen.dart';
+import 'package:flutter_ruang_nelayan/screens/costumer_side/checkout_screen/checkout_screen.dart';
+import 'package:flutter_ruang_nelayan/screens/costumer_side/detail_ikan_screen/detail_ikan_screen.dart';
 import 'package:flutter_ruang_nelayan/screens/costumer_side/home_screen_costumer/home_screen_costumer.dart';
 import 'package:flutter_ruang_nelayan/screens/costumer_side/ikan_air_tawar_screen/ikan_air_tawar_screen.dart';
+import 'package:flutter_ruang_nelayan/screens/costumer_side/snap_screen/snap_screen.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/data_nelayan_screen/data_nelayan_screen.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/hasil_tangkapan_screen/hasil_tangkapan_screen.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/hasil_tangkapan_screen/tambah_ikan_screen/tambah_ikan_screen.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/home_screen/home_screen.dart';
+import 'package:flutter_ruang_nelayan/screens/nelayan_side/konfirmasi_pesanan_screen/detail_konfirmasi_pesanan_screen/detail_konfirmasi_pesanan_screen.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/konfirmasi_pesanan_screen/konfirmasi_pesanan_screen.dart';
+import 'package:flutter_ruang_nelayan/screens/nelayan_side/konfirmasi_pesanan_screen/proses_pemesanan_screen/proses_pemesanan_screen.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/laporan_harian_screen/data_penjualan_screen/data_penjualan_screen.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/laporan_harian_screen/detail_laporan_harian_screen/detail_laporan_harian_screen.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/laporan_harian_screen/laporan_harian_screen.dart';
@@ -36,7 +48,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    loginState.writeIfNull('lastVisit', 'init');
     loginState.writeIfNull('status', false);
+
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
@@ -54,6 +68,18 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => IkanAirTawarProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => CartProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => TransactionProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => JasaPengantaranProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => LaporanHarianProvider(),
+        ),
       ],
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
@@ -66,6 +92,8 @@ class MyApp extends StatelessWidget {
           GetPage(name: '/login', page: () => const LoginScreen()),
           GetPage(name: '/register', page: () => const RegisterScreen()),
           GetPage(name: '/otp', page: () => const OtpScreen()),
+          GetPage(name: '/chat', page: () => ChatScreen()),
+          GetPage(name: '/chat/detail', page: () => DetailChatScreen()),
 
           // Nelayan Side
           GetPage(name: '/home-nelayan', page: () => const HomeScreen()),
@@ -80,7 +108,6 @@ class MyApp extends StatelessWidget {
             name: '/hasil-tangkapan-nelayan/tambah-ikan',
             page: () => const TambahIkanScreen(),
           ),
-
           // Route for laporan harian nelayan
           GetPage(
             name: '/laporan-harian-nelayan',
@@ -98,6 +125,12 @@ class MyApp extends StatelessWidget {
           GetPage(
               name: '/konfirmasi-pesanan-nelayan',
               page: () => const KonfirmasiPesananScreen()),
+          GetPage(
+              name: '/konfirmasi-pesanan-nelayan/detail',
+              page: () => const DetailKonfirmasiPesananScreen()),
+          GetPage(
+              name: '/proses-pemesanan-nelayan',
+              page: () => const ProsesPemesananScreen()),
 
           // Costumer Side
           GetPage(
@@ -105,9 +138,11 @@ class MyApp extends StatelessWidget {
           GetPage(
               name: '/ikan-air-tawar-costumer',
               page: () => const IkanAirTawarScreen()),
+          GetPage(name: '/detail-ikan', page: () => const DetailIkanScreen()),
+          GetPage(name: '/cart', page: () => CartScreen()),
+          GetPage(name: '/checkout', page: () => CheckoutScreen()),
+          GetPage(name: '/snap', page: () => SnapScreen()),
         ],
-
-        // Costumer Side
       ),
     );
   }

@@ -37,12 +37,76 @@ class HasilTangkapanServices {
     }
   }
 
+  Future<List<HasilTangkapanModel>> getNamaIkan(String namaIkan) async {
+    var url = Uri.parse("$baseUrl/hasil-tangkapan?nama_ikan=$namaIkan");
+
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': loginState.read('token').toString(),
+    };
+
+    var response = await http.get(
+      url,
+      headers: headers,
+    );
+
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body)['data']['data'];
+
+      List<HasilTangkapanModel> hasilTangkapan = [];
+
+      for (var item in data) {
+        hasilTangkapan.add(HasilTangkapanModel.fromJson(item));
+      }
+
+      print('success');
+
+      return hasilTangkapan;
+    } else {
+      throw Exception('Data Gagal Diambil');
+    }
+  }
+
+  Future<List<HasilTangkapanModel>> getWithDate(String created_at) async {
+    var url = Uri.parse("$baseUrl/hasil-tangkapan?created_at=$created_at");
+
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': loginState.read('token').toString(),
+    };
+
+    var response = await http.get(
+      url,
+      headers: headers,
+    );
+
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body)['data']['data'];
+
+      List<HasilTangkapanModel> hasilTangkapan = [];
+
+      for (var item in data) {
+        hasilTangkapan.add(HasilTangkapanModel.fromJson(item));
+      }
+
+      print('success');
+
+      return hasilTangkapan;
+    } else {
+      throw Exception('Data Gagal Diambil');
+    }
+  }
+
   Future<HasilTangkapanModel?> tambahHasilTangkapan(
       {required int idUsers,
       required String namaIkan,
       required int idJenisIkan,
       required int jumlah,
-      required int harga,
+      required double harga,
       required File gambar,
       required int idJasaPengerjaanIkan}) async {
     String fileName = basename(gambar.path);

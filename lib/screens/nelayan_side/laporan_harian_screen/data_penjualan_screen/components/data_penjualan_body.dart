@@ -31,13 +31,7 @@ class DataPenjualanBody extends StatelessWidget {
                     title: 'Ikan yang dibeli',
                     icon: Icons.shopping_cart,
                   ),
-                  CardIkan(
-                    qty: '10',
-                    harga: '20.000',
-                    jasa: 'Fillet',
-                    hargaPengerjaan: '10.000',
-                    total: '300.000',
-                  ),
+                  // CardIkan(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -88,7 +82,6 @@ class DataPenjualanBody extends StatelessWidget {
               CardKurir(
                 logo: '',
                 kurir: 'OK - JEK EXPRESS',
-                berat: '30',
                 harga: '20.000',
               ),
               Divider(

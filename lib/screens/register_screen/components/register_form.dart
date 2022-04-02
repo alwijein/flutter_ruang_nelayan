@@ -133,20 +133,16 @@ class _RegisterFormState extends State<RegisterForm> {
                           verificationCompleted: (phoneAuthCredential) async {
                             setState(() {
                               print("Berhasilllllll");
-
-                              isLoading = false;
                             });
                           },
                           verificationFailed: (verificationFailed) async {
                             setState(() {
                               print(combine);
                               print("salahhhhhhhhhhhhhhhhh");
-                              isLoading = false;
                             });
                           },
                           codeSent: (verificationId, resendingToken) async {
                             setState(() {
-                              isLoading = false;
                               this.verificationId = verificationId;
                               Get.toNamed(
                                 '/otp',

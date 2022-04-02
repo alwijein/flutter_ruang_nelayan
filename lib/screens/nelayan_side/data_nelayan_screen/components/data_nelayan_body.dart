@@ -24,6 +24,7 @@ class DataNelayanBody extends StatelessWidget {
                   image: AssetImage(
                     'assets/images/illustration_akun_nelayan.png',
                   ),
+                  fit: BoxFit.fill,
                 ),
               ),
             ),

@@ -1,5 +1,11 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
+import 'package:flutter_ruang_nelayan/models/cart_model.dart';
+import 'package:flutter_ruang_nelayan/models/hasil_tangkapan_model.dart';
+import 'package:flutter_ruang_nelayan/models/message_model.dart';
+import 'package:flutter_ruang_nelayan/models/transaction_model.dart';
+import 'package:flutter_ruang_nelayan/models/user_model.dart';
 import 'package:flutter_ruang_nelayan/providers/auth_provider.dart';
+import 'package:flutter_ruang_nelayan/providers/cart_provider.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -15,3 +21,7 @@ part 'card_ikan.dart';
 part 'card_kurir.dart';
 part 'header_text_icon.dart';
 part 'header_menu.dart';
+part 'cart_card.dart';
+part 'checkout_card.dart';
+part 'chat_tile.dart';
+part 'chat_bubble.dart';

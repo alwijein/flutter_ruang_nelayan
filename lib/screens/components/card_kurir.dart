@@ -6,10 +6,9 @@ class CardKurir extends StatelessWidget {
     required this.logo,
     required this.kurir,
     required this.harga,
-    required this.berat,
   }) : super(key: key);
 
-  final String logo, kurir, harga, berat;
+  final String logo, kurir, harga;
 
   @override
   Widget build(BuildContext context) {
@@ -40,10 +39,6 @@ class CardKurir extends StatelessWidget {
                   Text(
                     kurir,
                     style: primaryTextStyle.copyWith(fontWeight: bold),
-                  ),
-                  Text(
-                    "$berat Kg",
-                    style: subtitleTextStyle.copyWith(fontWeight: light),
                   ),
                   Text(
                     "Rp$harga",

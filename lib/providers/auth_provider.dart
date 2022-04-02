@@ -10,6 +10,10 @@ class AuthProvider with ChangeNotifier {
 
   UserModel get user => _user;
 
+  List<UserModel> _listUser = [];
+
+  List<UserModel> get listUser => _listUser;
+
   set user(UserModel user) {
     _user = user;
     notifyListeners();
@@ -149,6 +153,17 @@ class AuthProvider with ChangeNotifier {
     } catch (e) {
       print("Errornya = $e");
       return false;
+    }
+  }
+
+  Future<void> getWithRole() async {
+    try {
+      List<UserModel> listUser = await AuthServices().getWithRole();
+
+      print('sucesss');
+      _listUser = listUser;
+    } catch (e) {
+      print(e);
     }
   }
 }

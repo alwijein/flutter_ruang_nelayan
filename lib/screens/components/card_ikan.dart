@@ -2,15 +2,11 @@ part of 'components.dart';
 
 class CardIkan extends StatelessWidget {
   const CardIkan({
+    required this.cartModel,
     Key? key,
-    required this.qty,
-    required this.harga,
-    required this.jasa,
-    required this.hargaPengerjaan,
-    required this.total,
   }) : super(key: key);
 
-  final String qty, harga, jasa, hargaPengerjaan, total;
+  final CartModel cartModel;
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +50,7 @@ class CardIkan extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      'Ikan Tuna',
+                      cartModel.hasilTangkapanModel!.namaIkan.toString(),
                       style: primaryTextStyle.copyWith(
                         fontWeight: semiBold,
                       ),
@@ -62,7 +58,7 @@ class CardIkan extends StatelessWidget {
                     SizedBox(width: getPropertionateScreenWidht(8)),
                     DefaultButtonGradient(
                       text: Text(
-                        'Ikan Air Laut',
+                        cartModel.hasilTangkapanModel!.jenisIkan.toString(),
                         style: whiteTextStyle.copyWith(
                           fontSize: 8,
                         ),
@@ -82,7 +78,7 @@ class CardIkan extends StatelessWidget {
                     ),
                     children: [
                       TextSpan(
-                          text: "$qty Kg",
+                          text: "${cartModel.hasilTangkapanModel!.jumlah} Kg",
                           style: primaryTextStyle.copyWith(
                             fontWeight: bold,
                             fontSize: 11,
@@ -98,7 +94,7 @@ class CardIkan extends StatelessWidget {
                     ),
                     children: [
                       TextSpan(
-                          text: "Rp$harga",
+                          text: "Rp${cartModel.hasilTangkapanModel!.harga}",
                           style: primaryTextStyle.copyWith(
                             fontWeight: bold,
                             fontSize: 11,
@@ -114,7 +110,7 @@ class CardIkan extends StatelessWidget {
                     ),
                     children: [
                       TextSpan(
-                          text: jasa,
+                          text: 's',
                           style: primaryTextStyle.copyWith(
                             fontWeight: bold,
                             fontSize: 11,
@@ -130,7 +126,7 @@ class CardIkan extends StatelessWidget {
                     ),
                     children: [
                       TextSpan(
-                          text: "$hargaPengerjaan / kg",
+                          text: " / kg",
                           style: primaryTextStyle.copyWith(
                             fontWeight: bold,
                             fontSize: 11,

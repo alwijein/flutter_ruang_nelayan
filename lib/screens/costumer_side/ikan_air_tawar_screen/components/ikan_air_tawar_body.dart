@@ -1,6 +1,8 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
 import 'package:flutter_ruang_nelayan/models/ikan_air_tawar_model.dart';
+import 'package:flutter_ruang_nelayan/providers/hasil_tangkapan_provider.dart';
 import 'package:flutter_ruang_nelayan/providers/ikan_air_tawar_provider.dart';
+import 'package:get/get.dart';
 
 class IkanAirTawarBody extends StatelessWidget {
   const IkanAirTawarBody({Key? key}) : super(key: key);
@@ -11,6 +13,9 @@ class IkanAirTawarBody extends StatelessWidget {
         Provider.of<IkanAirTawarProvider>(context);
 
     List<IkanAirTawarModel> ikanAirTawar = ikanAirTawarProvider.ikanAirTawar;
+
+    HasilTangkapanProvider hasilTangkapanProvider =
+        Provider.of<HasilTangkapanProvider>(context);
 
     return SafeArea(
       child: Container(
@@ -61,25 +66,29 @@ class IkanAirTawarBody extends StatelessWidget {
                       ),
                     ),
                     DefaultButtonOutlined(
-                        isInfinity: false,
-                        width: getPropertionateScreenWidht(40),
-                        text: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.add_shopping_cart,
-                              color: kPrimaryColor,
-                              size: getPropertionateScreenWidht(18),
-                            ),
-                            Text(
-                              'Belanja Sekarang',
-                              style:
-                                  primaryLightTextStyle.copyWith(fontSize: 9),
-                            ),
-                          ],
-                        ),
-                        press: () {}),
+                      isInfinity: false,
+                      width: getPropertionateScreenWidht(40),
+                      text: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.add_shopping_cart,
+                            color: kPrimaryColor,
+                            size: getPropertionateScreenWidht(18),
+                          ),
+                          Text(
+                            'Belanja Sekarang',
+                            style: primaryLightTextStyle.copyWith(fontSize: 9),
+                          ),
+                        ],
+                      ),
+                      press: () async {
+                        await hasilTangkapanProvider.getNamaIkan(
+                            ikanAirTawar[count].title!.toLowerCase());
+                        Get.toNamed("/detail-ikan");
+                      },
+                    ),
                   ],
                 ),
               );

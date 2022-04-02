@@ -18,7 +18,7 @@ class HasilTangkapanProvider with ChangeNotifier {
     required String namaIkan,
     required int idJenisIkan,
     required int jumlah,
-    required int harga,
+    required double harga,
     required File gambar,
     required int idJasaPengerjaanIkan,
   }) async {
@@ -45,6 +45,30 @@ class HasilTangkapanProvider with ChangeNotifier {
     try {
       List<HasilTangkapanModel> hasilTangkapan =
           await HasilTangkapanServices().getHasilTangkapan(idUsers);
+      _hasilTangkapan = hasilTangkapan;
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> getNamaIkan(String namaIkan) async {
+    try {
+      List<HasilTangkapanModel> hasilTangkapan =
+          await HasilTangkapanServices().getNamaIkan(namaIkan);
+
+      print('sucesss');
+      _hasilTangkapan = hasilTangkapan;
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> getWithDate(String createdAt) async {
+    try {
+      List<HasilTangkapanModel> hasilTangkapan =
+          await HasilTangkapanServices().getWithDate(createdAt);
+
+      print('sucesss');
       _hasilTangkapan = hasilTangkapan;
     } catch (e) {
       print(e);

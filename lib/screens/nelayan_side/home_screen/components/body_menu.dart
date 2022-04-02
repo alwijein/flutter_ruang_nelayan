@@ -2,6 +2,8 @@ import 'package:flutter_ruang_nelayan/boostrap.dart';
 import 'package:flutter_ruang_nelayan/models/user_model.dart';
 import 'package:flutter_ruang_nelayan/providers/auth_provider.dart';
 import 'package:flutter_ruang_nelayan/providers/hasil_tangkapan_provider.dart';
+import 'package:flutter_ruang_nelayan/providers/laporan_harian_provider.dart';
+import 'package:flutter_ruang_nelayan/providers/transaction_provider.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/home_screen/components/card_menu.dart';
 import 'package:get/get.dart';
 
@@ -16,6 +18,13 @@ class BodyMenu extends StatelessWidget {
         Provider.of<HasilTangkapanProvider>(context);
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
     UserModel userModel = authProvider.user;
+
+    TransactionProvider transactionProvider =
+        Provider.of<TransactionProvider>(context);
+
+    LaporanHarianProvider laporanHarianProvider =
+        Provider.of<LaporanHarianProvider>(context);
+
     return Column(
       children: [
         Row(
@@ -35,7 +44,8 @@ class BodyMenu extends StatelessWidget {
               title: 'Konfirmasi Pesanan',
               color1: kColorLightkOrange,
               color2: kColorDarkOrange,
-              press: () {
+              press: () async {
+                await transactionProvider.getTransaction('PENDING');
                 Get.toNamed('/konfirmasi-pesanan-nelayan');
               },
             ),
@@ -63,7 +73,8 @@ class BodyMenu extends StatelessWidget {
               title: 'Laporan Harian',
               color1: kColorLightkGreen,
               color2: kColorDarkGreen,
-              press: () {
+              press: () async {
+                await laporanHarianProvider.getLaporanHarian();
                 Get.toNamed('/laporan-harian-nelayan');
               },
             ),

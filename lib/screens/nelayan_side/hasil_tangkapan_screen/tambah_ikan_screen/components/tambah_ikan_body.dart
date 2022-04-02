@@ -8,8 +8,10 @@ import 'package:flutter_ruang_nelayan/providers/auth_provider.dart';
 import 'package:flutter_ruang_nelayan/providers/hasil_tangkapan_provider.dart';
 import 'package:flutter_ruang_nelayan/providers/jenis_ikan_provider.dart';
 import 'package:flutter_ruang_nelayan/providers/jenis_pengerjaan_ikan.dart';
+import 'package:flutter_ruang_nelayan/providers/laporan_harian_provider.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:get_storage/get_storage.dart';
 
 class TambahIkanBody extends StatefulWidget {
   const TambahIkanBody({Key? key}) : super(key: key);
@@ -35,6 +37,8 @@ class _TambahIkanBodyState extends State<TambahIkanBody> {
 
   final _formKey = GlobalKey<FormState>();
 
+  final GetStorage loginState = GetStorage();
+
   @override
   Widget build(BuildContext context) {
     HasilTangkapanServices hasilTangkapanServices = HasilTangkapanServices();
@@ -42,6 +46,10 @@ class _TambahIkanBodyState extends State<TambahIkanBody> {
     HasilTangkapanProvider hasilTangkapanProvider =
         Provider.of<HasilTangkapanProvider>(context);
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
+
+    String toDayDate = FormatDate.formatDate(DateTime.now()).toString();
+    LaporanHarianProvider laporanHarianProvider =
+        Provider.of<LaporanHarianProvider>(context);
 
     //Model for jenis ikan drop down
     JenisIkanProvider jenisIkanProvider =
@@ -272,16 +280,21 @@ class _TambahIkanBodyState extends State<TambahIkanBody> {
                               });
                             }
                             if (errors.length == 1) {
-                              hasilTangkapanServices.tambahHasilTangkapan(
+                              await hasilTangkapanServices.tambahHasilTangkapan(
                                 idUsers: authProvider.user.id!,
                                 namaIkan: namaIkan.text,
                                 idJenisIkan: idJenisIkan!,
                                 jumlah: counterController.jumlah.value,
-                                harga: int.parse(harga.text),
+                                harga: double.parse(harga.text),
                                 gambar: file!,
                                 idJasaPengerjaanIkan: idJenisPengerjaanIkan!,
                               );
-                              Get.back();
+                              if (toDayDate != loginState.read('lastVisit')) {
+                                await laporanHarianProvider.inputLaporan();
+                                loginState.write('lastVisit', toDayDate);
+                              }
+
+                              Get.toNamed('/home-nelayan');
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(

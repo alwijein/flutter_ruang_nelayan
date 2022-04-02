@@ -36,44 +36,46 @@ class ProfilePembeli extends StatelessWidget {
                 SizedBox(
                   width: getPropertionateScreenWidht(10),
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      name,
-                      style: primaryLightTextStyle.copyWith(
-                        fontWeight: bold,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        name,
+                        style: primaryLightTextStyle.copyWith(
+                          fontWeight: bold,
+                        ),
                       ),
-                    ),
-                    RichText(
-                      text: TextSpan(
-                        text: 'tgl, pesanan: ',
-                        style: primaryTextStyle,
-                        children: [
-                          TextSpan(
-                            text: tgl,
-                            style: primaryTextStyle.copyWith(
-                              fontWeight: bold,
+                      RichText(
+                        text: TextSpan(
+                          text: 'tgl, pesanan: ',
+                          style: primaryTextStyle,
+                          children: [
+                            TextSpan(
+                              text: tgl,
+                              style: primaryTextStyle.copyWith(
+                                fontWeight: bold,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    RichText(
-                      text: TextSpan(
-                        text: 'ID Pembeli: ',
-                        style: primaryTextStyle,
-                        children: [
-                          TextSpan(
-                            text: id,
-                            style: primaryTextStyle.copyWith(
-                              fontWeight: bold,
+                      RichText(
+                        text: TextSpan(
+                          text: 'ID Pembeli: ',
+                          style: primaryTextStyle,
+                          children: [
+                            TextSpan(
+                              text: id,
+                              style: primaryTextStyle.copyWith(
+                                fontWeight: bold,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ],
             ),

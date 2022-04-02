@@ -12,6 +12,8 @@ class OtpForm extends StatefulWidget {
   State<OtpForm> createState() => _OtpFormState();
 }
 
+GetStorage loginState = GetStorage();
+
 class _OtpFormState extends State<OtpForm> {
   FocusNode pin2FocusNode = FocusNode();
   FocusNode pin3FocusNode = FocusNode();
@@ -29,8 +31,6 @@ class _OtpFormState extends State<OtpForm> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   bool isLoading = false;
-
-  GetStorage role = GetStorage();
 
   @override
   void initState() {
@@ -65,9 +65,9 @@ class _OtpFormState extends State<OtpForm> {
       });
 
       if (authCredential.user != null) {
-        if (role.read('status').toString() != 'costumer') {
+        if (loginState.read('role').toString() != 'costumer') {
           Get.offAllNamed('/home-nelayan');
-        } else if (role.read('status').toString() != 'nelayan') {
+        } else if (loginState.read('role').toString() != 'nelayan') {
           Get.offAllNamed('/home-costumer');
         }
       }
@@ -263,7 +263,7 @@ class _OtpFormState extends State<OtpForm> {
                       name: nama,
                       noTelp: "0$noTelp",
                       password: password,
-                      role: role.read('role').toString(),
+                      role: loginState.read('role').toString(),
                     )) {
                       PhoneAuthCredential phoneAuthCredential =
                           PhoneAuthProvider.credential(

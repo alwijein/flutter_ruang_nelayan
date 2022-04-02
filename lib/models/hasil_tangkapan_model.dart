@@ -1,13 +1,16 @@
 import 'package:flutter_ruang_nelayan/models/jasa_pengerjaan_model.dart';
 import 'package:flutter_ruang_nelayan/models/jenis_ikan_model.dart';
+import 'package:flutter_ruang_nelayan/models/user_model.dart';
 
 class HasilTangkapanModel {
   int? id, idJasaPengerjaanIkan, idUser, idJenisIkan;
   String? namaIkan, gambar;
   DateTime? createdAt, updatedAt;
-  double? jumlah, harga;
+  double? harga;
+  int? jumlah;
   JasaPengerjaanModel? jenisPengerjaanIkan;
   JenisIkanModel? jenisIkan;
+  UserModel? users;
 
   HasilTangkapanModel({
     this.id,
@@ -21,19 +24,40 @@ class HasilTangkapanModel {
     this.jenisIkan,
     this.createdAt,
     this.updatedAt,
+    this.users,
   });
 
   HasilTangkapanModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     namaIkan = json['nama_ikan'];
     idJenisIkan = json['id_jenis_ikan'];
-    jumlah = double.parse(json['jumlah'].toString());
+    jumlah = int.parse(json['jumlah'].toString());
     harga = double.parse(json['harga'].toString());
     gambar = json['gambar'];
     idJasaPengerjaanIkan = json['id_jasa_pengerjaan_ikan'];
-    jenisPengerjaanIkan =
-        JasaPengerjaanModel.fromJson(json['jasa_pengerjaan_ikan']);
-    jenisIkan = JenisIkanModel.fromJson(json['jenis_ikan']);
+
+    // null check for jasa pengerjaan ikan
+    if (json['jasa_pengerjaan_ikan'] == null) {
+      jenisPengerjaanIkan = null;
+    } else {
+      jenisPengerjaanIkan =
+          JasaPengerjaanModel.fromJson(json['jasa_pengerjaan_ikan']);
+    }
+
+    // null check for jenis ikan
+    if (json['jenis_ikan'] == null) {
+      jenisIkan = null;
+    } else {
+      jenisIkan = JenisIkanModel.fromJson(json['jenis_ikan']);
+    }
+
+    // null check for jasa users
+    if (json['users'] == null) {
+      jenisIkan = null;
+    } else {
+      users = UserModel.fromJson(json['users']);
+    }
+
     createdAt = DateTime.parse(json['created_at']);
     updatedAt = DateTime.parse(json['updated_at']);
   }
@@ -49,6 +73,7 @@ class HasilTangkapanModel {
       'id_jasa_pengerjaan_ikan': idJasaPengerjaanIkan,
       'jenis_pengerjaan_ikan': jenisPengerjaanIkan!.toJson(),
       'jenis_ikan': jenisIkan!.toJson(),
+      'users': users!.toJson(),
       'created_at': createdAt,
       'updatedAt': updatedAt,
     };

@@ -1,5 +1,9 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
-import 'package:flutter_ruang_nelayan/screens/register_screen/components/register_form.dart';
+import 'package:flutter_ruang_nelayan/models/laporan_harian_model.dart';
+import 'package:flutter_ruang_nelayan/models/transaction_model.dart';
+import 'package:flutter_ruang_nelayan/providers/hasil_tangkapan_provider.dart';
+import 'package:flutter_ruang_nelayan/providers/laporan_harian_provider.dart';
+import 'package:flutter_ruang_nelayan/providers/transaction_provider.dart';
 import 'package:get/get.dart';
 
 class LaporanHarianBody extends StatelessWidget {
@@ -7,6 +11,9 @@ class LaporanHarianBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    LaporanHarianProvider laporanHarianProvider =
+        Provider.of<LaporanHarianProvider>(context);
+
     return SafeArea(
       child: SizedBox(
         width: double.infinity,
@@ -67,64 +74,105 @@ class LaporanHarianBody extends StatelessWidget {
                   right: defaultPadding,
                 ),
                 child: SingleChildScrollView(
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: GestureDetector(
-                      onTap: () {
-                        Get.toNamed('/laporan-harian-nelayan/detail');
-                      },
-                      child: Container(
-                        padding: EdgeInsets.symmetric(
-                          vertical: getPropertionateScreenHeight(16),
-                        ),
-                        decoration: BoxDecoration(
-                          color: kBackgroundColor1,
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.3),
-                              spreadRadius: 3,
-                              blurRadius: 4,
-                              offset:
-                                  Offset(0, 3), // changes position of shadow
-                            ),
-                          ],
-                        ),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Column(
-                                children: [
-                                  Text(
-                                    '11',
-                                    style: subtitleTextStyle.copyWith(
-                                      fontSize: 34,
-                                    ),
-                                  ),
-                                  Text(
-                                    'Agustus',
-                                    style: primaryTextStyle.copyWith(
-                                      fontSize: 18,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                'Laporan Harian 11 Agustus 2020 Lihat Selengkapnya >>',
-                                style: subtitleTextStyle,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                  child: Column(
+                    children: laporanHarianProvider.laporanHarianModel
+                        .map(
+                          (hasil) => CardLaporanHarian(
+                            laporanHarianModel: hasil,
+                          ),
+                        )
+                        .toList(),
                   ),
+                  // child: CardLaporanHarian(),
                 ),
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class CardLaporanHarian extends StatelessWidget {
+  const CardLaporanHarian({
+    required this.laporanHarianModel,
+    Key? key,
+  }) : super(key: key);
+
+  final LaporanHarianModel laporanHarianModel;
+
+  @override
+  Widget build(BuildContext context) {
+    TransactionProvider transactionProvider =
+        Provider.of<TransactionProvider>(context);
+    HasilTangkapanProvider hasilTangkapanProvider =
+        Provider.of<HasilTangkapanProvider>(context);
+    return SizedBox(
+      width: double.infinity,
+      child: GestureDetector(
+        onTap: () async {
+          print(FormatDate.formatDateBasic(
+              DateTime.parse(laporanHarianModel.createdAt.toString())));
+          await hasilTangkapanProvider.getWithDate(FormatDate.formatDateBasic(
+              DateTime.parse(laporanHarianModel.createdAt.toString())));
+          await transactionProvider.getTransaction('SUDAH DI KONFIRMASI');
+          Get.toNamed(
+            '/laporan-harian-nelayan/detail',
+            arguments: {
+              "created_at": laporanHarianModel.createdAt.toString(),
+            },
+          );
+        },
+        child: Container(
+          padding: EdgeInsets.symmetric(
+            vertical: getPropertionateScreenHeight(16),
+            horizontal: getPropertionateScreenWidht(10),
+          ),
+          margin: EdgeInsets.only(
+            bottom: getPropertionateScreenHeight(20),
+          ),
+          decoration: BoxDecoration(
+            color: kBackgroundColor1,
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.3),
+                spreadRadius: 3,
+                blurRadius: 4,
+                offset: Offset(0, 3), // changes position of shadow
+              ),
+            ],
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  children: [
+                    Text(
+                      laporanHarianModel.createdAt!.day.toString(),
+                      style: subtitleTextStyle.copyWith(
+                        fontSize: 34,
+                      ),
+                    ),
+                    Text(
+                      FormatDate.formatDateMonth(DateTime.parse(
+                          laporanHarianModel.createdAt.toString())),
+                      style: primaryTextStyle.copyWith(
+                        fontSize: 18,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Text(
+                  'Laporan Harian ${FormatDate.formatDate(DateTime.parse(laporanHarianModel.createdAt.toString()))} Lihat Selengkapnya >>',
+                  style: subtitleTextStyle,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

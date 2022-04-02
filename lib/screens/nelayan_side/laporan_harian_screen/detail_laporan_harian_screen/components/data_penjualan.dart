@@ -1,4 +1,6 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
+import 'package:flutter_ruang_nelayan/models/transaction_model.dart';
+import 'package:flutter_ruang_nelayan/providers/transaction_provider.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/laporan_harian_screen/data_penjualan_screen/data_penjualan_screen.dart';
 import 'package:get/get.dart';
 
@@ -9,6 +11,10 @@ class DataPenjualan extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TransactionProvider transactionProvider =
+        Provider.of<TransactionProvider>(context);
+    List<TransactionModel> transactionModel =
+        transactionProvider.transactionModel;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -22,71 +28,86 @@ class DataPenjualan extends StatelessWidget {
         SizedBox(
           height: getPropertionateScreenHeight(16),
         ),
-        GestureDetector(
-          onTap: () {
-            Get.toNamed('laporan-harian-nelayan/detail/data-penjualan');
-          },
-          child: Container(
-            width: double.infinity,
-            height: getPropertionateScreenHeight(130),
-            padding: EdgeInsets.symmetric(
-                horizontal: getPropertionateScreenWidht(24),
-                vertical: getPropertionateScreenHeight(18)),
-            decoration: BoxDecoration(
-              color: kBackgroundColor1,
-              borderRadius: BorderRadius.circular(20),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.3),
-                  spreadRadius: 3,
-                  blurRadius: 4,
-                  offset: Offset(0, 3), // changes position of shadow
+        Column(
+          children: transactionProvider.transactionModel
+              .map(
+                (hasil) => CardKonfirmasiPesanan(
+                  transactionModel: hasil,
                 ),
-              ],
-            ),
-            child: Row(
-              children: [
-                CircleAvatar(
-                  backgroundImage: AssetImage('assets/images/ikan_01.png'),
-                  radius: getPropertionateScreenWidht(30),
-                ),
-                SizedBox(
-                  width: getPropertionateScreenWidht(16),
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    RichText(
-                      text: TextSpan(
-                        text: 'ID Pembeli: ',
-                        style: primaryTextStyle,
-                        children: [
-                          TextSpan(
-                            text: 'PB-000-001',
-                            style: primaryTextStyle.copyWith(fontWeight: bold),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Text(
-                      'Sutono',
-                      style: primaryLightTextStyle.copyWith(
-                        fontWeight: bold,
-                      ),
-                    ),
-                    Text(
-                      'Rp695.000',
-                      style: primaryTextStyle.copyWith(
-                        fontWeight: medium,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
+              )
+              .toList(),
         ),
       ],
+    );
+  }
+}
+
+class CardKonfirmasiPesanan extends StatelessWidget {
+  const CardKonfirmasiPesanan({
+    Key? key,
+    required this.transactionModel,
+  }) : super(key: key);
+
+  final TransactionModel transactionModel;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(bottom: getPropertionateScreenHeight(24)),
+      width: double.infinity,
+      padding: EdgeInsets.all(
+        getPropertionateScreenWidht(24),
+      ),
+      decoration: BoxDecoration(
+        color: kBackgroundColor1,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: softShadow,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Row(
+            children: [
+              CircleAvatar(
+                backgroundImage: AssetImage('assets/images/ikan_01.png'),
+                radius: getPropertionateScreenWidht(30),
+              ),
+              SizedBox(
+                width: getPropertionateScreenWidht(10),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    transactionModel.user!.name.toString(),
+                    style: primaryTextStyle.copyWith(fontWeight: bold),
+                  ),
+                  Text(
+                    transactionModel.createdAt.toString(),
+                    style: subtitleTextStyle,
+                  ),
+                  Text(
+                    "Total: ${transactionModel.totalPembayaran}",
+                    style: primaryLightTextStyle,
+                  ),
+                ],
+              ),
+            ],
+          ),
+          GestureDetector(
+            onTap: () {
+              Get.toNamed(
+                "/konfirmasi-pesanan-nelayan/detail",
+                arguments: transactionModel,
+              );
+            },
+            child: Text(
+              'Lihat Pesanan',
+              style: primaryLightTextStyle,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

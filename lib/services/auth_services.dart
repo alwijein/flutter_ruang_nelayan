@@ -179,4 +179,36 @@ class AuthServices {
       throw Exception('User Gagal Diambil');
     }
   }
+
+  Future<List<UserModel>> getWithRole() async {
+    var url = Uri.parse("$baseUrl/get-all?role=nelayan");
+
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': loginState.read('token').toString(),
+    };
+
+    var response = await http.get(
+      url,
+      headers: headers,
+    );
+
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body)['data'];
+
+      List<UserModel> userModel = [];
+
+      for (var item in data) {
+        userModel.add(UserModel.fromJson(item));
+      }
+
+      print('success');
+
+      return userModel;
+    } else {
+      throw Exception('Data Gagal Diambil');
+    }
+  }
 }

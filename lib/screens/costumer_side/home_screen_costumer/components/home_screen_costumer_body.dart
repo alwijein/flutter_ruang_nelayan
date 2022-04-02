@@ -42,6 +42,7 @@ class HomeScreenCostumerBody extends StatelessWidget {
                 image: DecorationImage(
                   image: AssetImage(
                       'assets/images/illustration_home_costumer_03.png'),
+                  fit: BoxFit.fill,
                 ),
               ),
             ),
@@ -356,7 +357,7 @@ class CardCategory extends StatelessWidget {
             image: AssetImage(
               img,
             ),
-            scale: 0.9,
+            scale: getPropertionateScreenWidht(0.7),
             fit: BoxFit.none,
           ),
         ),

@@ -9,7 +9,7 @@ class EditDataForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
-    final bool isLoading = false;
+    const bool isLoading = false;
     final List<String> errors = [];
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
     StateController stateController = Get.find<StateController>();
@@ -72,59 +72,66 @@ class EditDataForm extends StatelessWidget {
             SizedBox(
               height: getPropertionateScreenHeight(20),
             ),
-            isLoading
-                ? DefaultButton(
-                    text: Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: getPropertionateScreenWidht(30),
-                      ),
-                      child: const CircularProgressIndicator(
-                        strokeWidth: 3,
-                        valueColor: AlwaysStoppedAnimation(
-                          kPrimaryColor,
+            Obx(() {
+              return stateController.loading.value
+                  ? DefaultButton(
+                      text: Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: getPropertionateScreenWidht(30),
+                        ),
+                        child: const CircularProgressIndicator(
+                          strokeWidth: 3,
+                          valueColor: AlwaysStoppedAnimation(
+                            kBackgroundColor1,
+                          ),
                         ),
                       ),
-                    ),
-                    press: () {})
-                : DefaultButton(
-                    text: Text(
-                      'Terapkan',
-                      style: whiteTextStyle.copyWith(
-                        fontSize: 16,
+                      press: () {},
+                    )
+                  : DefaultButton(
+                      text: Text(
+                        'Terapkan',
+                        style: whiteTextStyle.copyWith(
+                          fontSize: 16,
+                        ),
                       ),
-                    ),
-                    press: () async {
-                      if (errors.isEmpty) {
-                        authProvider.updateProfile(
-                          name: name.text,
-                          noTelp: nomorTelp.text,
-                          alamat: alamat.text,
-                        );
-                        stateController.editProfile();
-                      } else {
-                        Get.snackbar(
-                          'Error',
-                          'message',
-                          messageText: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: List.generate(
-                              errors.length,
-                              (index) => Text(
-                                errors[index],
-                                style: whiteTextStyle,
+                      press: () async {
+                        stateController.isLoading();
+                        if (errors.isEmpty) {
+                          await authProvider.updateProfile(
+                            name: name.text,
+                            noTelp: nomorTelp.text,
+                            alamat: alamat.text,
+                          );
+                          stateController.isNotLoading();
+                          stateController.editProfile();
+                        } else {
+                          stateController.isNotLoading();
+
+                          Get.snackbar(
+                            'Error',
+                            'message',
+                            messageText: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: List.generate(
+                                errors.length,
+                                (index) => Text(
+                                  errors[index],
+                                  style: whiteTextStyle,
+                                ),
                               ),
                             ),
-                          ),
-                          backgroundColor: Colors.red,
-                          colorText: kWhiteTextColor,
-                          margin: EdgeInsets.symmetric(
-                            vertical: getPropertionateScreenHeight(10),
-                            horizontal: getPropertionateScreenHeight(24),
-                          ),
-                        );
-                      }
-                    }),
+                            backgroundColor: Colors.red,
+                            colorText: kWhiteTextColor,
+                            margin: EdgeInsets.symmetric(
+                              vertical: getPropertionateScreenHeight(10),
+                              horizontal: getPropertionateScreenHeight(24),
+                            ),
+                          );
+                        }
+                      });
+            })
           ],
         ),
       ),
