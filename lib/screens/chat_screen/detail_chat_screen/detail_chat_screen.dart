@@ -1,5 +1,4 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
-import 'package:flutter_ruang_nelayan/models/hasil_tangkapan_model.dart';
 import 'package:flutter_ruang_nelayan/models/message_model.dart';
 import 'package:flutter_ruang_nelayan/providers/auth_provider.dart';
 
