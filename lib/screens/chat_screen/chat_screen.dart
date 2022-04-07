@@ -85,34 +85,21 @@ class ChatScreen extends StatelessWidget {
     }
 
     Widget content() {
-      return StreamBuilder<List<MessageModel>>(
-          stream: MessageService().getMessagesByUserId(
-              userId: int.parse(authProvider.user.id.toString())),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              if (snapshot.data!.length == 0) {
-                return emptyChat();
-              }
-
-              return Expanded(
-                child: Container(
-                  width: double.infinity,
-                  child: ListView(
-                    children: authProvider.listUser
-                        .map(
-                          (hasil) => ChatTile(
-                            listUser: hasil,
-                            message: snapshot.data![snapshot.data!.length - 1],
-                          ),
-                        )
-                        .toList(),
+      return Expanded(
+        child: Container(
+          margin: EdgeInsets.all(getPropertionateScreenWidht(24)),
+          width: double.infinity,
+          child: ListView(
+            children: authProvider.listUser
+                .map(
+                  (hasil) => ChatTile(
+                    listUser: hasil,
                   ),
-                ),
-              );
-            } else {
-              return emptyChat();
-            }
-          });
+                )
+                .toList(),
+          ),
+        ),
+      );
     }
 
     return Scaffold(

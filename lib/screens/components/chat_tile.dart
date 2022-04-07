@@ -2,20 +2,21 @@ part of 'components.dart';
 
 class ChatTile extends StatelessWidget {
   ChatTile({
-    required this.message,
     required this.listUser,
   });
 
-  final MessageModel message;
   final UserModel listUser;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.toNamed('/chat/detail');
+        Get.toNamed(
+          '/chat/detail',
+          arguments: {'nelayan': listUser},
+        );
       },
       child: Container(
-        margin: EdgeInsets.only(top: 33),
+        margin: EdgeInsets.only(top: getPropertionateScreenHeight(10)),
         child: Column(
           children: [
             Row(
@@ -32,13 +33,13 @@ class ChatTile extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Shoe Store',
+                        listUser.name.toString(),
                         style: primaryTextStyle.copyWith(
                           fontSize: 15,
                         ),
                       ),
                       Text(
-                        message.message.toString(),
+                        listUser.alamat.toString(),
                         style: secondaryTextStyle.copyWith(
                           fontWeight: light,
                         ),

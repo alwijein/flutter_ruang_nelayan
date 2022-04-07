@@ -1,6 +1,9 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
 import 'package:flutter_ruang_nelayan/models/message_model.dart';
+import 'package:flutter_ruang_nelayan/models/user_model.dart';
 import 'package:flutter_ruang_nelayan/providers/auth_provider.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class DetailChatScreen extends StatefulWidget {
   @override
@@ -8,17 +11,21 @@ class DetailChatScreen extends StatefulWidget {
 }
 
 class _DetailChatScreenState extends State<DetailChatScreen> {
-  TextEditingController messageController = TextEditingController(text: '');
+  final loginState = GetStorage();
 
+  TextEditingController messageController = TextEditingController(text: '');
   @override
   Widget build(BuildContext context) {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
+    UserModel nelayan = Get.arguments['nelayan'];
+    print(nelayan);
 
     handleAddMessage() async {
       await MessageService().addMessage(
         user: authProvider.user,
         isFromUser: true,
         message: messageController.text,
+        idNelayan: int.parse(nelayan.id.toString()),
       );
 
       setState(() {
@@ -45,14 +52,14 @@ class _DetailChatScreenState extends State<DetailChatScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Shoe Store',
+                    nelayan.name.toString(),
                     style: primaryTextStyle.copyWith(
                       fontWeight: medium,
                       fontSize: 14,
                     ),
                   ),
                   Text(
-                    'Online',
+                    nelayan.alamat.toString(),
                     style: secondaryTextStyle.copyWith(
                       fontWeight: light,
                       fontSize: 14,
@@ -90,7 +97,7 @@ class _DetailChatScreenState extends State<DetailChatScreen> {
                         controller: messageController,
                         style: primaryTextStyle,
                         decoration: InputDecoration.collapsed(
-                          hintText: 'Type Message...',
+                          hintText: 'Tulis Pesan...',
                           hintStyle: subtitleTextStyle,
                         ),
                       ),
@@ -114,6 +121,7 @@ class _DetailChatScreenState extends State<DetailChatScreen> {
     Widget content() {
       return StreamBuilder<List<MessageModel>>(
           stream: MessageService().getMessagesByUserId(
+              nelayanId: int.parse(nelayan.id.toString()),
               userId: int.parse(authProvider.user.id.toString())),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
@@ -123,7 +131,7 @@ class _DetailChatScreenState extends State<DetailChatScreen> {
                 ),
                 children: snapshot.data!
                     .map((MessageModel message) => ChatBubble(
-                          isSender: message.isFromUser ?? false,
+                          isSender: message.userName == authProvider.user.name,
                           text: message.message ?? '',
                         ))
                     .toList(),
@@ -138,8 +146,14 @@ class _DetailChatScreenState extends State<DetailChatScreen> {
 
     return Scaffold(
       appBar: header(),
-      body: content(),
-      bottomNavigationBar: chatInput(),
+      body: Column(
+        children: [
+          Expanded(
+            child: content(),
+          ),
+          chatInput()
+        ],
+      ),
     );
   }
 }

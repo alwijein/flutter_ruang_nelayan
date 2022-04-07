@@ -38,7 +38,7 @@ class ChatBubble extends StatelessWidget {
                       bottomLeft: Radius.circular(12),
                       bottomRight: Radius.circular(12),
                     ),
-                    color: isSender ? kBackgroundColor2 : kBackgroundColor1,
+                    color: isSender ? kBackgroundColor2 : kColorLightkBlue,
                   ),
                   child: Text(
                     text,

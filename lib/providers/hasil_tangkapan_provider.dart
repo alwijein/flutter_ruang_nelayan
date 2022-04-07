@@ -51,6 +51,16 @@ class HasilTangkapanProvider with ChangeNotifier {
     }
   }
 
+  Future<void> getAllHasilTangkapan() async {
+    try {
+      List<HasilTangkapanModel> hasilTangkapan =
+          await HasilTangkapanServices().getAllHasilTangkapan();
+      _hasilTangkapan = hasilTangkapan;
+    } catch (e) {
+      print(e);
+    }
+  }
+
   Future<void> getNamaIkan(String namaIkan) async {
     try {
       List<HasilTangkapanModel> hasilTangkapan =

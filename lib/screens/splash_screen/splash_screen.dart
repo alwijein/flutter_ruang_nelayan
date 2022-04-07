@@ -1,6 +1,7 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
 import 'package:flutter_ruang_nelayan/models/user_model.dart';
 import 'package:flutter_ruang_nelayan/providers/auth_provider.dart';
+import 'package:flutter_ruang_nelayan/providers/hasil_tangkapan_provider.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
@@ -23,11 +24,14 @@ class _SplashScreenState extends State<SplashScreen> {
 
   getInit() async {
     await Provider.of<AuthProvider>(context, listen: false).getUser();
+
     print("xsdsds " + loginState.read('status').toString());
     if (loginState.read('status')) {
       if (loginState.read('role').toString() != 'costumer') {
         Get.offNamed('/home-nelayan');
       } else if (loginState.read('role').toString() != 'nelayan') {
+        await Provider.of<HasilTangkapanProvider>(context, listen: false)
+            .getAllHasilTangkapan();
         Get.offNamed('/home-costumer');
       }
     } else {

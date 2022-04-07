@@ -1,4 +1,6 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
+import 'package:flutter_ruang_nelayan/models/hasil_tangkapan_model.dart';
+import 'package:flutter_ruang_nelayan/providers/hasil_tangkapan_provider.dart';
 import 'package:flutter_ruang_nelayan/providers/ikan_air_tawar_provider.dart';
 import 'package:get/get.dart';
 
@@ -112,7 +114,7 @@ class HomeScreenCostumerBody extends StatelessWidget {
                       SizedBox(
                         height: getPropertionateScreenHeight(24),
                       ),
-                      PopulerMenu(),
+                      // PopulerMenu(),
                       TerbaruMenu(),
                     ],
                   ),
@@ -133,6 +135,8 @@ class TerbaruMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    HasilTangkapanProvider hasilTangkapanProvider =
+        Provider.of<HasilTangkapanProvider>(context);
     return Container(
       margin: EdgeInsets.symmetric(horizontal: getPropertionateScreenWidht(10)),
       child: Column(
@@ -150,7 +154,7 @@ class TerbaruMenu extends StatelessWidget {
             height: getPropertionateScreenHeight(900),
             child: GridView.builder(
                 physics: NeverScrollableScrollPhysics(),
-                itemCount: 4,
+                itemCount: hasilTangkapanProvider.hasilTangkapan.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   childAspectRatio: 0.52,
@@ -158,92 +162,109 @@ class TerbaruMenu extends StatelessWidget {
                   mainAxisSpacing: 10,
                 ),
                 itemBuilder: (_, count) {
-                  return Container(
-                    padding: EdgeInsets.symmetric(
-                      vertical: getPropertionateScreenHeight(18),
-                      horizontal: getPropertionateScreenWidht(18),
-                    ),
-                    decoration: BoxDecoration(
-                      color: kBackgroundColor1,
-                      boxShadow: softShadow,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          width: double.infinity,
-                          height: getPropertionateScreenHeight(170),
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage(
-                                'assets/images/ikan_01.png',
-                              ),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        Text(
-                          'Ikan Kembung',
-                          style: primaryLightTextStyle.copyWith(
-                            fontWeight: bold,
-                          ),
-                        ),
-                        Text(
-                          '1 Kg',
-                          style: primaryTextStyle.copyWith(
-                            fontWeight: light,
-                          ),
-                        ),
-                        Text(
-                          'Rp20.000',
-                          style: primaryTextStyle.copyWith(
-                            fontWeight: bold,
-                          ),
-                        ),
-                        Row(
-                          children: [
-                            CircleAvatar(
-                              backgroundImage: AssetImage(
-                                'assets/images/logo.png',
-                              ),
-                            ),
-                            SizedBox(
-                              width: getPropertionateScreenWidht(10),
-                            ),
-                            Text(
-                              'Dg. Tompo',
-                              style: primaryLightTextStyle.copyWith(
-                                fontWeight: bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: getPropertionateScreenHeight(10),
-                        ),
-                        DefaultButton(
-                            isInfinity: false,
-                            text: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.add_shopping_cart,
-                                  color: kBackgroundColor1,
-                                ),
-                                Text(
-                                  'Beli',
-                                  style: whiteTextStyle,
-                                ),
-                              ],
-                            ),
-                            press: () {}),
-                      ],
-                    ),
+                  return CardIkanTerbaru(
+                    hasilTangkapanModel:
+                        hasilTangkapanProvider.hasilTangkapan[count],
                   );
                 }),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class CardIkanTerbaru extends StatelessWidget {
+  const CardIkanTerbaru({
+    Key? key,
+    required this.hasilTangkapanModel,
+  }) : super(key: key);
+
+  final HasilTangkapanModel hasilTangkapanModel;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(
+        vertical: getPropertionateScreenHeight(18),
+        horizontal: getPropertionateScreenWidht(18),
+      ),
+      decoration: BoxDecoration(
+        color: kBackgroundColor1,
+        boxShadow: softShadow,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Container(
+            width: double.infinity,
+            height: getPropertionateScreenHeight(170),
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(
+                  'assets/images/ikan_01.png',
+                ),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          Text(
+            hasilTangkapanModel.namaIkan.toString(),
+            style: primaryLightTextStyle.copyWith(
+              fontWeight: bold,
+            ),
+          ),
+          Text(
+            '${hasilTangkapanModel.jumlah} Kg',
+            style: primaryTextStyle.copyWith(
+              fontWeight: light,
+            ),
+          ),
+          Text(
+            'Rp${hasilTangkapanModel.harga}',
+            style: primaryTextStyle.copyWith(
+              fontWeight: bold,
+            ),
+          ),
+          Row(
+            children: [
+              CircleAvatar(
+                backgroundImage: AssetImage(
+                  'assets/images/logo.png',
+                ),
+              ),
+              SizedBox(
+                width: getPropertionateScreenWidht(10),
+              ),
+              Text(
+                hasilTangkapanModel.users!.name.toString(),
+                style: primaryLightTextStyle.copyWith(
+                  fontWeight: bold,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: getPropertionateScreenHeight(10),
+          ),
+          DefaultButton(
+              isInfinity: false,
+              text: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.add_shopping_cart,
+                    color: kBackgroundColor1,
+                  ),
+                  Text(
+                    'Beli',
+                    style: whiteTextStyle,
+                  ),
+                ],
+              ),
+              press: () {}),
         ],
       ),
     );
@@ -402,7 +423,8 @@ class CardCaraousel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: SizeConfig.screenWidth,
-      margin: EdgeInsets.symmetric(horizontal: 5.0),
+      margin: EdgeInsets.symmetric(horizontal: getPropertionateScreenWidht(5)),
+      padding: EdgeInsets.symmetric(horizontal: getPropertionateScreenWidht(3)),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         gradient: LinearGradient(

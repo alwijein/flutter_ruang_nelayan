@@ -181,7 +181,12 @@ class AuthServices {
   }
 
   Future<List<UserModel>> getWithRole() async {
-    var url = Uri.parse("$baseUrl/get-all?role=nelayan");
+    var url;
+    if (loginState.read('role').toString() != 'costumer') {
+      url = Uri.parse("$baseUrl/get-all?role=costumer");
+    } else if (loginState.read('role').toString() != 'nelayan') {
+      url = Uri.parse("$baseUrl/get-all?role=nelayan");
+    }
 
     var headers = {
       'Content-Type': 'application/json',

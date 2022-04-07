@@ -3,6 +3,7 @@ import 'package:flutter_ruang_nelayan/models/hasil_tangkapan_model.dart';
 class MessageModel {
   String? message;
   int? userId;
+  int? nelayanId;
   String? userName;
   String? userImage;
   bool? isFromUser;
@@ -12,6 +13,7 @@ class MessageModel {
   MessageModel({
     this.message,
     this.userId,
+    this.nelayanId,
     this.userName,
     this.userImage,
     this.isFromUser,
@@ -22,6 +24,7 @@ class MessageModel {
   MessageModel.fromJson(Map<String, dynamic> json) {
     message = json['message'];
     userId = json['userId'];
+    nelayanId = json['nelayanId'];
     userName = json['userName'];
     userImage = json['userImage'];
     isFromUser = json['isFromUser'];
@@ -33,6 +36,7 @@ class MessageModel {
     return {
       'message': message,
       'userId': userId,
+      'nelayanId': nelayanId,
       'userName': userName,
       'userImage': userImage,
       'isFromUser': isFromUser,

@@ -37,6 +37,38 @@ class HasilTangkapanServices {
     }
   }
 
+  Future<List<HasilTangkapanModel>> getAllHasilTangkapan() async {
+    var url = Uri.parse("$baseUrl/hasil-tangkapan");
+
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': loginState.read('token').toString(),
+    };
+
+    var response = await http.get(
+      url,
+      headers: headers,
+    );
+
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body)['data']['data'];
+
+      List<HasilTangkapanModel> hasilTangkapan = [];
+
+      for (var item in data) {
+        hasilTangkapan.add(HasilTangkapanModel.fromJson(item));
+      }
+
+      print('success');
+
+      return hasilTangkapan;
+    } else {
+      throw Exception('Data Gagal Diambil');
+    }
+  }
+
   Future<List<HasilTangkapanModel>> getNamaIkan(String namaIkan) async {
     var url = Uri.parse("$baseUrl/hasil-tangkapan?nama_ikan=$namaIkan");
 
