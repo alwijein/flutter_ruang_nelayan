@@ -1,5 +1,8 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
 import 'package:flutter_ruang_nelayan/models/hasil_tangkapan_model.dart';
+import 'package:flutter_ruang_nelayan/providers/jenis_ikan_provider.dart';
+import 'package:flutter_ruang_nelayan/providers/jenis_pengerjaan_ikan.dart';
+import 'package:get/get.dart';
 
 class CardHasilTangkapan extends StatelessWidget {
   const CardHasilTangkapan({
@@ -11,6 +14,11 @@ class CardHasilTangkapan extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    JenisIkanProvider jenisIkanProvider =
+        Provider.of<JenisIkanProvider>(context);
+    JenisPengerjaanIkanProvider jenisPengerjaanIkanProvider =
+        Provider.of<JenisPengerjaanIkanProvider>(context);
+
     return Container(
       margin: EdgeInsets.symmetric(
         vertical: getPropertionateScreenHeight(24),
@@ -112,16 +120,27 @@ class CardHasilTangkapan extends StatelessWidget {
                     height: getPropertionateScreenHeight(5),
                   ),
                   DefaultButtonOutlined(
-                      isInfinity: false,
-                      text: Text(
-                        'Edit',
-                        style: primaryTextStyle.copyWith(
-                          fontSize: 12,
-                          color: kPrimaryColor,
-                          fontWeight: medium,
-                        ),
+                    isInfinity: false,
+                    text: Text(
+                      'Edit',
+                      style: primaryTextStyle.copyWith(
+                        fontSize: 12,
+                        color: kPrimaryColor,
+                        fontWeight: medium,
                       ),
-                      press: () {})
+                    ),
+                    press: () async {
+                      await jenisIkanProvider.getJenisIkan();
+                      await jenisPengerjaanIkanProvider
+                          .getJenisPengerjaanIkan();
+
+                      Get.toNamed("/hasil-tangkapan-nelayan/tambah-ikan",
+                          arguments: [
+                            {'isEdit': true},
+                            {'hasilTangkapan': hasilTangkapanModel}
+                          ]);
+                    },
+                  ),
                 ],
               ),
             ],

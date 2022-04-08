@@ -19,6 +19,7 @@ class TransactionProvider with ChangeNotifier {
     String? alamat,
     double totalJasa,
     double ongkosKirim,
+    String pembayaran,
     int jasaPengantaran,
   ) async {
     try {
@@ -29,6 +30,7 @@ class TransactionProvider with ChangeNotifier {
         alamat ?? 'Makassar',
         totalJasa,
         ongkosKirim,
+        pembayaran,
         jasaPengantaran,
       )) {
         return true;
@@ -45,6 +47,26 @@ class TransactionProvider with ChangeNotifier {
     try {
       List<TransactionModel> transactionModel =
           await TransactionServices().getTransaction(status);
+      _transactionModel = transactionModel;
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> getTransactionWithDate(String status, String created_at) async {
+    try {
+      List<TransactionModel> transactionModel = await TransactionServices()
+          .getTransactionWithDate(status, created_at);
+      _transactionModel = transactionModel;
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> getAllTransaction() async {
+    try {
+      List<TransactionModel> transactionModel =
+          await TransactionServices().getAllTransaction();
       _transactionModel = transactionModel;
     } catch (e) {
       print(e);

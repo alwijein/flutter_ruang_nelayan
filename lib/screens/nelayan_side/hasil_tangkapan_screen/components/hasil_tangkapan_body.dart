@@ -83,7 +83,11 @@ class HasilTangkapanBody extends StatelessWidget {
                 press: () async {
                   await jenisIkanProvider.getJenisIkan();
                   await jenisPengerjaanIkanProvider.getJenisPengerjaanIkan();
-                  Get.toNamed("/hasil-tangkapan-nelayan/tambah-ikan");
+                  Get.toNamed("/hasil-tangkapan-nelayan/tambah-ikan",
+                      arguments: [
+                        {'isEdit': false},
+                        {'hasilTangkapan': 'none'}
+                      ]);
                 },
                 isInfinity: false,
                 color1: kColorLightkPurple,

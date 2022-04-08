@@ -9,6 +9,8 @@ class HeaderMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
+    TransactionProvider transactionProvider =
+        Provider.of<TransactionProvider>(context);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -45,17 +47,22 @@ class HeaderMenu extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
+              authProvider.user.role != 'nelayan'
+                  ? GestureDetector(
+                      onTap: () async {
+                        await transactionProvider.getAllTransaction();
+                        Get.toNamed("/notifikasi");
+                      },
+                      child: SvgPicture.asset('assets/icons/alarm.svg'),
+                    )
+                  : SizedBox(),
               GestureDetector(
-                  onTap: () {
-                    Get.toNamed("/chat");
-                  },
-                  child: SvgPicture.asset('assets/icons/alarm.svg')),
-              GestureDetector(
-                  onTap: () async {
-                    await authProvider.getWithRole();
-                    Get.toNamed("/chat");
-                  },
-                  child: SvgPicture.asset('assets/icons/chat.svg')),
+                onTap: () async {
+                  await authProvider.getWithRole();
+                  Get.toNamed("/chat");
+                },
+                child: SvgPicture.asset('assets/icons/chat.svg'),
+              ),
               authProvider.user.role.toString() == 'nelayan'
                   ? GestureDetector(
                       child: SvgPicture.asset('assets/icons/info.svg'),

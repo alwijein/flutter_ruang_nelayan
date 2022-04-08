@@ -116,7 +116,10 @@ class CardLaporanHarian extends StatelessWidget {
               DateTime.parse(laporanHarianModel.createdAt.toString())));
           await hasilTangkapanProvider.getWithDate(FormatDate.formatDateBasic(
               DateTime.parse(laporanHarianModel.createdAt.toString())));
-          await transactionProvider.getTransaction('SUDAH DI KONFIRMASI');
+          await transactionProvider.getTransactionWithDate(
+              'SUDAH DI KONFIRMASI',
+              FormatDate.formatDateBasic(
+                  DateTime.parse(laporanHarianModel.createdAt.toString())));
           Get.toNamed(
             '/laporan-harian-nelayan/detail',
             arguments: {

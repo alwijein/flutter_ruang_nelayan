@@ -2,10 +2,10 @@ import 'dart:io';
 
 import 'package:flutter_ruang_nelayan/boostrap.dart';
 import 'package:flutter_ruang_nelayan/controllers/counter_controller.dart';
+import 'package:flutter_ruang_nelayan/models/hasil_tangkapan_model.dart';
 import 'package:flutter_ruang_nelayan/models/jasa_pengerjaan_model.dart';
 import 'package:flutter_ruang_nelayan/models/jenis_ikan_model.dart';
 import 'package:flutter_ruang_nelayan/providers/auth_provider.dart';
-import 'package:flutter_ruang_nelayan/providers/hasil_tangkapan_provider.dart';
 import 'package:flutter_ruang_nelayan/providers/jenis_ikan_provider.dart';
 import 'package:flutter_ruang_nelayan/providers/jenis_pengerjaan_ikan.dart';
 import 'package:flutter_ruang_nelayan/providers/laporan_harian_provider.dart';
@@ -14,37 +14,35 @@ import 'package:image_picker/image_picker.dart';
 import 'package:get_storage/get_storage.dart';
 
 class TambahIkanBody extends StatefulWidget {
-  const TambahIkanBody({Key? key}) : super(key: key);
+  TambahIkanBody({Key? key}) : super(key: key);
 
   @override
   _TambahIkanBodyState createState() => _TambahIkanBodyState();
 }
 
 class _TambahIkanBodyState extends State<TambahIkanBody> {
-  TextEditingController namaIkan = TextEditingController();
-  TextEditingController jenisIkan = TextEditingController();
-  TextEditingController jenisPengerjaan = TextEditingController();
-  TextEditingController harga = TextEditingController();
-
   bool isLoading = false;
   bool showPass = true;
 
+  var isEdit = Get.arguments[0]['isEdit'];
+
   final List<String> errors = ["Register Failed"];
 
-  int? idJenisIkan;
-  int? idJenisPengerjaanIkan;
   File? file;
 
   final _formKey = GlobalKey<FormState>();
 
   final GetStorage loginState = GetStorage();
 
+  int? idJenisIkan;
+  int? idJenisPengerjaanIkan;
+  late HasilTangkapanModel hasilTangkapanModel;
+
   @override
   Widget build(BuildContext context) {
-    HasilTangkapanServices hasilTangkapanServices = HasilTangkapanServices();
     CounterController counterController = Get.put(CounterController());
-    HasilTangkapanProvider hasilTangkapanProvider =
-        Provider.of<HasilTangkapanProvider>(context);
+
+    HasilTangkapanServices hasilTangkapanServices = HasilTangkapanServices();
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
 
     String toDayDate = FormatDate.formatDate(DateTime.now()).toString();
@@ -61,6 +59,26 @@ class _TambahIkanBodyState extends State<TambahIkanBody> {
         Provider.of<JenisPengerjaanIkanProvider>(context);
     List<JasaPengerjaanModel> jenisPengerjaanIkanModel =
         jenisPengerjaanIkanProvider.jenisPengerjaanIkan;
+
+    TextEditingController namaIkan = TextEditingController();
+    TextEditingController jenisIkan = TextEditingController();
+    TextEditingController jenisPengerjaan = TextEditingController();
+    TextEditingController harga = TextEditingController();
+
+    if (isEdit) {
+      hasilTangkapanModel = Get.arguments[1]['hasilTangkapan'];
+      namaIkan = TextEditingController(text: hasilTangkapanModel.namaIkan);
+      jenisIkan =
+          TextEditingController(text: hasilTangkapanModel.jenisIkan.toString());
+      jenisPengerjaan = TextEditingController(
+          text: hasilTangkapanModel.jenisPengerjaanIkan.toString());
+      harga = TextEditingController(text: hasilTangkapanModel.harga.toString());
+
+      counterController.jumlah.value = hasilTangkapanModel.jumlah!;
+
+      idJenisIkan = hasilTangkapanModel.idJenisIkan;
+      idJenisPengerjaanIkan = hasilTangkapanModel.idJasaPengerjaanIkan;
+    }
 
     return SingleChildScrollView(
       child: Padding(
@@ -96,7 +114,9 @@ class _TambahIkanBodyState extends State<TambahIkanBody> {
                 icon: Icons.water,
                 input: jenisIkan,
                 jenisIkanModel: jenisIkanModel,
-                hintText: 'Pilih Jenis Ikan',
+                hintText: isEdit
+                    ? hasilTangkapanModel.jenisIkan!.jenisIkan.toString()
+                    : 'Pilih Jenis Ikan',
                 selected: idJenisIkan,
               ),
               SizedBox(
@@ -221,7 +241,10 @@ class _TambahIkanBodyState extends State<TambahIkanBody> {
                 icon: Icons.kitesurfing_sharp,
                 input: jenisPengerjaan,
                 jasaPengerjaanIkan: jenisPengerjaanIkanModel,
-                hintText: 'Pilih Jenis Pengerjaan Ikan',
+                hintText: isEdit
+                    ? hasilTangkapanModel.jenisPengerjaanIkan!.jenisPengerjaan
+                        .toString()
+                    : 'Pilih Jenis Pengerjaan Ikan',
                 selected: idJenisPengerjaanIkan,
               ),
               SizedBox(
@@ -280,6 +303,10 @@ class _TambahIkanBodyState extends State<TambahIkanBody> {
                               });
                             }
                             if (errors.length == 1) {
+                              isEdit
+                                  ? file = await getImageOld(
+                                      hasilTangkapanModel.gambar.toString())
+                                  : file = file;
                               await hasilTangkapanServices.tambahHasilTangkapan(
                                 idUsers: authProvider.user.id!,
                                 namaIkan: namaIkan.text,
@@ -454,4 +481,8 @@ Future<File?> getImage() async {
   XFile? selectImage =
       await _picker.pickImage(source: ImageSource.gallery, imageQuality: 30);
   return File(selectImage!.path);
+}
+
+Future<File?> getImageOld(String path) async {
+  return File(path);
 }

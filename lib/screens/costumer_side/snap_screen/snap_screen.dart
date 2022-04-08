@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter_ruang_nelayan/boostrap.dart';
+import 'package:flutter_ruang_nelayan/controllers/state_controller.dart';
 import 'package:flutter_ruang_nelayan/providers/cart_provider.dart';
+import 'package:flutter_ruang_nelayan/providers/hasil_tangkapan_provider.dart';
 import 'package:flutter_ruang_nelayan/providers/transaction_provider.dart';
 import 'dart:io' show Platform;
 import 'package:webview_flutter/webview_flutter.dart';
@@ -16,6 +18,8 @@ class SnapScreen extends StatefulWidget {
 class _SnapScreenState extends State<SnapScreen> {
   WebViewController? webViewController;
   bool _isLoading = false;
+
+  StateController stateController = Get.put(StateController());
 
   var token = Get.arguments[0]['token'];
   var carts = Get.arguments[1]['carts'];
@@ -184,12 +188,12 @@ class _SnapScreenState extends State<SnapScreen> {
         Get.snackbar('success', 'success');
       else
         _showConfirmDialog(title, desc);
-    } catch (e) {
-      Get.snackbar('gagal', 'gagal');
-    }
+    } catch (e) {}
   }
 
   void _showConfirmDialog(title, desc) async {
+    HasilTangkapanProvider hasilTangkapanProvider =
+        Provider.of<HasilTangkapanProvider>(context, listen: false);
     await showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -200,7 +204,7 @@ class _SnapScreenState extends State<SnapScreen> {
         TransactionProvider transactionProvider =
             Provider.of<TransactionProvider>(context);
         CartProvider cartProvider = Provider.of<CartProvider>(context);
-        return Container(
+        return SizedBox(
           height: 250,
           child: Padding(
             padding: const EdgeInsets.all(10),
@@ -244,10 +248,13 @@ class _SnapScreenState extends State<SnapScreen> {
                       alamat,
                       total_jasa,
                       ongkos_kirim,
-                      id_jasa_pengantaran,
+                      'E-Pay',
+                      int.parse(id_jasa_pengantaran.toString()),
                     )) {
                       cartProvider.carts = [];
-                      Get.offNamed('home-costumer');
+                      stateController.isReset();
+                      await hasilTangkapanProvider.getAllHasilTangkapan();
+                      await Get.offNamed('home-costumer');
                     }
                   },
                 )

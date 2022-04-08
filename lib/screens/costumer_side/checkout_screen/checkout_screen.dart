@@ -4,6 +4,7 @@ import 'package:flutter_ruang_nelayan/models/jasa_pengantaran_model.dart';
 import 'package:flutter_ruang_nelayan/models/jenis_ikan_model.dart';
 import 'package:flutter_ruang_nelayan/providers/auth_provider.dart';
 import 'package:flutter_ruang_nelayan/providers/cart_provider.dart';
+import 'package:flutter_ruang_nelayan/providers/hasil_tangkapan_provider.dart';
 import 'package:flutter_ruang_nelayan/providers/jasa_pengantaran_provider.dart';
 import 'package:flutter_ruang_nelayan/providers/transaction_provider.dart';
 import 'package:get/get.dart';
@@ -15,13 +16,12 @@ class CheckoutScreen extends StatefulWidget {
 
 enum SingingCharacter { ambilSendiri, pengataran }
 
-int selectedValue = 0;
-
-double biaya = 0;
-
 class _CheckoutScreenState extends State<CheckoutScreen> {
   bool isLoading = false;
+  bool isCod = false;
+  int selectedValue = 0;
 
+  double biaya = 0;
   SingingCharacter? _character = SingingCharacter.ambilSendiri;
 
   @override
@@ -43,29 +43,57 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
     TextEditingController jenisIkan = TextEditingController();
 
+    HasilTangkapanProvider hasilTangkapanProvider =
+        Provider.of<HasilTangkapanProvider>(context);
+
     handleCheckout() async {
       setState(() {
         isLoading = true;
       });
-      String token = await transactionService.getToken(
-        cartProvider.totalPrice() +
-            cartProvider.totalJasa() +
-            jasaPengantaranProvider.biaya,
-      );
 
-      Get.toNamed(
-        'snap',
-        arguments: [
-          {'token': token},
-          {'carts': cartProvider.carts},
-          {'total_harga': cartProvider.totalPrice()},
-          {'alamat': authProvider.user.alamat.toString()},
-          {'total_jasa': cartProvider.totalJasa()},
-          {'ongkos_kirim': jasaPengantaranProvider.biaya},
-          {'id_jasa_pengantaran': selectedValue},
-          {'id_nelayan': cartProvider.carts[0].hasilTangkapanModel!.users!.id},
-        ],
-      );
+      if (isCod) {
+        print('Success' + selectedValue.toString());
+        if (await transactionProvider.checkout(
+          cartProvider.carts,
+          int.parse(
+              cartProvider.carts[0].hasilTangkapanModel!.users!.id.toString()),
+          (cartProvider.totalPrice() +
+              cartProvider.totalJasa() +
+              jasaPengantaranProvider.biaya),
+          authProvider.user.alamat.toString(),
+          cartProvider.totalJasa(),
+          jasaPengantaranProvider.biaya,
+          'Cash or Delivery',
+          selectedValue,
+        )) {
+          stateController.isReset();
+          cartProvider.carts = [];
+          await hasilTangkapanProvider.getAllHasilTangkapan();
+          await Get.offNamed('home-costumer');
+        }
+      } else {
+        String token = await transactionService.getToken(
+          cartProvider.totalPrice() +
+              cartProvider.totalJasa() +
+              jasaPengantaranProvider.biaya,
+        );
+
+        Get.toNamed(
+          'snap',
+          arguments: [
+            {'token': token},
+            {'carts': cartProvider.carts},
+            {'total_harga': cartProvider.totalPrice()},
+            {'alamat': authProvider.user.alamat.toString()},
+            {'total_jasa': cartProvider.totalJasa()},
+            {'ongkos_kirim': jasaPengantaranProvider.biaya},
+            {'id_jasa_pengantaran': selectedValue},
+            {
+              'id_nelayan': cartProvider.carts[0].hasilTangkapanModel!.users!.id
+            },
+          ],
+        );
+      }
 
       setState(() {
         isLoading = false;
@@ -259,6 +287,47 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             ),
           ),
 
+          // NOTE: OPSi PEMBAYARAN
+          Container(
+            margin: EdgeInsets.only(
+              top: getPropertionateScreenWidht(24),
+            ),
+            padding: EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: kBackgroundColor1,
+              borderRadius: BorderRadius.circular(12),
+              boxShadow: softShadow,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Methode Pemabayaran',
+                  style: primaryTextStyle.copyWith(
+                    fontSize: 16,
+                    fontWeight: medium,
+                  ),
+                ),
+                SizedBox(
+                  height: 12,
+                ),
+                Row(
+                  children: [
+                    Checkbox(
+                      value: isCod,
+                      onChanged: (value) {
+                        setState(() {
+                          isCod = value!;
+                        });
+                      },
+                    ),
+                    Text("Cash or Delivery (COD)"),
+                  ],
+                ),
+              ],
+            ),
+          ),
+
           // NOTE: PAYMENT SUMMARY
           Container(
             margin: EdgeInsets.only(
@@ -437,57 +506,60 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       body: content(),
     );
   }
-}
 
-TextFieldContainer buildJenisIkan({
-  required TextEditingController input,
-  required IconData icon,
-  required String hintText,
-  required int selected,
-  required List<JasaPengantaranModel> jasaPengantaran,
-  required JasaPengantaranProvider jasaPengantaranProvider,
-}) {
-  return TextFieldContainer(
-    isWrapSize: false,
-    child: DropdownButtonFormField2(
-      decoration: InputDecoration(
-        icon: Icon(
-          icon,
-          color: kPrimaryLightColor,
+  TextFieldContainer buildJenisIkan({
+    required TextEditingController input,
+    required IconData icon,
+    required String hintText,
+    required int selected,
+    required List<JasaPengantaranModel> jasaPengantaran,
+    required JasaPengantaranProvider jasaPengantaranProvider,
+  }) {
+    return TextFieldContainer(
+      isWrapSize: false,
+      child: DropdownButtonFormField2(
+        decoration: InputDecoration(
+          icon: Icon(
+            icon,
+            color: kPrimaryLightColor,
+          ),
+          border: InputBorder.none,
+          hintText: hintText,
+          hintStyle: subtitleTextStyle.copyWith(
+            fontSize: 14,
+          ),
         ),
-        border: InputBorder.none,
-        hintText: hintText,
-        hintStyle: subtitleTextStyle.copyWith(
-          fontSize: 14,
+        isExpanded: true,
+        icon: const Icon(
+          Icons.arrow_drop_down,
+          color: Colors.black45,
         ),
-      ),
-      isExpanded: true,
-      icon: const Icon(
-        Icons.arrow_drop_down,
-        color: Colors.black45,
-      ),
-      dropdownDecoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-      ),
-      items: jasaPengantaran
-          .map((item) => DropdownMenuItem<JasaPengantaranModel>(
-                value: item,
-                child: Text(
-                  item.name.toString(),
-                  style: const TextStyle(
-                    fontSize: 14,
+        dropdownDecoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        items: jasaPengantaran
+            .map((item) => DropdownMenuItem<JasaPengantaranModel>(
+                  value: item,
+                  child: Text(
+                    item.name.toString(),
+                    style: const TextStyle(
+                      fontSize: 14,
+                    ),
                   ),
-                ),
-                onTap: () {
-                  jasaPengantaranProvider.tambahBiaya(item.biaya ?? 0);
-                  selected = item.id!;
-                },
-              ))
-          .toList(),
-      onChanged: (value) {},
-      onSaved: (value) {
-        selectedValue = selected;
-      },
-    ),
-  );
+                  onTap: () {
+                    jasaPengantaranProvider.tambahBiaya(item.biaya ?? 0);
+                    selected = item.id!;
+                    selectedValue = item.id!;
+                  },
+                ))
+            .toList(),
+        onChanged: (value) {
+          print('test = ' + selected.toString());
+        },
+        onSaved: (value) {
+          selectedValue = selected;
+        },
+      ),
+    );
+  }
 }

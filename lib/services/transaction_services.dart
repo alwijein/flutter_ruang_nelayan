@@ -12,6 +12,7 @@ class TransactionServices {
     String alamat,
     double totalJasa,
     double ongkosKirim,
+    String pembayaran,
     int jasaPengantaran,
   ) async {
     var url = Uri.parse("$baseUrl/checkout");
@@ -32,6 +33,7 @@ class TransactionServices {
             )
             .toList(),
         'status': "PENDING",
+        'pembayaran': pembayaran,
         'total_pembayaran': totalPrice,
         'total_jasa': totalJasa,
         'ongkos_kirim': ongkosKirim,
@@ -89,6 +91,76 @@ class TransactionServices {
 
   Future<List<TransactionModel>> getTransaction(String status) async {
     var url = Uri.parse("$baseUrl/transaction?status=$status");
+
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': loginState.read('token').toString(),
+    };
+
+    var response = await http.get(
+      url,
+      headers: headers,
+    );
+
+    print('iniiii' + loginState.read('token').toString());
+
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      List data = jsonDecode(response.body)['data']['data'];
+
+      List<TransactionModel> transactionModel = [];
+
+      for (var item in data) {
+        transactionModel.add(TransactionModel.fromJson(item));
+      }
+
+      print('success');
+
+      return transactionModel;
+    } else {
+      throw Exception('User Gagal Diambil');
+    }
+  }
+
+  Future<List<TransactionModel>> getTransactionWithDate(
+      String status, String created_at) async {
+    var url =
+        Uri.parse("$baseUrl/transaction?status=$status&created_at=$created_at");
+
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': loginState.read('token').toString(),
+    };
+
+    var response = await http.get(
+      url,
+      headers: headers,
+    );
+
+    print('iniiii' + loginState.read('token').toString());
+
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      List data = jsonDecode(response.body)['data']['data'];
+
+      List<TransactionModel> transactionModel = [];
+
+      for (var item in data) {
+        transactionModel.add(TransactionModel.fromJson(item));
+      }
+
+      print('success');
+
+      return transactionModel;
+    } else {
+      throw Exception('User Gagal Diambil');
+    }
+  }
+
+  Future<List<TransactionModel>> getAllTransaction() async {
+    var url = Uri.parse("$baseUrl/transaction");
 
     var headers = {
       'Content-Type': 'application/json',

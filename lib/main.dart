@@ -15,6 +15,7 @@ import 'package:flutter_ruang_nelayan/screens/costumer_side/checkout_screen/chec
 import 'package:flutter_ruang_nelayan/screens/costumer_side/detail_ikan_screen/detail_ikan_screen.dart';
 import 'package:flutter_ruang_nelayan/screens/costumer_side/home_screen_costumer/home_screen_costumer.dart';
 import 'package:flutter_ruang_nelayan/screens/costumer_side/ikan_air_tawar_screen/ikan_air_tawar_screen.dart';
+import 'package:flutter_ruang_nelayan/screens/costumer_side/notifikasi_screen/notifikasi_screen.dart';
 import 'package:flutter_ruang_nelayan/screens/costumer_side/snap_screen/snap_screen.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/data_nelayan_screen/data_nelayan_screen.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/hasil_tangkapan_screen/hasil_tangkapan_screen.dart';
@@ -142,6 +143,8 @@ class MyApp extends StatelessWidget {
           GetPage(name: '/cart', page: () => CartScreen()),
           GetPage(name: '/checkout', page: () => CheckoutScreen()),
           GetPage(name: '/snap', page: () => SnapScreen()),
+
+          GetPage(name: '/notifikasi', page: () => NotifikasiScreen()),
         ],
       ),
     );

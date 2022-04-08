@@ -38,7 +38,7 @@ class HasilTangkapanServices {
   }
 
   Future<List<HasilTangkapanModel>> getAllHasilTangkapan() async {
-    var url = Uri.parse("$baseUrl/hasil-tangkapan");
+    var url = Uri.parse("$baseUrl/hasil-tangkapan?limit=6");
 
     var headers = {
       'Content-Type': 'application/json',
@@ -133,14 +133,15 @@ class HasilTangkapanServices {
     }
   }
 
-  Future<HasilTangkapanModel?> tambahHasilTangkapan(
-      {required int idUsers,
-      required String namaIkan,
-      required int idJenisIkan,
-      required int jumlah,
-      required double harga,
-      required File gambar,
-      required int idJasaPengerjaanIkan}) async {
+  Future<HasilTangkapanModel?> tambahHasilTangkapan({
+    required int idUsers,
+    required String namaIkan,
+    required int idJenisIkan,
+    required int jumlah,
+    required double harga,
+    required File gambar,
+    required int idJasaPengerjaanIkan,
+  }) async {
     String fileName = basename(gambar.path);
 
     firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance

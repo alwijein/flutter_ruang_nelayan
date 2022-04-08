@@ -1,5 +1,6 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
 import 'package:flutter_ruang_nelayan/models/hasil_tangkapan_model.dart';
+import 'package:flutter_ruang_nelayan/providers/cart_provider.dart';
 import 'package:flutter_ruang_nelayan/providers/hasil_tangkapan_provider.dart';
 import 'package:flutter_ruang_nelayan/providers/ikan_air_tawar_provider.dart';
 import 'package:get/get.dart';
@@ -184,6 +185,8 @@ class CardIkanTerbaru extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    CartProvider cartProvider = Provider.of<CartProvider>(context);
+
     return Container(
       padding: EdgeInsets.symmetric(
         vertical: getPropertionateScreenHeight(18),
@@ -264,7 +267,17 @@ class CardIkanTerbaru extends StatelessWidget {
                   ),
                 ],
               ),
-              press: () {}),
+              press: () {
+                cartProvider.addCart(hasilTangkapanModel);
+                Get.defaultDialog(
+                    title: 'Berhasil',
+                    middleText: 'Ikan Berhasil Dimasukkan Ke Keranjang',
+                    textConfirm: 'Lihat Keranjang',
+                    confirmTextColor: kWhiteTextColor,
+                    onConfirm: () {
+                      Get.offNamed('/cart');
+                    });
+              }),
         ],
       ),
     );

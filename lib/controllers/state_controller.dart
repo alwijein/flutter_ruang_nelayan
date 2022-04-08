@@ -8,6 +8,8 @@ class StateController extends GetxController {
 
   var isAmbilSendiri = true.obs;
 
+  void isReset() => isAmbilSendiri.value = true;
+
   void isLoading() => loading.value = true;
 
   void isNotLoading() => loading.value = false;

@@ -45,7 +45,9 @@ class BodyMenu extends StatelessWidget {
               color1: kColorLightkOrange,
               color2: kColorDarkOrange,
               press: () async {
-                await transactionProvider.getTransaction('PENDING');
+                await transactionProvider.getTransaction(
+                  'PENDING',
+                );
                 Get.toNamed('/konfirmasi-pesanan-nelayan');
               },
             ),
