@@ -41,6 +41,38 @@ class HasilTangkapanProvider with ChangeNotifier {
     }
   }
 
+  Future<bool> updateHasilTangkapan({
+    required int id,
+    required bool isEdit,
+    required int idUsers,
+    required String namaIkan,
+    required int idJenisIkan,
+    required int jumlah,
+    required double harga,
+    required File gambar,
+    required int idJasaPengerjaanIkan,
+  }) async {
+    try {
+      print('Succcccccccccessss===========-');
+      await HasilTangkapanServices().updateHasilTangkapan(
+        id: id,
+        isEdit: isEdit,
+        idUsers: idUsers,
+        namaIkan: namaIkan,
+        idJenisIkan: idJenisIkan,
+        jumlah: jumlah,
+        harga: harga,
+        gambar: gambar,
+        idJasaPengerjaanIkan: idJasaPengerjaanIkan,
+      );
+
+      return true;
+    } catch (e) {
+      print("Errornya = $e");
+      return false;
+    }
+  }
+
   Future<void> getHasilTangkapan(int idUsers) async {
     try {
       List<HasilTangkapanModel> hasilTangkapan =

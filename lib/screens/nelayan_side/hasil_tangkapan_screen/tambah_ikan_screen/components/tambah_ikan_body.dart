@@ -23,6 +23,7 @@ class TambahIkanBody extends StatefulWidget {
 class _TambahIkanBodyState extends State<TambahIkanBody> {
   bool isLoading = false;
   bool showPass = true;
+  bool isTouch = false;
 
   var isEdit = Get.arguments[0]['isEdit'];
 
@@ -210,6 +211,7 @@ class _TambahIkanBodyState extends State<TambahIkanBody> {
               GestureDetector(
                 onTap: () async {
                   file = await getImage();
+                  isTouch = true;
                 },
                 child: Container(
                   child: Column(
@@ -288,7 +290,7 @@ class _TambahIkanBodyState extends State<TambahIkanBody> {
                           width: 45,
                           isInfinity: false,
                           text: Text(
-                            'Daftar',
+                            isEdit ? 'Update' : 'Daftar',
                             style: whiteTextStyle.copyWith(
                               fontSize: 16,
                             ),
@@ -303,25 +305,45 @@ class _TambahIkanBodyState extends State<TambahIkanBody> {
                               });
                             }
                             if (errors.length == 1) {
-                              isEdit
-                                  ? file = await getImageOld(
-                                      hasilTangkapanModel.gambar.toString())
-                                  : file = file;
-                              await hasilTangkapanServices.tambahHasilTangkapan(
-                                idUsers: authProvider.user.id!,
-                                namaIkan: namaIkan.text,
-                                idJenisIkan: idJenisIkan!,
-                                jumlah: counterController.jumlah.value,
-                                harga: double.parse(harga.text),
-                                gambar: file!,
-                                idJasaPengerjaanIkan: idJenisPengerjaanIkan!,
-                              );
-                              if (toDayDate != loginState.read('lastVisit')) {
+                              if (isEdit) {
+                                if (!isTouch) {
+                                  file = await getImageOld(
+                                    hasilTangkapanModel.gambar.toString(),
+                                  );
+                                }
+                                await hasilTangkapanServices
+                                    .updateHasilTangkapan(
+                                  id: int.parse(
+                                      hasilTangkapanModel.id.toString()),
+                                  isEdit: isTouch,
+                                  idUsers: authProvider.user.id!,
+                                  namaIkan: namaIkan.text,
+                                  idJenisIkan: idJenisIkan!,
+                                  jumlah: counterController.jumlah.value,
+                                  harga: double.parse(harga.text),
+                                  gambar: file!,
+                                  idJasaPengerjaanIkan: idJenisPengerjaanIkan!,
+                                );
+                              } else {
+                                await hasilTangkapanServices
+                                    .tambahHasilTangkapan(
+                                  idUsers: authProvider.user.id!,
+                                  namaIkan: namaIkan.text,
+                                  idJenisIkan: idJenisIkan!,
+                                  jumlah: counterController.jumlah.value,
+                                  harga: double.parse(harga.text),
+                                  gambar: file!,
+                                  idJasaPengerjaanIkan: idJenisPengerjaanIkan!,
+                                );
+                              }
+
+                              if (toDayDate != loginState.read('lastVisit') &&
+                                  !isEdit) {
                                 await laporanHarianProvider.inputLaporan();
                                 loginState.write('lastVisit', toDayDate);
                               }
 
-                              Get.toNamed('/home-nelayan');
+                              Get.offAllNamed('/home-nelayan');
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
