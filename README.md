@@ -1,16 +1,39 @@
-# flutter_ruang_nelayan
 
-A new Flutter project.
+<h1 style="font-weight:normal">
+  <a href="https://github.com/alwijein/flutter_ruang_nelayan">
+    <img src=/assets/images/Logo.png alt="ruangnelayan" width=35>
+  </a>
+  &nbsp;Ruang Nelayan Apps&nbsp;
+</h1>
 
-## Getting Started
+Aplikasi penjualan ikan yang membantu menghubugnkan antara pembeli dan penjual yang di bangun di menggunakan framework [flutter](https://github.com/flutter/flutter), dengan memanfaatkan teknologi Cloud Messaging dari [Firebase](https://firebase.google.com/) dengan Menggunakan Laravel sebagai Backendnya.
+<br>
 
-This project is a starting point for a Flutter application.
+<p align="center">
+  <img alt="sergey" src="/assets/cover/cover.png">
+</p>
 
-A few resources to get you started if this is your first Flutter project:
+Build
+=====
+Untuk melakukan build pada projek ini anda di haruskan mempunyai flutter sdk v2 dan dart sdk
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+```
+# Clone this repository
+$ git clone https://github.com/alwijein/flutter_ruang_nelayan.git
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# Go into the repository
+$ cd flutter_ruang_nelayan
+
+# Get all the packages needed
+$ flutter pub get
+
+# Run the app
+$ flutter run
+
+# Or build for production
+$  flutter build apk --split-per-abi
+```
+
+License
+=======
+Sourcerer is under the MIT license. See the [LICENSE](https://github.com/sourcerer-io/sourcerer-app/blob/develop/LICENSE.md) for more information.
