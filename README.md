@@ -1,9 +1,6 @@
 
 <h1 style="font-weight:normal">
-  <a href="https://github.com/alwijein/flutter_ruang_nelayan">
-    <img src=/assets/images/Logo.png alt="ruangnelayan" width=35>
-  </a>
-  &nbsp;Ruang Nelayan Apps&nbsp;
+  Ruang Nelayan Apps
 </h1>
 
 Aplikasi penjualan ikan yang membantu menghubugnkan antara pembeli dan penjual yang di bangun di menggunakan framework [flutter](https://github.com/flutter/flutter), dengan memanfaatkan teknologi Cloud Messaging dari [Firebase](https://firebase.google.com/) dengan Menggunakan Laravel sebagai Backendnya.
