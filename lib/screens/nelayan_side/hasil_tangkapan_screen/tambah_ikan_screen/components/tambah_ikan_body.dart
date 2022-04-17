@@ -343,6 +343,18 @@ class _TambahIkanBodyState extends State<TambahIkanBody> {
                                 loginState.write('lastVisit', toDayDate);
                               }
 
+                              Get.snackbar(
+                                'Berhasil',
+                                isEdit
+                                    ? 'ikan berhasil di ubah'
+                                    : 'ikan berhasil di tambahkan',
+                                backgroundColor: kPrimaryColor,
+                                colorText: kWhiteTextColor,
+                                margin: EdgeInsets.symmetric(
+                                  vertical: getPropertionateScreenHeight(10),
+                                  horizontal: getPropertionateScreenHeight(24),
+                                ),
+                              );
                               Get.offAllNamed('/home-nelayan');
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
