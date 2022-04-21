@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter_ruang_nelayan/boostrap.dart';
 import 'package:flutter_ruang_nelayan/controllers/state_controller.dart';
 import 'package:flutter_ruang_nelayan/providers/auth_provider.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/data_nelayan_screen/components/avatar_profile.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 class DataNelayanBody extends StatelessWidget {
   const DataNelayanBody({Key? key}) : super(key: key);
@@ -95,6 +98,7 @@ class DataNelayanBody extends StatelessWidget {
                             name: authProvider.user.name ?? '',
                             noTelp: authProvider.user.noTelp ?? '',
                             alamat: authProvider.user.alamat ?? '',
+                            avatar: authProvider.user.avatar ?? '',
                           )),
                     ],
                   ),

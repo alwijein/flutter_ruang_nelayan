@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter_ruang_nelayan/boostrap.dart';
 import 'package:flutter_ruang_nelayan/controllers/state_controller.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/data_nelayan_screen/components/edit_data_form.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AvatarProfile extends StatelessWidget {
   const AvatarProfile({
@@ -10,7 +13,7 @@ class AvatarProfile extends StatelessWidget {
     required this.noTelp,
     required this.alamat,
     required this.isEdit,
-    this.avatar = 'assets/images/logo.png',
+    required this.avatar,
   }) : super(key: key);
 
   final String avatar, name, noTelp, alamat;
@@ -18,6 +21,7 @@ class AvatarProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    File? file;
     StateController stateController = Get.find();
     return Padding(
       padding: EdgeInsets.symmetric(
@@ -31,9 +35,9 @@ class AvatarProfile extends StatelessWidget {
               Column(
                 children: [
                   CircleAvatar(
-                    backgroundImage: AssetImage(
-                      'assets/images/logo.png',
-                    ),
+                    // backgroundImage: NetworkImage(
+                    //   avatar,
+                    // ),
                     radius: getPropertionateScreenWidht(30),
                   ),
                   isEdit
@@ -45,7 +49,11 @@ class AvatarProfile extends StatelessWidget {
                               fontSize: 11,
                             ),
                           ),
-                          press: () {},
+                          press: () async {
+                            print("sebelum " + file.toString());
+                            file = await getImage();
+                            print("sesudah" + file.toString());
+                          },
                           isInfinity: false,
                           color1: kColorLightkGreen,
                           color2: kColorDarkGreen,
@@ -104,9 +112,20 @@ class AvatarProfile extends StatelessWidget {
               ),
             ],
           ),
-          isEdit ? EditDataForm() : SizedBox(),
+          isEdit
+              ? EditDataForm(
+                  file: file ?? File(avatar),
+                )
+              : SizedBox(),
         ],
       ),
     );
+  }
+
+  Future<File?> getImage() async {
+    ImagePicker _picker = ImagePicker();
+    XFile? selectImage =
+        await _picker.pickImage(source: ImageSource.gallery, imageQuality: 30);
+    return File(selectImage!.path);
   }
 }

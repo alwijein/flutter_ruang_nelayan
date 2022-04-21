@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_ruang_nelayan/boostrap.dart';
 import 'package:flutter_ruang_nelayan/models/user_model.dart';
 import 'package:flutter/services.dart';
@@ -106,6 +108,7 @@ class AuthProvider with ChangeNotifier {
     required String name,
     required String noTelp,
     required String alamat,
+    required File avatar,
   }) async {
     try {
       print('Succcccccccccessss===========-');
@@ -113,6 +116,7 @@ class AuthProvider with ChangeNotifier {
         name: name,
         noTelp: noTelp,
         alamat: alamat,
+        avatar: avatar,
       );
 
       print("ini user na user");

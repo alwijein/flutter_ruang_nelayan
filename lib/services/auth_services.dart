@@ -22,8 +22,8 @@ class AuthServices {
       'no_hp': noTelp,
       'password': password,
       'role': role,
-      // 'alamat': '',
-      // 'avatar': 'https://ui-avatars.com/api/?name',
+      'alamat': '',
+      'avatar': 'assets/images/default_person.png',
     });
 
     var response = await http.post(
@@ -86,6 +86,7 @@ class AuthServices {
     required String name,
     required String noTelp,
     required String alamat,
+    required File avatar,
   }) async {
     var url = Uri.parse("$baseUrl/user");
 
@@ -98,6 +99,7 @@ class AuthServices {
       'name': name,
       'no_hp': noTelp,
       'alamat': alamat,
+      'avatar': avatar,
     });
 
     var response = await http.post(

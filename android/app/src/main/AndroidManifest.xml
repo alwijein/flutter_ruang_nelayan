@@ -4,7 +4,7 @@
    <application
         android:label="flutter_ruang_nelayan"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
         
         <activity
             android:name=".MainActivity"

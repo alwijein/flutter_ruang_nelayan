@@ -1,11 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter_ruang_nelayan/boostrap.dart';
 import 'package:flutter_ruang_nelayan/controllers/state_controller.dart';
 import 'package:flutter_ruang_nelayan/providers/auth_provider.dart';
 import 'package:get/get.dart';
 
 class EditDataForm extends StatelessWidget {
-  const EditDataForm({Key? key}) : super(key: key);
+  const EditDataForm({Key? key, required this.file}) : super(key: key);
 
+  final File file;
   @override
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
@@ -102,6 +105,7 @@ class EditDataForm extends StatelessWidget {
                             name: name.text,
                             noTelp: nomorTelp.text,
                             alamat: alamat.text,
+                            avatar: file,
                           );
                           stateController.isNotLoading();
                           stateController.editProfile();

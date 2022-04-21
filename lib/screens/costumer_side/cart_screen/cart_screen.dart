@@ -32,7 +32,7 @@ class CartScreen extends StatelessWidget {
               height: 20,
             ),
             Text(
-              'Opss! Your Cart is Empty',
+              'Opss! Troli masih kosong',
               style: primaryTextStyle.copyWith(
                 fontSize: 16,
                 fontWeight: medium,
@@ -42,7 +42,7 @@ class CartScreen extends StatelessWidget {
               height: 12,
             ),
             Text(
-              'Let\'s find your favorite shoes',
+              'Ayo cari ikan yang anda suka',
               style: secondaryTextStyle,
             ),
             Container(
