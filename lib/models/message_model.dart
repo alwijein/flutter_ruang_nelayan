@@ -1,5 +1,3 @@
-import 'package:flutter_ruang_nelayan/models/hasil_tangkapan_model.dart';
-
 class MessageModel {
   String? message;
   int? userId;

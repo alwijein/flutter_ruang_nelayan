@@ -88,6 +88,20 @@ class AuthServices {
     required String alamat,
     required File avatar,
   }) async {
+    String fileName = basename(avatar.path);
+
+    firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance
+        .ref()
+        .child('Foto Profile')
+        .child(fileName);
+
+    firebase_storage.UploadTask uploadTask = ref.putFile(avatar);
+
+    firebase_storage.TaskSnapshot snapshot =
+        await uploadTask.whenComplete(() => null);
+
+    String imageUrl = await ref.getDownloadURL();
+
     var url = Uri.parse("$baseUrl/user");
 
     var headers = {
@@ -99,7 +113,7 @@ class AuthServices {
       'name': name,
       'no_hp': noTelp,
       'alamat': alamat,
-      'avatar': avatar,
+      'avatar': imageUrl,
     });
 
     var response = await http.post(

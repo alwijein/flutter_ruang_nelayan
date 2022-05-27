@@ -72,7 +72,9 @@ class _LoginFormState extends State<LoginForm> {
                   press: () {})
               : DefaultButton(
                   text: Text(
-                    'Masuk',
+                    role.read('role').toString() == 'nelayan'
+                        ? 'Masuk Sebagai Nelayan'
+                        : 'Masuk Sebagai Pembeli',
                     style: whiteTextStyle.copyWith(
                       fontSize: 16,
                     ),

@@ -211,22 +211,22 @@ class _TambahIkanBodyState extends State<TambahIkanBody> {
               GestureDetector(
                 onTap: () async {
                   file = await getImage();
+                  Get.snackbar('Success', 'Gambar Berhasil Di Upload',
+                      backgroundColor: kGreenColor.withOpacity(0.7));
                   isTouch = true;
                 },
-                child: Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Upload Gambar Ikan',
-                        style: subtitleTextStyle,
-                      ),
-                      SizedBox(
-                        height: getPropertionateScreenHeight(10),
-                      ),
-                      SvgPicture.asset('assets/icons/add_form_icon.svg'),
-                    ],
-                  ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Upload Gambar Ikan',
+                      style: subtitleTextStyle,
+                    ),
+                    SizedBox(
+                      height: getPropertionateScreenHeight(10),
+                    ),
+                    SvgPicture.asset('assets/icons/add_form_icon.svg'),
+                  ],
                 ),
               ),
               SizedBox(

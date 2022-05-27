@@ -1,14 +1,14 @@
-class IkanAirTawarModel {
+class TipeIkanModel {
   int? id;
   String? img, title;
 
-  IkanAirTawarModel({
+  TipeIkanModel({
     this.id,
     this.img,
     this.title,
   });
 
-  IkanAirTawarModel.fromJson(Map<String, dynamic> json) {
+  TipeIkanModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     img = json['img'];
     title = json['title'];

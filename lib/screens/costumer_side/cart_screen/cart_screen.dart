@@ -106,7 +106,10 @@ class CartScreen extends StatelessWidget {
                     style: primaryTextStyle,
                   ),
                   Text(
-                    '${cartProvider.totalPrice()}',
+                    formatCurrency
+                        .format(cartProvider.totalPrice())
+                        .toString()
+                        .replaceAll(regex, ''),
                     style: priceTextStyle.copyWith(
                       fontSize: 16,
                       fontWeight: semiBold,
@@ -115,14 +118,14 @@ class CartScreen extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
-            Divider(
+            const Divider(
               thickness: 0.3,
               color: kSubtitleTextColor,
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             Container(
@@ -136,7 +139,7 @@ class CartScreen extends StatelessWidget {
                 },
                 style: TextButton.styleFrom(
                   backgroundColor: kPrimaryColor,
-                  padding: EdgeInsets.symmetric(
+                  padding: const EdgeInsets.symmetric(
                     horizontal: 20,
                   ),
                   shape: RoundedRectangleBorder(
@@ -153,7 +156,7 @@ class CartScreen extends StatelessWidget {
                         fontWeight: semiBold,
                       ),
                     ),
-                    Icon(
+                    const Icon(
                       Icons.arrow_forward,
                       color: kBackgroundColor1,
                     ),

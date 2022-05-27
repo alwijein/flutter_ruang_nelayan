@@ -37,10 +37,6 @@ class DetailKonfirmasiPesananBody extends StatelessWidget {
               ),
               AlamatPengantaran(
                 alamat: transactionModel.user!.alamat.toString(),
-                jalan:
-                    'Jl. G. Bawakaraeng No. 68, Kec. Sinjai Utara, Kel. Balangnipa',
-                kota: 'Sinjai',
-                kabupaten: 'Sulawesi Selatan',
               ),
               CollapseCard(
                 content: [
@@ -78,7 +74,7 @@ class DetailKonfirmasiPesananBody extends StatelessWidget {
                         style: primaryLightTextStyle.copyWith(fontWeight: bold),
                       ),
                     ],
-                  )
+                  ),
                 ],
               ),
               SizedBox(

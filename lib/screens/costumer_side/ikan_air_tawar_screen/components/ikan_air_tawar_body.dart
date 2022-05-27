@@ -1,7 +1,7 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
-import 'package:flutter_ruang_nelayan/models/ikan_air_tawar_model.dart';
+import 'package:flutter_ruang_nelayan/models/tipe_ikan_model.dart';
 import 'package:flutter_ruang_nelayan/providers/hasil_tangkapan_provider.dart';
-import 'package:flutter_ruang_nelayan/providers/ikan_air_tawar_provider.dart';
+import 'package:flutter_ruang_nelayan/providers/tipe_ikan_provider.dart';
 import 'package:get/get.dart';
 
 class IkanAirTawarBody extends StatelessWidget {
@@ -9,10 +9,9 @@ class IkanAirTawarBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    IkanAirTawarProvider ikanAirTawarProvider =
-        Provider.of<IkanAirTawarProvider>(context);
+    TipeIkanProvider tipeIkanProvider = Provider.of<TipeIkanProvider>(context);
 
-    List<IkanAirTawarModel> ikanAirTawar = ikanAirTawarProvider.ikanAirTawar;
+    List<TipeIkanModel> tipeIkan = tipeIkanProvider.tipeIkan;
 
     HasilTangkapanProvider hasilTangkapanProvider =
         Provider.of<HasilTangkapanProvider>(context);
@@ -25,7 +24,7 @@ class IkanAirTawarBody extends StatelessWidget {
         ),
         width: double.infinity,
         child: GridView.builder(
-            itemCount: ikanAirTawar.length,
+            itemCount: tipeIkan.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               childAspectRatio: 0.8,
@@ -60,7 +59,7 @@ class IkanAirTawarBody extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      ikanAirTawar[count].title.toString(),
+                      tipeIkan[count].title.toString(),
                       style: primaryLightTextStyle.copyWith(
                         fontWeight: bold,
                       ),
@@ -84,8 +83,8 @@ class IkanAirTawarBody extends StatelessWidget {
                         ],
                       ),
                       press: () async {
-                        await hasilTangkapanProvider.getNamaIkan(
-                            ikanAirTawar[count].title!.toLowerCase());
+                        await hasilTangkapanProvider
+                            .getNamaIkan(tipeIkan[count].title!.toLowerCase());
                         Get.toNamed("/detail-ikan");
                       },
                     ),

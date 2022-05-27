@@ -18,7 +18,6 @@ class _DetailChatScreenState extends State<DetailChatScreen> {
   Widget build(BuildContext context) {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
     UserModel nelayan = Get.arguments['nelayan'];
-    print(nelayan);
 
     handleAddMessage() async {
       await MessageService().addMessage(

@@ -94,7 +94,10 @@ class CardIkan extends StatelessWidget {
                     ),
                     children: [
                       TextSpan(
-                          text: "Rp${cartModel.hasilTangkapanModel!.harga}",
+                          text: formatCurrency
+                              .format(cartModel.hasilTangkapanModel!.harga)
+                              .toString()
+                              .replaceAll(regex, ''),
                           style: primaryTextStyle.copyWith(
                             fontWeight: bold,
                             fontSize: 11,

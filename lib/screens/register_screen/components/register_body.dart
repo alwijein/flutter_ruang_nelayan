@@ -1,12 +1,14 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
 import 'package:flutter_ruang_nelayan/screens/register_screen/components/register_form.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class RegisterBody extends StatelessWidget {
   const RegisterBody({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    GetStorage role = GetStorage();
     return SafeArea(
       child: SizedBox(
         width: double.infinity,
@@ -31,7 +33,9 @@ class RegisterBody extends StatelessWidget {
                   Expanded(
                     flex: 1,
                     child: Text(
-                      'Mulai Sebagai Nelayan Sukses Sekarang',
+                      role.read('role').toString() == 'nelayan'
+                          ? 'Mulai Sebagai Nelayan Sukses Sekarang'
+                          : 'Ayo Langganan Sekarang',
                       style: whiteTextStyle.copyWith(
                         fontWeight: medium,
                         fontSize: 18,

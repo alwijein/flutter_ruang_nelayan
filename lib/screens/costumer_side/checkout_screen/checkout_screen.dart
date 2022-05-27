@@ -173,20 +173,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           ),
                         ),
                         Text(
-                          'Jl. Gunugn Bawakaraeng',
-                          style: primaryTextStyle.copyWith(
-                            fontWeight: medium,
-                          ),
-                        ),
-                        Text(
-                          'Sinjai',
-                          style: secondaryTextStyle.copyWith(
-                            fontSize: 12,
-                            fontWeight: light,
-                          ),
-                        ),
-                        Text(
-                          'Sulawesi Selatan',
+                          authProvider.user.alamat ?? 'Belum Di Tambahkan',
                           style: primaryTextStyle.copyWith(
                             fontWeight: medium,
                           ),

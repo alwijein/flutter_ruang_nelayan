@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:get/get.dart';
 
 class StateController extends GetxController {
@@ -7,6 +9,16 @@ class StateController extends GetxController {
   var loading = false.obs;
 
   var isAmbilSendiri = true.obs;
+
+  var file = File('').obs;
+
+  void setFile(File file) {
+    this.file.value = file;
+  }
+
+  // File getFile() {
+  //   return this.file.value;
+  // }
 
   void isReset() => isAmbilSendiri.value = true;
 

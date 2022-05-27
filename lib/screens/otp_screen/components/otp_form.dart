@@ -281,7 +281,8 @@ class _OtpFormState extends State<OtpForm> {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           backgroundColor: Colors.red,
-                          content: Text('Register Gagal'),
+                          content: Text(
+                              'Otp Salah Atau Nomor Telepon Sudah Digunakan Mohon Untuk Diperiksa Kembali'),
                         ),
                       );
                     }

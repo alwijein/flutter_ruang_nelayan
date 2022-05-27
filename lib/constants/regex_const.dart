@@ -12,3 +12,7 @@ const String kNamelNullError = "Nama Tidak Boleh Kosong";
 const String kNoKtpNullError = "Nik Ktp Tidak Boleh Kosong";
 const String kIsNotAdmin = "Anda Bukan Admin Silahkan Login Di User";
 const String kIsNotUser = "Anda Bukan User Silahkan Login Di Admin";
+
+final RegExp regex = RegExp(r'([.]*.00)(?!.*\d)');
+
+final formatCurrency = NumberFormat.simpleCurrency(locale: 'id_ID');
