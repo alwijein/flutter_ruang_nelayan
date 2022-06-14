@@ -26,3 +26,5 @@ part 'cart_card.dart';
 part 'checkout_card.dart';
 part 'chat_tile.dart';
 part 'chat_bubble.dart';
+part 'iconbutton_reddot_notification_widget.dart';
+part 'modal_image.dart';

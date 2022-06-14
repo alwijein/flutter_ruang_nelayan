@@ -6,9 +6,10 @@ import 'package:flutter_ruang_nelayan/providers/auth_provider.dart';
 import 'package:get/get.dart';
 
 class EditDataForm extends StatelessWidget {
-  const EditDataForm({Key? key, required this.file}) : super(key: key);
+  const EditDataForm({
+    Key? key,
+  }) : super(key: key);
 
-  final File file;
   @override
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
@@ -101,14 +102,18 @@ class EditDataForm extends StatelessWidget {
                       press: () async {
                         stateController.isLoading();
                         if (errors.isEmpty) {
-                          await authProvider.updateProfile(
+                          File avatar = stateController.file.value;
+                          print(avatar);
+                          if (await authProvider.updateProfile(
+                            authProvider.user.avatar.toString(),
                             name: name.text,
                             noTelp: nomorTelp.text,
                             alamat: alamat.text,
-                            avatar: file,
-                          );
-                          stateController.isNotLoading();
-                          stateController.editProfile();
+                            avatar: avatar,
+                          )) {
+                            stateController.isNotLoading();
+                            stateController.editProfile();
+                          }
                         } else {
                           stateController.isNotLoading();
 

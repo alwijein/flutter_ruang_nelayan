@@ -23,7 +23,6 @@ class HasilTangkapanProvider with ChangeNotifier {
     required int idJasaPengerjaanIkan,
   }) async {
     try {
-      print('Succcccccccccessss===========-');
       await HasilTangkapanServices().tambahHasilTangkapan(
         idUsers: idUsers,
         namaIkan: namaIkan,
@@ -36,7 +35,6 @@ class HasilTangkapanProvider with ChangeNotifier {
 
       return true;
     } catch (e) {
-      print("Errornya = $e");
       return false;
     }
   }
@@ -53,7 +51,6 @@ class HasilTangkapanProvider with ChangeNotifier {
     required int idJasaPengerjaanIkan,
   }) async {
     try {
-      print('Succcccccccccessss===========-');
       await HasilTangkapanServices().updateHasilTangkapan(
         id: id,
         isEdit: isEdit,
@@ -68,7 +65,6 @@ class HasilTangkapanProvider with ChangeNotifier {
 
       return true;
     } catch (e) {
-      print("Errornya = $e");
       return false;
     }
   }

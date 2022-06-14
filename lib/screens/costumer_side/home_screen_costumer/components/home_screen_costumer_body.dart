@@ -2,7 +2,7 @@ import 'package:flutter_ruang_nelayan/boostrap.dart';
 import 'package:flutter_ruang_nelayan/models/hasil_tangkapan_model.dart';
 import 'package:flutter_ruang_nelayan/providers/cart_provider.dart';
 import 'package:flutter_ruang_nelayan/providers/hasil_tangkapan_provider.dart';
-import 'package:flutter_ruang_nelayan/providers/ikan_air_tawar_provider.dart';
+import 'package:flutter_ruang_nelayan/providers/tipe_ikan_provider.dart';
 import 'package:get/get.dart';
 
 class HomeScreenCostumerBody extends StatelessWidget {
@@ -31,8 +31,7 @@ class HomeScreenCostumerBody extends StatelessWidget {
       },
     ];
 
-    IkanAirTawarProvider ikanAirTawarProvider =
-        Provider.of<IkanAirTawarProvider>(context);
+    TipeIkanProvider tipeIkanProvider = Provider.of<TipeIkanProvider>(context);
 
     return SafeArea(
       child: SizedBox(
@@ -102,7 +101,7 @@ class HomeScreenCostumerBody extends StatelessWidget {
                         title: 'Ikan Air Tawar',
                         desc: 'Lihat selengkapnya daftar ikan air tawar disini',
                         press: () async {
-                          await ikanAirTawarProvider.getAll();
+                          await tipeIkanProvider.ikanAirTawar();
                           Get.toNamed('/ikan-air-tawar-costumer');
                         },
                       ),
@@ -110,13 +109,16 @@ class HomeScreenCostumerBody extends StatelessWidget {
                         img: 'assets/images/ikan_air_laut_image.png',
                         title: 'Ikan Air Laut',
                         desc: 'Lihat selengkapnya daftar ikan air laut disini',
-                        press: () {},
+                        press: () async {
+                          await tipeIkanProvider.ikanAirLaut();
+                          Get.toNamed('/ikan-air-tawar-costumer');
+                        },
                       ),
                       SizedBox(
                         height: getPropertionateScreenHeight(24),
                       ),
                       // PopulerMenu(),
-                      TerbaruMenu(),
+                      const TerbaruMenu(),
                     ],
                   ),
                 ),
@@ -201,15 +203,22 @@ class CardIkanTerbaru extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
-            width: double.infinity,
-            height: getPropertionateScreenHeight(170),
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(
-                  'assets/images/ikan_01.png',
+          InkWell(
+            onTap: () async {
+              Get.dialog(ModalImage(
+                img: hasilTangkapanModel.gambar.toString(),
+              ));
+            },
+            child: Container(
+              width: double.infinity,
+              height: getPropertionateScreenHeight(170),
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(
+                    hasilTangkapanModel.gambar.toString(),
+                  ),
+                  fit: BoxFit.cover,
                 ),
-                fit: BoxFit.cover,
               ),
             ),
           ),
@@ -226,7 +235,10 @@ class CardIkanTerbaru extends StatelessWidget {
             ),
           ),
           Text(
-            'Rp${hasilTangkapanModel.harga}',
+            formatCurrency
+                .format(hasilTangkapanModel.harga)
+                .toString()
+                .replaceAll(regex, ''),
             style: primaryTextStyle.copyWith(
               fontWeight: bold,
             ),
@@ -234,17 +246,20 @@ class CardIkanTerbaru extends StatelessWidget {
           Row(
             children: [
               CircleAvatar(
-                backgroundImage: AssetImage(
-                  'assets/images/logo.png',
-                ),
+                backgroundImage:
+                    NetworkImage(hasilTangkapanModel.users!.avatar!),
               ),
               SizedBox(
                 width: getPropertionateScreenWidht(10),
               ),
-              Text(
-                hasilTangkapanModel.users!.name.toString(),
-                style: primaryLightTextStyle.copyWith(
-                  fontWeight: bold,
+              Expanded(
+                child: Text(
+                  hasilTangkapanModel.users!.name.toString(),
+                  style: primaryLightTextStyle.copyWith(
+                    fontWeight: bold,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
                 ),
               ),
             ],

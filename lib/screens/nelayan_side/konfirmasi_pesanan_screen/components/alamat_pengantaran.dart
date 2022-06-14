@@ -4,12 +4,9 @@ class AlamatPengantaran extends StatelessWidget {
   const AlamatPengantaran({
     Key? key,
     required this.alamat,
-    required this.jalan,
-    required this.kota,
-    required this.kabupaten,
   }) : super(key: key);
 
-  final String alamat, jalan, kota, kabupaten;
+  final String alamat;
 
   @override
   Widget build(BuildContext context) {
@@ -28,18 +25,6 @@ class AlamatPengantaran extends StatelessWidget {
             Text(
               alamat,
               style: primaryLightTextStyle.copyWith(fontWeight: bold),
-            ),
-            Text(
-              jalan,
-              style: primaryTextStyle,
-            ),
-            Text(
-              kota,
-              style: primaryTextStyle,
-            ),
-            Text(
-              kabupaten,
-              style: primaryTextStyle,
             ),
           ],
         ),

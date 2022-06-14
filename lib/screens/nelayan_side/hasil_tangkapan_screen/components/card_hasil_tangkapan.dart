@@ -3,6 +3,7 @@ import 'package:flutter_ruang_nelayan/models/hasil_tangkapan_model.dart';
 import 'package:flutter_ruang_nelayan/providers/jenis_ikan_provider.dart';
 import 'package:flutter_ruang_nelayan/providers/jenis_pengerjaan_ikan.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class CardHasilTangkapan extends StatelessWidget {
   const CardHasilTangkapan({
@@ -11,7 +12,6 @@ class CardHasilTangkapan extends StatelessWidget {
   }) : super(key: key);
 
   final HasilTangkapanModel hasilTangkapanModel;
-
   @override
   Widget build(BuildContext context) {
     JenisIkanProvider jenisIkanProvider =
@@ -90,7 +90,10 @@ class CardHasilTangkapan extends StatelessWidget {
                       ),
                       children: [
                         TextSpan(
-                            text: hasilTangkapanModel.harga.toString(),
+                            text: formatCurrency
+                                .format(hasilTangkapanModel.harga)
+                                .toString()
+                                .replaceAll(regex, ''),
                             style: primaryTextStyle.copyWith(
                               fontWeight: bold,
                               fontSize: 11,

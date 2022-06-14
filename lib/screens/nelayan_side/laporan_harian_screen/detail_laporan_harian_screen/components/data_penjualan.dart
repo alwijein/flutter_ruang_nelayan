@@ -69,7 +69,8 @@ class CardKonfirmasiPesanan extends StatelessWidget {
           Row(
             children: [
               CircleAvatar(
-                backgroundImage: AssetImage('assets/images/ikan_01.png'),
+                backgroundImage:
+                    NetworkImage(transactionModel.user!.avatar.toString()),
                 radius: getPropertionateScreenWidht(30),
               ),
               SizedBox(

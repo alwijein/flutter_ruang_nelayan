@@ -52,7 +52,10 @@ class CartCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      '\$${cart.hasilTangkapanModel!.harga}',
+                      formatCurrency
+                          .format(cart.hasilTangkapanModel!.harga)
+                          .toString()
+                          .replaceAll(regex, ''),
                       style: priceTextStyle,
                     ),
                     Text(
@@ -62,34 +65,34 @@ class CartCard extends StatelessWidget {
                   ],
                 ),
               ),
-              Column(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      cartProvider.addQuantity(cart.id!);
-                    },
-                    child: Icon(Icons.add),
-                  ),
-                  SizedBox(
-                    height: 2,
-                  ),
-                  Text(
-                    cart.quantity.toString(),
-                    style: primaryTextStyle.copyWith(
-                      fontWeight: medium,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 2,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      cartProvider.reduceQuantity(cart.id!);
-                    },
-                    child: Icon(Icons.remove),
-                  ),
-                ],
-              ),
+              // Column(
+              //   children: [
+              //     GestureDetector(
+              //       onTap: () {
+              //         cartProvider.addQuantity(cart.id!);
+              //       },
+              //       child: Icon(Icons.add),
+              //     ),
+              //     SizedBox(
+              //       height: 2,
+              //     ),
+              //     Text(
+              //       cart.quantity.toString(),
+              //       style: primaryTextStyle.copyWith(
+              //         fontWeight: medium,
+              //       ),
+              //     ),
+              //     SizedBox(
+              //       height: 2,
+              //     ),
+              //     GestureDetector(
+              //       onTap: () {
+              //         cartProvider.reduceQuantity(cart.id!);
+              //       },
+              //       child: Icon(Icons.remove),
+              //     ),
+              //   ],
+              // ),
             ],
           ),
           SizedBox(

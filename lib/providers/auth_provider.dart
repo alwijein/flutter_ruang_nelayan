@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter_ruang_nelayan/boostrap.dart';
 import 'package:flutter_ruang_nelayan/models/user_model.dart';
-import 'package:flutter/services.dart';
 import 'package:get_storage/get_storage.dart';
 
 class AuthProvider with ChangeNotifier {
@@ -29,7 +28,6 @@ class AuthProvider with ChangeNotifier {
     required String role,
   }) async {
     try {
-      print('Succcccccccccessss===========-');
       UserModel user = await AuthServices().register(
         noKtp: noKtp,
         name: name,
@@ -38,13 +36,11 @@ class AuthProvider with ChangeNotifier {
         role: role,
       );
 
-      print("ini user na user $user");
       loginState.write('token', user.token);
 
       _user = user;
       return true;
     } catch (e) {
-      print("Errornya = $e");
       return false;
     }
   }
@@ -54,8 +50,6 @@ class AuthProvider with ChangeNotifier {
     required String password,
   }) async {
     try {
-      print('Succcccccccccessss===========-');
-
       UserModel user = await AuthServices().login(
         noTelp: noTelp,
         password: password,
@@ -72,7 +66,6 @@ class AuthProvider with ChangeNotifier {
         return true;
       }
     } catch (e) {
-      print("Errornya = $e");
       return false;
     }
   }
@@ -82,8 +75,6 @@ class AuthProvider with ChangeNotifier {
     required String password,
   }) async {
     try {
-      print('Succcccccccccessss===========-');
-
       UserModel user = await AuthServices().login(
         noTelp: noTelp,
         password: password,
@@ -99,63 +90,71 @@ class AuthProvider with ChangeNotifier {
         return true;
       }
     } catch (e) {
-      print("Errornya = $e");
       return false;
     }
   }
 
-  Future<bool> updateProfile({
+  Future<bool> updateProfile(
+    String avatarOld, {
     required String name,
     required String noTelp,
     required String alamat,
     required File avatar,
   }) async {
     try {
-      print('Succcccccccccessss===========-');
       UserModel user = await AuthServices().updateProfile(
+        avatarOld,
         name: name,
         noTelp: noTelp,
         alamat: alamat,
         avatar: avatar,
       );
 
-      print("ini user na user");
+      _user = user;
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> updateAlamat({
+    required String name,
+    required String noTelp,
+    required String alamat,
+  }) async {
+    try {
+      UserModel user = await AuthServices().updateAlamat(
+        name: name,
+        noTelp: noTelp,
+        alamat: alamat,
+      );
 
       _user = user;
       return true;
     } catch (e) {
-      print("Errornya = $e");
       return false;
     }
   }
 
   Future<bool> getUser() async {
     try {
-      print('Succcccccccccessss===========-');
       UserModel user = await AuthServices().getUser();
-
-      print("ini user na user");
 
       _user = user;
       return true;
     } catch (e) {
-      print("Errornya = $e");
       return false;
     }
   }
 
   Future<bool> logout() async {
     try {
-      print('Succcccccccccessss===========-');
       bool isLogout = await AuthServices().logout();
-
-      print("ini user na user");
 
       loginState.write('token', '');
 
       return isLogout;
     } catch (e) {
-      print("Errornya = $e");
       return false;
     }
   }
@@ -164,7 +163,6 @@ class AuthProvider with ChangeNotifier {
     try {
       List<UserModel> listUser = await AuthServices().getWithRole();
 
-      print('sucesss');
       _listUser = listUser;
     } catch (e) {
       print(e);

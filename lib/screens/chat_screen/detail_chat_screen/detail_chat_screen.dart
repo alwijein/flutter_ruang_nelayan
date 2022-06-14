@@ -13,19 +13,37 @@ class DetailChatScreen extends StatefulWidget {
 class _DetailChatScreenState extends State<DetailChatScreen> {
   final loginState = GetStorage();
 
+  // void update() async {
+  //   AuthProvider authProvider =
+  //       Provider.of<AuthProvider>(context, listen: false);
+  //   await MessageService().updateData(
+  //     int.parse(authProvider.user.id.toString()),
+  //     int.parse(
+  //       nelayan.id.toString(),
+  //     ),
+  //   );
+  // }
+
   TextEditingController messageController = TextEditingController(text: '');
   @override
   Widget build(BuildContext context) {
-    AuthProvider authProvider = Provider.of<AuthProvider>(context);
     UserModel nelayan = Get.arguments['nelayan'];
-    print(nelayan);
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
 
     handleAddMessage() async {
+      await MessageService().updateData(
+        userId: int.parse(
+          authProvider.user.id.toString(),
+        ),
+        reciverId: int.parse(
+          nelayan.id.toString(),
+        ),
+      );
       await MessageService().addMessage(
         user: authProvider.user,
         isFromUser: true,
         message: messageController.text,
-        idNelayan: int.parse(nelayan.id.toString()),
+        reciverId: int.parse(nelayan.id.toString()),
       );
 
       setState(() {
@@ -41,9 +59,8 @@ class _DetailChatScreenState extends State<DetailChatScreen> {
           centerTitle: false,
           title: Row(
             children: [
-              Image.asset(
-                'assets/images/ikan_01.png',
-                width: 50,
+              CircleAvatar(
+                backgroundImage: NetworkImage(nelayan.avatar.toString()),
               ),
               SizedBox(
                 width: 12,
@@ -121,8 +138,9 @@ class _DetailChatScreenState extends State<DetailChatScreen> {
     Widget content() {
       return StreamBuilder<List<MessageModel>>(
           stream: MessageService().getMessagesByUserId(
-              nelayanId: int.parse(nelayan.id.toString()),
-              userId: int.parse(authProvider.user.id.toString())),
+            reciverId: int.parse(nelayan.id.toString()),
+            userId: int.parse(authProvider.user.id.toString()),
+          ),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return ListView(

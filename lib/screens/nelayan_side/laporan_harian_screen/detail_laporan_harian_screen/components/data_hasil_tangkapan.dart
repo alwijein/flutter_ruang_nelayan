@@ -62,7 +62,10 @@ class DataHasilTangkapan extends StatelessWidget {
               style: primaryTextStyle,
               children: [
                 TextSpan(
-                  text: 'Rp$totalHarga',
+                  text: formatCurrency
+                      .format(totalHarga)
+                      .toString()
+                      .replaceAll(regex, ''),
                   style: primaryTextStyle.copyWith(fontWeight: bold),
                 ),
               ],

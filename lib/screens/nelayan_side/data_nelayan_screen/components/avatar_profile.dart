@@ -13,10 +13,11 @@ class AvatarProfile extends StatelessWidget {
     required this.noTelp,
     required this.alamat,
     required this.isEdit,
-    required this.avatar,
+    this.avatar,
   }) : super(key: key);
 
-  final String avatar, name, noTelp, alamat;
+  final String? avatar;
+  final String name, noTelp, alamat;
   final bool isEdit;
 
   @override
@@ -35,9 +36,9 @@ class AvatarProfile extends StatelessWidget {
               Column(
                 children: [
                   CircleAvatar(
-                    // backgroundImage: NetworkImage(
-                    //   avatar,
-                    // ),
+                    backgroundImage: NetworkImage(
+                      avatar.toString(),
+                    ),
                     radius: getPropertionateScreenWidht(30),
                   ),
                   isEdit
@@ -50,9 +51,9 @@ class AvatarProfile extends StatelessWidget {
                             ),
                           ),
                           press: () async {
-                            print("sebelum " + file.toString());
                             file = await getImage();
-                            print("sesudah" + file.toString());
+                            stateController.setFile(file!);
+                            print(file.toString());
                           },
                           isInfinity: false,
                           color1: kColorLightkGreen,
@@ -112,11 +113,7 @@ class AvatarProfile extends StatelessWidget {
               ),
             ],
           ),
-          isEdit
-              ? EditDataForm(
-                  file: file ?? File(avatar),
-                )
-              : SizedBox(),
+          isEdit ? EditDataForm() : SizedBox(),
         ],
       ),
     );

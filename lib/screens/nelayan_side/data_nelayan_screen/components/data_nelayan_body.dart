@@ -6,6 +6,7 @@ import 'package:flutter_ruang_nelayan/providers/auth_provider.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/data_nelayan_screen/components/avatar_profile.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:get_storage/get_storage.dart';
 
 class DataNelayanBody extends StatelessWidget {
   const DataNelayanBody({Key? key}) : super(key: key);
@@ -14,7 +15,7 @@ class DataNelayanBody extends StatelessWidget {
   Widget build(BuildContext context) {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
     StateController stateController = Get.put(StateController());
-
+    GetStorage role = GetStorage();
     return SafeArea(
       child: SizedBox(
         width: double.infinity,
@@ -55,7 +56,9 @@ class DataNelayanBody extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Data Nelayan',
+                            role.read('role').toString() == 'nelayan'
+                                ? 'Data Nelayan'
+                                : 'Data Costumer',
                             style: primaryTextStyle.copyWith(
                               fontWeight: bold,
                               fontSize: 18,
@@ -98,7 +101,7 @@ class DataNelayanBody extends StatelessWidget {
                             name: authProvider.user.name ?? '',
                             noTelp: authProvider.user.noTelp ?? '',
                             alamat: authProvider.user.alamat ?? '',
-                            avatar: authProvider.user.avatar ?? '',
+                            avatar: authProvider.user.avatar,
                           )),
                     ],
                   ),

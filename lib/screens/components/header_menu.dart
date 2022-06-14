@@ -61,7 +61,26 @@ class HeaderMenu extends StatelessWidget {
                   await authProvider.getWithRole();
                   Get.toNamed("/chat");
                 },
-                child: SvgPicture.asset('assets/icons/chat.svg'),
+
+                // child: SvgPicture.asset('assets/icons/chat.svg'),
+                child: StreamBuilder<List<MessageModel>>(
+                    stream: MessageService().checkMassage(
+                        userId: int.parse(authProvider.user.id.toString())),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        bool isGet = false;
+                        for (var data in snapshot.data!) {
+                          if (data.isRead == false) {
+                            isGet = true;
+                          }
+                        }
+                        return isGet
+                            ? SvgPicture.asset('assets/icons/chat-dot.svg')
+                            : SvgPicture.asset('assets/icons/chat.svg');
+                      } else {
+                        return SvgPicture.asset('assets/icons/chat.svg');
+                      }
+                    }),
               ),
               authProvider.user.role.toString() == 'nelayan'
                   ? GestureDetector(

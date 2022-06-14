@@ -93,7 +93,11 @@ class ListDetailIkan extends StatelessWidget {
                   style: primaryLightTextStyle,
                 ),
                 Text(
-                  "Rp${hasilTangkapanModel.harga}/Kg",
+                  formatCurrency
+                          .format(hasilTangkapanModel.harga)
+                          .toString()
+                          .replaceAll(regex, '') +
+                      ' / Kg',
                   style: subtitleTextStyle,
                 ),
               ],

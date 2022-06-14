@@ -14,7 +14,7 @@ class ProfileImage extends StatelessWidget {
     return Row(
       children: [
         CircleAvatar(
-          backgroundImage: AssetImage(img),
+          backgroundImage: NetworkImage(img),
         ),
         SizedBox(
           width: getPropertionateScreenWidht(10),
