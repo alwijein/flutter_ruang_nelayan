@@ -183,9 +183,9 @@ class _RegisterFormState extends State<RegisterForm> {
                         ),
                       );
                     }
-                    setState(() {
-                      isLoading = false;
-                    });
+                    // setState(() {
+                    //   isLoading = false;
+                    // });
                   }),
           SizedBox(
             height: getPropertionateScreenHeight(20),

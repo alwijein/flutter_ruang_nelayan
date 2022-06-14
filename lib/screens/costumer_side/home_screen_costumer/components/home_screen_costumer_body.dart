@@ -203,15 +203,22 @@ class CardIkanTerbaru extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
-            width: double.infinity,
-            height: getPropertionateScreenHeight(170),
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(
-                  'assets/images/ikan_01.png',
+          InkWell(
+            onTap: () async {
+              Get.dialog(ModalImage(
+                img: hasilTangkapanModel.gambar.toString(),
+              ));
+            },
+            child: Container(
+              width: double.infinity,
+              height: getPropertionateScreenHeight(170),
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(
+                    hasilTangkapanModel.gambar.toString(),
+                  ),
+                  fit: BoxFit.cover,
                 ),
-                fit: BoxFit.cover,
               ),
             ),
           ),
@@ -228,7 +235,10 @@ class CardIkanTerbaru extends StatelessWidget {
             ),
           ),
           Text(
-            'Rp${hasilTangkapanModel.harga}',
+            formatCurrency
+                .format(hasilTangkapanModel.harga)
+                .toString()
+                .replaceAll(regex, ''),
             style: primaryTextStyle.copyWith(
               fontWeight: bold,
             ),
@@ -236,9 +246,8 @@ class CardIkanTerbaru extends StatelessWidget {
           Row(
             children: [
               CircleAvatar(
-                backgroundImage: AssetImage(
-                  'assets/images/logo.png',
-                ),
+                backgroundImage:
+                    NetworkImage(hasilTangkapanModel.users!.avatar!),
               ),
               SizedBox(
                 width: getPropertionateScreenWidht(10),

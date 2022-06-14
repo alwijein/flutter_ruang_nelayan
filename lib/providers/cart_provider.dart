@@ -56,6 +56,14 @@ class CartProvider with ChangeNotifier {
     return total;
   }
 
+  totalKg() {
+    int jumlah = 0;
+    for (var item in _carts) {
+      jumlah += item.hasilTangkapanModel!.jumlah!;
+    }
+    return jumlah;
+  }
+
   totalPrice() {
     double total = 0;
     for (var item in _carts) {

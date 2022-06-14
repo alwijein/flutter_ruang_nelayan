@@ -105,6 +105,7 @@ class EditDataForm extends StatelessWidget {
                           File avatar = stateController.file.value;
                           print(avatar);
                           if (await authProvider.updateProfile(
+                            authProvider.user.avatar.toString(),
                             name: name.text,
                             noTelp: nomorTelp.text,
                             alamat: alamat.text,

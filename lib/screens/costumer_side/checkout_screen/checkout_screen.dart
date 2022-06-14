@@ -46,6 +46,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     HasilTangkapanProvider hasilTangkapanProvider =
         Provider.of<HasilTangkapanProvider>(context);
 
+    TextEditingController name =
+        TextEditingController(text: authProvider.user.name);
+    TextEditingController nomorTelp =
+        TextEditingController(text: authProvider.user.noTelp);
+    TextEditingController alamat =
+        TextEditingController(text: authProvider.user.alamat);
     handleCheckout() async {
       setState(() {
         isLoading = true;
@@ -133,56 +139,83 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           ),
 
           // NOTE: ADDRESS DETAILS
-          Container(
-            margin: EdgeInsets.only(
-              top: getPropertionateScreenWidht(24),
-            ),
-            padding: EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: kBackgroundColor1,
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: softShadow,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Alamat Pengantaran',
-                  style: primaryTextStyle.copyWith(
-                    fontSize: 16,
-                    fontWeight: medium,
-                  ),
-                ),
-                SizedBox(
-                  height: 12,
-                ),
-                Row(
+          InkWell(
+            onTap: () {
+              Get.defaultDialog(
+                title: 'Ubah Alamat Anda',
+                onConfirm: () {
+                  setState(() async {
+                    await authProvider.updateAlamat(
+                      name: name.text,
+                      noTelp: nomorTelp.text,
+                      alamat: alamat.text,
+                    );
+                  });
+                },
+                middleText: "Ubah Alamat",
+                content: Column(
                   children: [
-                    SvgPicture.asset('assets/icons/map_icon.svg'),
-                    SizedBox(
-                      width: 12,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Rumah',
-                          style: secondaryTextStyle.copyWith(
-                            fontSize: 12,
-                            fontWeight: light,
-                          ),
-                        ),
-                        Text(
-                          authProvider.user.alamat ?? 'Belum Di Tambahkan',
-                          style: primaryTextStyle.copyWith(
-                            fontWeight: medium,
-                          ),
-                        ),
-                      ],
+                    buildFieldInput(
+                      'alamat',
+                      'Masukkan Alamat Anda',
+                      alamat,
+                      Icons.place,
                     ),
                   ],
                 ),
-              ],
+              );
+            },
+            child: Container(
+              margin: EdgeInsets.only(
+                top: getPropertionateScreenWidht(24),
+              ),
+              padding: EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: kBackgroundColor1,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: softShadow,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Alamat Pengantaran',
+                    style: primaryTextStyle.copyWith(
+                      fontSize: 16,
+                      fontWeight: medium,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 12,
+                  ),
+                  Row(
+                    children: [
+                      SvgPicture.asset('assets/icons/map_icon.svg'),
+                      SizedBox(
+                        width: 12,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Rumah',
+                            style: secondaryTextStyle.copyWith(
+                              fontSize: 12,
+                              fontWeight: light,
+                            ),
+                          ),
+                          Text(
+                            authProvider.user.alamat ?? 'Belum Di Tambahkan',
+                            style: primaryTextStyle.copyWith(
+                              fontWeight: medium,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
 
@@ -349,7 +382,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       ),
                     ),
                     Text(
-                      '${cartProvider.totalItems()} Items',
+                      '${cartProvider.totalKg()} KG',
                       style: primaryTextStyle.copyWith(
                         fontWeight: medium,
                       ),
@@ -369,7 +402,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       ),
                     ),
                     Text(
-                      '${cartProvider.totalPrice()}',
+                      formatCurrency
+                          .format(cartProvider.totalPrice())
+                          .toString()
+                          .replaceAll(regex, ''),
                       style: primaryTextStyle.copyWith(
                         fontWeight: medium,
                       ),
@@ -389,7 +425,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       ),
                     ),
                     Text(
-                      '${cartProvider.totalJasa()}',
+                      formatCurrency
+                          .format(cartProvider.totalJasa())
+                          .toString()
+                          .replaceAll(regex, ''),
                       style: primaryTextStyle.copyWith(
                         fontWeight: medium,
                       ),
@@ -409,7 +448,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       ),
                     ),
                     Text(
-                      jasaPengantaranProvider.biaya.toString(),
+                      formatCurrency
+                          .format(jasaPengantaranProvider.biaya)
+                          .toString()
+                          .replaceAll(regex, ''),
                       style: primaryTextStyle.copyWith(
                         fontWeight: medium,
                       ),
@@ -436,7 +478,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       ),
                     ),
                     Text(
-                      '${cartProvider.totalPrice() + cartProvider.totalJasa() + jasaPengantaranProvider.biaya}',
+                      formatCurrency
+                          .format(cartProvider.totalPrice() +
+                              cartProvider.totalJasa() +
+                              jasaPengantaranProvider.biaya)
+                          .toString()
+                          .replaceAll(regex, ''),
                       style: priceTextStyle.copyWith(
                         fontWeight: semiBold,
                       ),
@@ -547,6 +594,32 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           selectedValue = selected;
         },
       ),
+    );
+  }
+
+  TextFieldContainer buildFieldInput(String type, String hintText,
+      TextEditingController inputController, IconData icon) {
+    return TextFieldContainer(
+      isWrapSize: false,
+      child: TextFormField(
+          style: primaryTextStyle,
+          decoration: InputDecoration(
+            icon: Icon(
+              icon,
+              color: kPrimaryLightColor,
+            ),
+            border: InputBorder.none,
+            hintText: hintText,
+            hintStyle: subtitleTextStyle.copyWith(
+              fontSize: 14,
+            ),
+          ),
+          keyboardType: TextInputType.text,
+          controller: inputController,
+          onChanged: (value) {},
+          validator: (value) {
+            return null;
+          }),
     );
   }
 }

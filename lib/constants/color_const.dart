@@ -48,5 +48,5 @@ List<BoxShadow> softShadow = [
     spreadRadius: 3,
     blurRadius: 4,
     offset: const Offset(0, 3), // changes position of shadow
-  )
+  ),
 ];

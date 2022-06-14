@@ -39,7 +39,7 @@ class ChatScreen extends StatelessWidget {
                 height: 20,
               ),
               Text(
-                'Opss no message yet?',
+                'Opss belum ada pesan?',
                 style: primaryTextStyle.copyWith(
                   fontSize: 16,
                   fontWeight: medium,
@@ -49,7 +49,7 @@ class ChatScreen extends StatelessWidget {
                 height: 12,
               ),
               Text(
-                'You have never done a transaction',
+                'Kau belum pernah melakukan transaksi',
                 style: secondaryTextStyle,
               ),
               SizedBox(

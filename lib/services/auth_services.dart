@@ -82,26 +82,28 @@ class AuthServices {
     }
   }
 
-  Future<UserModel> updateProfile({
+  Future<UserModel> updateProfile(
+    String avatarOld, {
     required String name,
     required String noTelp,
     required String alamat,
     required File avatar,
   }) async {
     String fileName = basename(avatar.path);
+    String imageUrl = avatarOld;
+    if (fileName.isNotEmpty) {
+      firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance
+          .ref()
+          .child('Foto Profile')
+          .child(fileName);
 
-    firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance
-        .ref()
-        .child('Foto Profile')
-        .child(fileName);
+      firebase_storage.UploadTask uploadTask = ref.putFile(avatar);
 
-    firebase_storage.UploadTask uploadTask = ref.putFile(avatar);
+      firebase_storage.TaskSnapshot snapshot =
+          await uploadTask.whenComplete(() => null);
 
-    firebase_storage.TaskSnapshot snapshot =
-        await uploadTask.whenComplete(() => null);
-
-    String imageUrl = await ref.getDownloadURL();
-
+      imageUrl = await ref.getDownloadURL();
+    }
     var url = Uri.parse("$baseUrl/user");
 
     var headers = {
@@ -114,6 +116,46 @@ class AuthServices {
       'no_hp': noTelp,
       'alamat': alamat,
       'avatar': imageUrl,
+    });
+
+    var response = await http.post(
+      url,
+      headers: headers,
+      body: body,
+    );
+    print('iniiii' + loginState.read('token').toString());
+
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body)['data'];
+
+      UserModel userModel = UserModel.fromJson(data);
+
+      print('success');
+
+      return userModel;
+    } else {
+      throw Exception('Update Gagal');
+    }
+  }
+
+  Future<UserModel> updateAlamat({
+    required String name,
+    required String noTelp,
+    required String alamat,
+  }) async {
+    var url = Uri.parse("$baseUrl/user");
+
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': loginState.read('token').toString(),
+    };
+
+    var body = jsonEncode({
+      'name': name,
+      'no_hp': noTelp,
+      'alamat': alamat,
     });
 
     var response = await http.post(

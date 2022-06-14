@@ -1,8 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.flutter_ruang_nelayan">
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
    <application
-        android:label="flutter_ruang_nelayan"
+        android:label="Ruang Nelayan"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         

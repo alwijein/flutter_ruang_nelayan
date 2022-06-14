@@ -94,7 +94,8 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> updateProfile({
+  Future<bool> updateProfile(
+    String avatarOld, {
     required String name,
     required String noTelp,
     required String alamat,
@@ -102,10 +103,30 @@ class AuthProvider with ChangeNotifier {
   }) async {
     try {
       UserModel user = await AuthServices().updateProfile(
+        avatarOld,
         name: name,
         noTelp: noTelp,
         alamat: alamat,
         avatar: avatar,
+      );
+
+      _user = user;
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> updateAlamat({
+    required String name,
+    required String noTelp,
+    required String alamat,
+  }) async {
+    try {
+      UserModel user = await AuthServices().updateAlamat(
+        name: name,
+        noTelp: noTelp,
+        alamat: alamat,
       );
 
       _user = user;

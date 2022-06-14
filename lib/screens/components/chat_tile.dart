@@ -4,12 +4,21 @@ class ChatTile extends StatelessWidget {
   ChatTile({
     required this.listUser,
   });
-
   final UserModel listUser;
   @override
   Widget build(BuildContext context) {
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
+        await MessageService().updateData(
+          userId: int.parse(
+            authProvider.user.id.toString(),
+          ),
+          reciverId: int.parse(
+            listUser.id.toString(),
+          ),
+        );
         Get.toNamed(
           '/chat/detail',
           arguments: {'nelayan': listUser},
@@ -21,9 +30,8 @@ class ChatTile extends StatelessWidget {
           children: [
             Row(
               children: [
-                Image.asset(
-                  'assets/images/ikan_01.png',
-                  width: 54,
+                CircleAvatar(
+                  backgroundImage: NetworkImage(listUser.avatar.toString()),
                 ),
                 SizedBox(
                   width: 12,
@@ -38,22 +46,32 @@ class ChatTile extends StatelessWidget {
                           fontSize: 15,
                         ),
                       ),
-                      Text(
-                        listUser.alamat.toString(),
-                        style: secondaryTextStyle.copyWith(
-                          fontWeight: light,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                      ),
                     ],
                   ),
                 ),
-                Text(
-                  'Now',
-                  style: secondaryTextStyle.copyWith(
-                    fontSize: 10,
-                  ),
-                ),
+                StreamBuilder<List<MessageModel>>(
+                    stream: MessageService().checkMassageOnce(
+                      userId: int.parse(authProvider.user.id.toString()),
+                      reciverId: int.parse(listUser.id.toString()),
+                    ),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        bool isGet = false;
+                        for (var data in snapshot.data!) {
+                          if (data.isRead == false) {
+                            isGet = true;
+                          }
+                        }
+                        return isGet
+                            ? Icon(
+                                Icons.circle_notifications,
+                                color: Colors.red,
+                              )
+                            : SizedBox();
+                      } else {
+                        return SizedBox();
+                      }
+                    }),
               ],
             ),
             SizedBox(
