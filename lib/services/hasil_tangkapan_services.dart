@@ -101,8 +101,8 @@ class HasilTangkapanServices {
     }
   }
 
-  Future<List<HasilTangkapanModel>> getWithDate(String created_at) async {
-    var url = Uri.parse("$baseUrl/hasil-tangkapan?created_at=$created_at");
+  Future<List<HasilTangkapanModel>> getWithDate(String createdAt) async {
+    var url = Uri.parse("$baseUrl/hasil-tangkapan?created_at=$createdAt");
 
     var headers = {
       'Content-Type': 'application/json',

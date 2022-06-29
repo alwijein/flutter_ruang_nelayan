@@ -2,7 +2,7 @@ import 'package:flutter_ruang_nelayan/models/cart_model.dart';
 import 'package:flutter_ruang_nelayan/models/user_model.dart';
 
 class TransactionModel {
-  int? id, idUsers, idJasaPengantaran;
+  int? id, idUsers;
 
   String? alamat, pembayaran, status;
 
@@ -12,18 +12,20 @@ class TransactionModel {
 
   UserModel? user;
 
+  String? tipePengantaran;
+
   DateTime? createdAt, updatedAt;
 
   TransactionModel({
     this.id,
     this.idUsers,
-    this.idJasaPengantaran,
     this.alamat,
     this.pembayaran,
     this.status,
     this.totalPembayaran,
     this.ongkosKirim,
     this.totalJasa,
+    this.tipePengantaran,
     this.cartModel,
     this.createdAt,
     this.updatedAt,
@@ -32,7 +34,6 @@ class TransactionModel {
   TransactionModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     idUsers = json['id_users'];
-    idJasaPengantaran = json['id_jasa_pengantaran'];
     alamat = json['alamat'];
     pembayaran = json['pembayaran'];
     totalPembayaran = double.parse(json['total_pembayaran'].toString());
@@ -46,13 +47,14 @@ class TransactionModel {
     cartModel = json['items']
         .map<CartModel>((item) => CartModel.fromJson(item))
         .toList();
+
+    tipePengantaran = json['tipe_pengantaran'];
   }
 
   Map<String, dynamic> toJson() {
     return {
       'id': id,
       'id_users': idUsers,
-      'id_jasa_pengantaran': idJasaPengantaran,
       'alamat': alamat,
       'pembayaran': pembayaran,
       'total_pembayaran': totalPembayaran,
@@ -63,6 +65,7 @@ class TransactionModel {
       'updatedAt': updatedAt,
       'user': user!.toJson(),
       'items': cartModel!.map((items) => items.toJson()).toList(),
+      'tipe_pengantaran': tipePengantaran,
     };
   }
 }

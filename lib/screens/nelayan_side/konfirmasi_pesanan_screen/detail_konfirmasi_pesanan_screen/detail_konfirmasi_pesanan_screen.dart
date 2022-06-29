@@ -9,9 +9,9 @@ class DetailKonfirmasiPesananScreen extends StatelessWidget {
     SizeConfig().init(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Konfirmasi Pesanan'),
+        title: const Text('Konfirmasi Pesanan'),
       ),
-      body: DetailKonfirmasiPesananBody(),
+      body: const DetailKonfirmasiPesananBody(),
     );
   }
 }

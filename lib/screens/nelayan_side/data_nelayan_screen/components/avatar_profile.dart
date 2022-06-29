@@ -113,7 +113,7 @@ class AvatarProfile extends StatelessWidget {
               ),
             ],
           ),
-          isEdit ? EditDataForm() : SizedBox(),
+          isEdit ? const EditDataForm() : const SizedBox(),
         ],
       ),
     );

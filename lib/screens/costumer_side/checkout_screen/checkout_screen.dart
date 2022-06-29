@@ -1,7 +1,6 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
 import 'package:flutter_ruang_nelayan/controllers/state_controller.dart';
 import 'package:flutter_ruang_nelayan/models/jasa_pengantaran_model.dart';
-import 'package:flutter_ruang_nelayan/models/jenis_ikan_model.dart';
 import 'package:flutter_ruang_nelayan/providers/auth_provider.dart';
 import 'package:flutter_ruang_nelayan/providers/cart_provider.dart';
 import 'package:flutter_ruang_nelayan/providers/hasil_tangkapan_provider.dart';
@@ -14,15 +13,13 @@ class CheckoutScreen extends StatefulWidget {
   _CheckoutScreenState createState() => _CheckoutScreenState();
 }
 
-enum SingingCharacter { ambilSendiri, pengataran }
-
 class _CheckoutScreenState extends State<CheckoutScreen> {
   bool isLoading = false;
   bool isCod = false;
   int selectedValue = 0;
 
   double biaya = 0;
-  SingingCharacter? _character = SingingCharacter.ambilSendiri;
+  String? _character = 'Ambil Sendiri';
 
   @override
   Widget build(BuildContext context) {
@@ -36,12 +33,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     JasaPengantaranProvider jasaPengantaranProvider =
         Provider.of<JasaPengantaranProvider>(context);
 
-    List<JasaPengantaranModel> jasaPengantaran =
-        jasaPengantaranProvider.jasaPengantaran;
-
     StateController stateController = Get.put(StateController());
-
-    TextEditingController jenisIkan = TextEditingController();
 
     HasilTangkapanProvider hasilTangkapanProvider =
         Provider.of<HasilTangkapanProvider>(context);
@@ -52,6 +44,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         TextEditingController(text: authProvider.user.noTelp);
     TextEditingController alamat =
         TextEditingController(text: authProvider.user.alamat);
+
     handleCheckout() async {
       setState(() {
         isLoading = true;
@@ -70,7 +63,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           cartProvider.totalJasa(),
           jasaPengantaranProvider.biaya,
           'Cash or Delivery',
-          selectedValue,
+          _character ?? 'Ambil Sendiri',
         )) {
           stateController.isReset();
           cartProvider.carts = [];
@@ -93,7 +86,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             {'alamat': authProvider.user.alamat.toString()},
             {'total_jasa': cartProvider.totalJasa()},
             {'ongkos_kirim': jasaPengantaranProvider.biaya},
-            {'id_jasa_pengantaran': selectedValue},
+            {'tipe_pengantaran': _character},
             {
               'id_nelayan': cartProvider.carts[0].hasilTangkapanModel!.users!.id
             },
@@ -169,7 +162,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               margin: EdgeInsets.only(
                 top: getPropertionateScreenWidht(24),
               ),
-              padding: EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                 color: kBackgroundColor1,
                 borderRadius: BorderRadius.circular(12),
@@ -185,13 +178,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       fontWeight: medium,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 12,
                   ),
                   Row(
                     children: [
                       SvgPicture.asset('assets/icons/map_icon.svg'),
-                      SizedBox(
+                      const SizedBox(
                         width: 12,
                       ),
                       Column(
@@ -224,7 +217,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             margin: EdgeInsets.only(
               top: getPropertionateScreenWidht(24),
             ),
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               color: kBackgroundColor1,
               borderRadius: BorderRadius.circular(12),
@@ -240,66 +233,37 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     fontWeight: medium,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 12,
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ListTile(
-                      title: Text('Ambil Sendiri'),
-                      leading: Radio<SingingCharacter>(
-                        value: SingingCharacter.ambilSendiri,
+                      title: const Text('Ambil Sendiri'),
+                      leading: Radio<String>(
+                        value: 'Ambil Sendiri',
                         groupValue: _character,
-                        onChanged: (SingingCharacter? value) {
+                        onChanged: (String? value) {
                           setState(() {
-                            jasaPengantaranProvider.removeBiaya();
                             _character = value;
-                            stateController.isAmbilSendiri.value = true;
+                            print(_character);
                           });
                         },
                       ),
                     ),
                     ListTile(
-                      title: const Text('Pengataran'),
-                      leading: Radio<SingingCharacter>(
-                        value: SingingCharacter.pengataran,
+                      title: const Text('Diantarkan'),
+                      leading: Radio<String>(
+                        value: 'Diantarkan',
                         groupValue: _character,
-                        onChanged: (SingingCharacter? value) async {
-                          if (await jasaPengantaranProvider
-                              .getjasaPengantaran()) {
-                            setState(() {
-                              stateController.isAmbilSendiri.value = false;
-                              _character = value;
-                            });
-                          }
+                        onChanged: (String? value) {
+                          setState(() {
+                            _character = value;
+                            print(_character);
+                          });
                         },
                       ),
-                    ),
-                    Obx(
-                      () => !stateController.isAmbilSendiri.value
-                          ? Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Pilih Kurir Pengantaran",
-                                  style: primaryLightTextStyle.copyWith(
-                                    fontSize: 14,
-                                    fontWeight: bold,
-                                  ),
-                                ),
-                                buildJenisIkan(
-                                  jasaPengantaranProvider:
-                                      jasaPengantaranProvider,
-                                  icon: Icons.water,
-                                  input: jenisIkan,
-                                  hintText: 'Pilih Kurir',
-                                  selected: selectedValue,
-                                  jasaPengantaran: jasaPengantaran,
-                                ),
-                              ],
-                            )
-                          : SizedBox(),
                     ),
                   ],
                 ),
@@ -312,7 +276,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             margin: EdgeInsets.only(
               top: getPropertionateScreenWidht(24),
             ),
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               color: kBackgroundColor1,
               borderRadius: BorderRadius.circular(12),
@@ -328,7 +292,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     fontWeight: medium,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 12,
                 ),
                 Row(
@@ -341,7 +305,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         });
                       },
                     ),
-                    Text("Cash or Delivery (COD)"),
+                    const Text("Cash or Delivery (COD)"),
                   ],
                 ),
               ],
@@ -353,7 +317,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             margin: EdgeInsets.only(
               top: getPropertionateScreenWidht(24),
             ),
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               color: kBackgroundColor1,
               borderRadius: BorderRadius.circular(12),
@@ -369,7 +333,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     fontWeight: medium,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 12,
                 ),
                 Row(
@@ -389,7 +353,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 12,
                 ),
                 Row(
@@ -412,7 +376,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 12,
                 ),
                 Row(
@@ -435,7 +399,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 12,
                 ),
                 Row(
@@ -458,14 +422,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 12,
                 ),
-                Divider(
+                const Divider(
                   thickness: 1,
                   color: Color(0xff2E3141),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Row(
@@ -498,7 +462,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           SizedBox(
             height: getPropertionateScreenWidht(24),
           ),
-          Divider(
+          const Divider(
             thickness: 1,
             color: Color(0xff2E3141),
           ),
@@ -533,7 +497,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       backgroundColor: kBackgroundColor1,
       appBar: AppBar(
         centerTitle: true,
-        title: Text(
+        title: const Text(
           'Checkout Details',
         ),
       ),

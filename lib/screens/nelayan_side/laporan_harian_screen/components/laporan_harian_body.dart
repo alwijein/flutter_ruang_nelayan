@@ -1,6 +1,5 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
 import 'package:flutter_ruang_nelayan/models/laporan_harian_model.dart';
-import 'package:flutter_ruang_nelayan/models/transaction_model.dart';
 import 'package:flutter_ruang_nelayan/providers/hasil_tangkapan_provider.dart';
 import 'package:flutter_ruang_nelayan/providers/laporan_harian_provider.dart';
 import 'package:flutter_ruang_nelayan/providers/transaction_provider.dart';
@@ -143,7 +142,7 @@ class CardLaporanHarian extends StatelessWidget {
                 color: Colors.grey.withOpacity(0.3),
                 spreadRadius: 3,
                 blurRadius: 4,
-                offset: Offset(0, 3), // changes position of shadow
+                offset: const Offset(0, 3), // changes position of shadow
               ),
             ],
           ),

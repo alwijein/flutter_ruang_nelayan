@@ -2,7 +2,6 @@ import 'package:flutter_ruang_nelayan/boostrap.dart';
 import 'package:flutter_ruang_nelayan/models/transaction_model.dart';
 import 'package:flutter_ruang_nelayan/providers/transaction_provider.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/konfirmasi_pesanan_screen/components/alamat_pengantaran.dart';
-import 'package:flutter_ruang_nelayan/screens/nelayan_side/konfirmasi_pesanan_screen/components/list_pesanan.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/konfirmasi_pesanan_screen/components/profile_pembeli.dart';
 import 'package:get/get.dart';
 
@@ -19,7 +18,7 @@ class DetailKonfirmasiPesananBody extends StatelessWidget {
 
     TransactionProvider transactionProvider =
         Provider.of<TransactionProvider>(context);
-
+    TransactionServices transactionServices = TransactionServices();
     return SafeArea(
       child: SingleChildScrollView(
         child: Container(
@@ -30,8 +29,8 @@ class DetailKonfirmasiPesananBody extends StatelessWidget {
           child: Column(
             children: [
               ProfilePembeli(
-                image: 'assets/images/ikan_01.png',
-                name: transactionModel.user!.name,
+                image: transactionModel.user!.avatar.toString(),
+                name: transactionModel.user!.name.toString(),
                 tgl: transactionModel.createdAt.toString(),
                 id: transactionModel.id.toString(),
               ),
@@ -40,7 +39,7 @@ class DetailKonfirmasiPesananBody extends StatelessWidget {
               ),
               CollapseCard(
                 content: [
-                  HeaderTextIcon(
+                  const HeaderTextIcon(
                     title: 'List Pesanan',
                     icon: Icons.shopping_cart,
                   ),
@@ -55,13 +54,30 @@ class DetailKonfirmasiPesananBody extends StatelessWidget {
                   ),
                 ],
               ),
-              CardKurir(
-                logo: 'assets/images/logo_okjek.png',
-                kurir: 'OK - JEK EXPRESS',
-                harga: '20.000',
-              ),
+              // CardKurir(
+              //   logo: 'assets/images/logo_okjek.png',
+              //   kurir: transactionModel.jasaPengantaranModel!.name.toString(),
+              //   harga: formatCurrency
+              //       .format(transactionModel.jasaPengantaranModel!.biaya)
+              //       .toString()
+              //       .replaceAll(regex, ''),
+              // ),
+
               CollapseCard(
                 content: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Tipe Pengantaran: ',
+                        style: primaryLightTextStyle,
+                      ),
+                      Text(
+                        transactionModel.tipePengantaran.toString(),
+                        style: primaryLightTextStyle.copyWith(fontWeight: bold),
+                      ),
+                    ],
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -70,7 +86,10 @@ class DetailKonfirmasiPesananBody extends StatelessWidget {
                         style: primaryLightTextStyle,
                       ),
                       Text(
-                        'Rp$totalHarga',
+                        formatCurrency
+                            .format(totalHarga)
+                            .toString()
+                            .replaceAll(regex, ''),
                         style: primaryLightTextStyle.copyWith(fontWeight: bold),
                       ),
                     ],
@@ -87,7 +106,17 @@ class DetailKonfirmasiPesananBody extends StatelessWidget {
                 ),
                 press: () async {
                   if (await transactionProvider.confirmStatus(
-                      id: int.parse(transactionModel.id.toString()))) {
+                    id: int.parse(
+                      transactionModel.id.toString(),
+                    ),
+                  )) {
+                    for (var data in transactionModel.cartModel!) {
+                      transactionServices.ediQty(
+                        idHasilTangkapan: data.hasilTangkapanModel!.id!,
+                        qty: (data.hasilTangkapanModel!.jumlah! -
+                            data.quantity!),
+                      );
+                    }
                     Get.toNamed("/proses-pemesanan-nelayan");
                   }
                 },

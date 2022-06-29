@@ -1,7 +1,7 @@
 part of 'components.dart';
 
 class ChatTile extends StatelessWidget {
-  ChatTile({
+  const ChatTile({
     required this.listUser,
   });
   final UserModel listUser;
@@ -33,7 +33,7 @@ class ChatTile extends StatelessWidget {
                 CircleAvatar(
                   backgroundImage: NetworkImage(listUser.avatar.toString()),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 12,
                 ),
                 Expanded(
@@ -63,21 +63,21 @@ class ChatTile extends StatelessWidget {
                           }
                         }
                         return isGet
-                            ? Icon(
+                            ? const Icon(
                                 Icons.circle_notifications,
                                 color: Colors.red,
                               )
-                            : SizedBox();
+                            : const SizedBox();
                       } else {
-                        return SizedBox();
+                        return const SizedBox();
                       }
                     }),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 12,
             ),
-            Divider(
+            const Divider(
               thickness: 1,
               color: Color(0xff2B2939),
             ),

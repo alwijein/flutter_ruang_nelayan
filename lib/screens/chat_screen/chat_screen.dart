@@ -1,5 +1,4 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
-import 'package:flutter_ruang_nelayan/models/message_model.dart';
 import 'package:flutter_ruang_nelayan/providers/auth_provider.dart';
 
 class ChatScreen extends StatelessWidget {
@@ -35,7 +34,7 @@ class ChatScreen extends StatelessWidget {
                 'assets/icons/icon_headset.png',
                 width: 80,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Text(
@@ -45,22 +44,22 @@ class ChatScreen extends StatelessWidget {
                   fontWeight: medium,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 12,
               ),
               Text(
                 'Kau belum pernah melakukan transaksi',
                 style: secondaryTextStyle,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
-              Container(
+              SizedBox(
                 height: 44,
                 child: TextButton(
                   onPressed: () {},
                   style: TextButton.styleFrom(
-                    padding: EdgeInsets.symmetric(
+                    padding: const EdgeInsets.symmetric(
                       horizontal: 24,
                       vertical: 10,
                     ),

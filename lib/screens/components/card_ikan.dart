@@ -31,8 +31,8 @@ class CardIkan extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 image: DecorationImage(
-                  image: AssetImage(
-                    'assets/images/ikan_01.png',
+                  image: NetworkImage(
+                    cartModel.hasilTangkapanModel!.gambar.toString(),
                   ),
                   fit: BoxFit.fill,
                 ),
@@ -45,6 +45,7 @@ class CardIkan extends StatelessWidget {
           Expanded(
             flex: 2,
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
@@ -56,18 +57,18 @@ class CardIkan extends StatelessWidget {
                       ),
                     ),
                     SizedBox(width: getPropertionateScreenWidht(8)),
-                    DefaultButtonGradient(
-                      text: Text(
-                        cartModel.hasilTangkapanModel!.jenisIkan.toString(),
-                        style: whiteTextStyle.copyWith(
-                          fontSize: 8,
-                        ),
-                      ),
-                      press: () {},
-                      isInfinity: false,
-                      color1: kColorLightkBlue,
-                      color2: kColorDarkBlue,
-                    ),
+                    // DefaultButtonGradient(
+                    //   text: Text(
+                    //     cartModel.hasilTangkapanModel!.jenisIkan.toString(),
+                    //     style: whiteTextStyle.copyWith(
+                    //       fontSize: 8,
+                    //     ),
+                    //   ),
+                    //   press: () {},
+                    //   isInfinity: false,
+                    //   color1: kColorLightkBlue,
+                    //   color2: kColorDarkBlue,
+                    // ),
                   ],
                 ),
                 RichText(
@@ -105,38 +106,40 @@ class CardIkan extends StatelessWidget {
                     ],
                   ),
                 ),
-                RichText(
-                  text: TextSpan(
-                    text: 'Jasa Pengerjaan: ',
-                    style: subtitleTextStyle.copyWith(
-                      fontSize: 11,
-                    ),
-                    children: [
-                      TextSpan(
-                          text: 's',
-                          style: primaryTextStyle.copyWith(
-                            fontWeight: bold,
-                            fontSize: 11,
-                          ))
-                    ],
-                  ),
-                ),
-                RichText(
-                  text: TextSpan(
-                    text: 'Harga Pengerjaan: ',
-                    style: subtitleTextStyle.copyWith(
-                      fontSize: 11,
-                    ),
-                    children: [
-                      TextSpan(
-                          text: " / kg",
-                          style: primaryTextStyle.copyWith(
-                            fontWeight: bold,
-                            fontSize: 11,
-                          ))
-                    ],
-                  ),
-                ),
+                // RichText(
+                //   text: TextSpan(
+                //     text: 'Jasa Pengerjaan: ',
+                //     style: subtitleTextStyle.copyWith(
+                //       fontSize: 11,
+                //     ),
+                //     children: [
+                //       TextSpan(
+                //           text: cartModel.hasilTangkapanModel
+                //                   ?.jenisPengerjaanIkan?.jenisPengerjaan ??
+                //               'Tidak ada',
+                //           style: primaryTextStyle.copyWith(
+                //             fontWeight: bold,
+                //             fontSize: 11,
+                //           ))
+                //     ],
+                //   ),
+                // ),
+                // RichText(
+                //   text: TextSpan(
+                //     text: 'Harga Pengerjaan: ',
+                //     style: subtitleTextStyle.copyWith(
+                //       fontSize: 11,
+                //     ),
+                //     children: [
+                //       TextSpan(
+                //           text: " / kg",
+                //           style: primaryTextStyle.copyWith(
+                //             fontWeight: bold,
+                //             fontSize: 11,
+                //           ))
+                //     ],
+                //   ),
+                // ),
                 RichText(
                   text: TextSpan(
                     text: 'Total: ',
@@ -145,7 +148,10 @@ class CardIkan extends StatelessWidget {
                     ),
                     children: [
                       TextSpan(
-                          text: 'Rp300.000',
+                          text: formatCurrency
+                              .format(cartModel.getTotalPrice())
+                              .toString()
+                              .replaceAll(regex, ''),
                           style: primaryLightTextStyle.copyWith(
                             fontWeight: bold,
                             fontSize: 11,

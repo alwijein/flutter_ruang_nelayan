@@ -1,11 +1,9 @@
-import 'dart:io';
 
 import 'package:flutter_ruang_nelayan/boostrap.dart';
 import 'package:flutter_ruang_nelayan/controllers/state_controller.dart';
 import 'package:flutter_ruang_nelayan/providers/auth_provider.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/data_nelayan_screen/components/avatar_profile.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:get_storage/get_storage.dart';
 
 class DataNelayanBody extends StatelessWidget {

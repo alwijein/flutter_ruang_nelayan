@@ -1,8 +1,6 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
 import 'package:flutter_ruang_nelayan/models/cart_model.dart';
-import 'package:flutter_ruang_nelayan/models/hasil_tangkapan_model.dart';
 import 'package:flutter_ruang_nelayan/models/message_model.dart';
-import 'package:flutter_ruang_nelayan/models/transaction_model.dart';
 import 'package:flutter_ruang_nelayan/models/user_model.dart';
 import 'package:flutter_ruang_nelayan/providers/auth_provider.dart';
 import 'package:flutter_ruang_nelayan/providers/cart_provider.dart';

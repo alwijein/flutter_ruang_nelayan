@@ -1,7 +1,7 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
 
 class ProfilePembeli extends StatelessWidget {
-  const ProfilePembeli({
+  ProfilePembeli({
     Key? key,
     required this.image,
     required this.name,
@@ -9,7 +9,7 @@ class ProfilePembeli extends StatelessWidget {
     required this.id,
   }) : super(key: key);
 
-  final image, name, tgl, id;
+  final String image, name, tgl, id;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class ProfilePembeli extends StatelessWidget {
             Row(
               children: [
                 CircleAvatar(
-                  backgroundImage: AssetImage(
+                  backgroundImage: NetworkImage(
                     image,
                   ),
                   radius: getPropertionateScreenWidht(25),

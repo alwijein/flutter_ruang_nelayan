@@ -12,7 +12,7 @@ class CartScreen extends StatelessWidget {
       return AppBar(
         backgroundColor: kBackgroundColor1,
         centerTitle: true,
-        title: Text(
+        title: const Text(
           'Your Cart',
         ),
         elevation: 0,
@@ -28,7 +28,7 @@ class CartScreen extends StatelessWidget {
               'assets/images/icon_empty_cart.png',
               width: 80,
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Text(
@@ -38,7 +38,7 @@ class CartScreen extends StatelessWidget {
                 fontWeight: medium,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 12,
             ),
             Text(
@@ -48,7 +48,7 @@ class CartScreen extends StatelessWidget {
             Container(
               width: 154,
               height: 44,
-              margin: EdgeInsets.only(
+              margin: const EdgeInsets.only(
                 top: 20,
               ),
               child: TextButton(
@@ -90,7 +90,7 @@ class CartScreen extends StatelessWidget {
     }
 
     Widget customBottomNav() {
-      return Container(
+      return SizedBox(
         height: 180,
         child: Column(
           children: [
@@ -177,9 +177,9 @@ class CartScreen extends StatelessWidget {
           style: primaryTextStyle,
         ),
       ),
-      body: cartProvider.carts.length == 0 ? emptyCart() : content(),
+      body: cartProvider.carts.isEmpty ? emptyCart() : content(),
       bottomNavigationBar:
-          cartProvider.carts.length == 0 ? SizedBox() : customBottomNav(),
+          cartProvider.carts.isEmpty ? const SizedBox() : customBottomNav(),
     );
   }
 }

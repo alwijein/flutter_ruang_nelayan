@@ -10,7 +10,7 @@ class DetailLaporanHarianScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Laporan Harian'),
+        title: const Text('Laporan Harian'),
       ),
       body: DetailLaporanHarianBody(),
     );

@@ -15,19 +15,19 @@ class DataPenjualanBody extends StatelessWidget {
           ),
           child: Column(
             children: [
-              ProfileImage(
+              const ProfileImage(
                 img: 'assets/images/ikan_01.png',
                 name: 'Sutono',
               ),
               SizedBox(
                 height: getPropertionateScreenHeight(10),
               ),
-              Divider(
+              const Divider(
                 thickness: 2.0,
               ),
               CollapseCard(
                 content: [
-                  HeaderTextIcon(
+                  const HeaderTextIcon(
                     title: 'Ikan yang dibeli',
                     icon: Icons.shopping_cart,
                   ),
@@ -76,7 +76,7 @@ class DataPenjualanBody extends StatelessWidget {
                   ),
                 ],
               ),
-              Divider(
+              const Divider(
                 thickness: 2.0,
               ),
               CardKurir(
@@ -84,7 +84,7 @@ class DataPenjualanBody extends StatelessWidget {
                 kurir: 'OK - JEK EXPRESS',
                 harga: '20.000',
               ),
-              Divider(
+              const Divider(
                 thickness: 2.0,
               ),
               CollapseCard(

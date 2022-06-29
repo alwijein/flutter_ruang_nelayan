@@ -9,9 +9,9 @@ class NotifikasiScreen extends StatelessWidget {
     SizeConfig().init(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Notifikasi'),
+        title: const Text('Notifikasi'),
       ),
-      body: NotifikasiBody(),
+      body: const NotifikasiBody(),
     );
   }
 }

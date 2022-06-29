@@ -36,7 +36,9 @@ class CartProvider with ChangeNotifier {
   }
 
   addQuantity(int id) {
-    _carts[id].quantity = _carts[id].quantity! + 1;
+    if (_carts[id].quantity! < _carts[id].hasilTangkapanModel!.jumlah!) {
+      _carts[id].quantity = _carts[id].quantity! + 1;
+    }
     notifyListeners();
   }
 

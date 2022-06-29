@@ -25,7 +25,7 @@ class IkanAirTawarBody extends StatelessWidget {
         width: double.infinity,
         child: GridView.builder(
             itemCount: tipeIkan.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               childAspectRatio: 0.8,
               crossAxisSpacing: 10,
@@ -49,7 +49,7 @@ class IkanAirTawarBody extends StatelessWidget {
                     Container(
                       width: double.infinity,
                       height: getPropertionateScreenHeight(150),
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         image: DecorationImage(
                           image: AssetImage(
                             'assets/images/ikan_01.png',

@@ -18,7 +18,7 @@ class _OtpTestingState extends State<OtpTesting> {
   final phoneController = TextEditingController();
   final otpController = TextEditingController();
 
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   String verificationId = '';
 
@@ -41,7 +41,7 @@ class _OtpTestingState extends State<OtpTesting> {
       if (authCredential.user != null) {
         Get.toNamed('/home-nelayan');
       }
-    } on FirebaseAuthException catch (e) {
+    } on FirebaseAuthException {
       setState(() {
         showLoading = false;
       });
@@ -51,14 +51,14 @@ class _OtpTestingState extends State<OtpTesting> {
   getMobileFormWidget(context) {
     return Column(
       children: [
-        Spacer(),
+        const Spacer(),
         TextField(
           controller: phoneController,
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             hintText: "Phone Number",
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 16,
         ),
         TextButton(
@@ -93,9 +93,9 @@ class _OtpTestingState extends State<OtpTesting> {
               codeAutoRetrievalTimeout: (verificationId) async {},
             );
           },
-          child: Text("SEND"),
+          child: const Text("SEND"),
         ),
-        Spacer(),
+        const Spacer(),
       ],
     );
   }
@@ -103,14 +103,14 @@ class _OtpTestingState extends State<OtpTesting> {
   getOtpFormWidget(context) {
     return Column(
       children: [
-        Spacer(),
+        const Spacer(),
         TextField(
           controller: otpController,
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             hintText: "Enter OTP",
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 16,
         ),
         TextButton(
@@ -123,9 +123,9 @@ class _OtpTestingState extends State<OtpTesting> {
 
             signInWithPhoneAuthCredential(phoneAuthCredential);
           },
-          child: Text("VERIFY"),
+          child: const Text("VERIFY"),
         ),
-        Spacer(),
+        const Spacer(),
       ],
     );
   }
@@ -138,7 +138,7 @@ class _OtpTestingState extends State<OtpTesting> {
         key: _scaffoldKey,
         body: Container(
           child: showLoading
-              ? Center(
+              ? const Center(
                   child: CircularProgressIndicator(),
                 )
               : currentState == MobileVerificationState.SHOW_MOBILE_FORM_STATE

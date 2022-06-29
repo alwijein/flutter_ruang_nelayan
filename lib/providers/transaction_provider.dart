@@ -20,7 +20,7 @@ class TransactionProvider with ChangeNotifier {
     double totalJasa,
     double ongkosKirim,
     String pembayaran,
-    int jasaPengantaran,
+    String tipePengantaran,
   ) async {
     try {
       if (await TransactionServices().checkout(
@@ -31,7 +31,7 @@ class TransactionProvider with ChangeNotifier {
         totalJasa,
         ongkosKirim,
         pembayaran,
-        jasaPengantaran,
+        tipePengantaran,
       )) {
         return true;
       } else {
@@ -53,10 +53,10 @@ class TransactionProvider with ChangeNotifier {
     }
   }
 
-  Future<void> getTransactionWithDate(String status, String created_at) async {
+  Future<void> getTransactionWithDate(String status, String createdAt) async {
     try {
-      List<TransactionModel> transactionModel = await TransactionServices()
-          .getTransactionWithDate(status, created_at);
+      List<TransactionModel> transactionModel =
+          await TransactionServices().getTransactionWithDate(status, createdAt);
       _transactionModel = transactionModel;
     } catch (e) {
       print(e);

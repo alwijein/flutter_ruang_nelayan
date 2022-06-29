@@ -41,7 +41,9 @@ dependencies:
 
 dev_dependencies:
   carousel_slider: ^4.0.0
+  chips_choice_null_safety: ^2.0.6
   cloud_firestore: ^3.1.11
+  cross_connectivity: ^3.0.5
   dropdown_button2: ^1.2.2
   firebase_auth: ^3.3.9
   firebase_core: ^1.13.1

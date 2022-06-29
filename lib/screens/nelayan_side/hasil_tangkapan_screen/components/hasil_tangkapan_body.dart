@@ -4,7 +4,6 @@ import 'package:flutter_ruang_nelayan/providers/jenis_ikan_provider.dart';
 import 'package:flutter_ruang_nelayan/providers/jenis_pengerjaan_ikan.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/hasil_tangkapan_screen/components/card_hasil_tangkapan.dart';
 import 'package:get/get.dart';
-import 'package:flutter_ruang_nelayan/screens/register_screen/components/register_form.dart';
 
 class HasilTangkapanBody extends StatelessWidget {
   const HasilTangkapanBody({Key? key}) : super(key: key);
@@ -18,7 +17,7 @@ class HasilTangkapanBody extends StatelessWidget {
     JenisPengerjaanIkanProvider jenisPengerjaanIkanProvider =
         Provider.of<JenisPengerjaanIkanProvider>(context);
     return SafeArea(
-      child: Container(
+      child: SizedBox(
         width: double.infinity,
         child: Stack(
           children: [

@@ -12,7 +12,7 @@ class HomeScreenCostumer extends StatelessWidget {
     final loginState = GetStorage();
 
     loginState.write('status', true);
-    return Scaffold(
+    return const Scaffold(
       body: HomeScreenCostumerBody(),
     );
   }

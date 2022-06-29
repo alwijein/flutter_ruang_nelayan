@@ -174,7 +174,7 @@ class _RegisterFormState extends State<RegisterForm> {
                       }
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
+                        const SnackBar(
                           backgroundColor: Colors.red,
                           content: Text(
                             'Password Tidak Sesuai',
@@ -183,9 +183,9 @@ class _RegisterFormState extends State<RegisterForm> {
                         ),
                       );
                     }
-                    // setState(() {
-                    //   isLoading = false;
-                    // });
+                    setState(() {
+                      isLoading = false;
+                    });
                   }),
           SizedBox(
             height: getPropertionateScreenHeight(20),

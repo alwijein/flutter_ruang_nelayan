@@ -51,7 +51,7 @@ class HomeScreenCostumerBody extends StatelessWidget {
             Align(
               alignment: Alignment.bottomCenter,
               child: ClipRRect(
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(30),
                   topRight: Radius.circular(30),
                 ),
@@ -102,7 +102,8 @@ class HomeScreenCostumerBody extends StatelessWidget {
                         desc: 'Lihat selengkapnya daftar ikan air tawar disini',
                         press: () async {
                           await tipeIkanProvider.ikanAirTawar();
-                          Get.toNamed('/ikan-air-tawar-costumer');
+                          Get.toNamed('/ikan-air-tawar-costumer',
+                              arguments: 'Tawar');
                         },
                       ),
                       CardCategory(
@@ -111,7 +112,8 @@ class HomeScreenCostumerBody extends StatelessWidget {
                         desc: 'Lihat selengkapnya daftar ikan air laut disini',
                         press: () async {
                           await tipeIkanProvider.ikanAirLaut();
-                          Get.toNamed('/ikan-air-tawar-costumer');
+                          Get.toNamed('/ikan-air-tawar-costumer',
+                              arguments: 'Laut');
                         },
                       ),
                       SizedBox(
@@ -156,9 +158,9 @@ class TerbaruMenu extends StatelessWidget {
             width: double.infinity,
             height: getPropertionateScreenHeight(900),
             child: GridView.builder(
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 itemCount: hasilTangkapanProvider.hasilTangkapan.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   childAspectRatio: 0.52,
                   crossAxisSpacing: 10,
@@ -272,7 +274,7 @@ class CardIkanTerbaru extends StatelessWidget {
               text: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.add_shopping_cart,
                     color: kBackgroundColor1,
                   ),
@@ -325,12 +327,12 @@ class PopulerMenu extends StatelessWidget {
             width: double.infinity,
             height: getPropertionateScreenHeight(500),
             child: GridView.builder(
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 itemCount: 4,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2),
                 itemBuilder: (_, count) {
-                  return CardIkanPopuler();
+                  return const CardIkanPopuler();
                 }),
           ),
         ],
@@ -346,7 +348,7 @@ class CardIkanPopuler extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: getPropertionateScreenHeight(200),
       width: getPropertionateScreenWidht(200),
       child: Column(

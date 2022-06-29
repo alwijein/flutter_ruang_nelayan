@@ -19,7 +19,7 @@ class DetailIkanBody extends StatelessWidget {
           children: [
             Container(
               height: getPropertionateScreenHeight(300),
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.fill,
                   image: AssetImage('assets/images/ikan_01.png'),
@@ -102,7 +102,7 @@ class ListDetailIkan extends StatelessWidget {
                 ),
               ],
             ),
-            Spacer(),
+            const Spacer(),
             DefaultButton(
                 isInfinity: false,
                 width: getPropertionateScreenWidht(40),
@@ -135,7 +135,7 @@ class ListDetailIkan extends StatelessWidget {
                 }),
           ],
         ),
-        Divider(
+        const Divider(
           thickness: 1.3,
         ),
       ],
