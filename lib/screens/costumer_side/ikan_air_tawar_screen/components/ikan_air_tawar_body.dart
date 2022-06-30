@@ -49,11 +49,9 @@ class IkanAirTawarBody extends StatelessWidget {
                     Container(
                       width: double.infinity,
                       height: getPropertionateScreenHeight(150),
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: AssetImage(
-                            'assets/images/ikan_01.png',
-                          ),
+                          image: NetworkImage(tipeIkan[count].img.toString()),
                           fit: BoxFit.cover,
                         ),
                       ),
