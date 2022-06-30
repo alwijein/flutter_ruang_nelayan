@@ -43,7 +43,7 @@ class HomeBody extends StatelessWidget {
                     SizedBox(
                       height: getPropertionateScreenHeight(24),
                     ),
-                    BodyMenu(),
+                    const BodyMenu(),
                   ],
                 ),
               ),

@@ -21,11 +21,11 @@ class IconButtonRedDotNotificationWidget extends StatelessWidget {
           color: Colors.red,
           borderRadius: BorderRadius.circular(7),
         ),
-        constraints: BoxConstraints(
+        constraints: const BoxConstraints(
           minWidth: 10,
           minHeight: 10,
         ),
-        child: Container(
+        child: const SizedBox(
           width: 1,
           height: 1,
         ),

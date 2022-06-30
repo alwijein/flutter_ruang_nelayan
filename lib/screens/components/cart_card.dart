@@ -2,7 +2,7 @@ part of 'components.dart';
 
 class CartCard extends StatelessWidget {
   final CartModel cart;
-  CartCard(this.cart);
+  const CartCard(this.cart);
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +12,7 @@ class CartCard extends StatelessWidget {
       margin: EdgeInsets.only(
         top: getPropertionateScreenWidht(24),
       ),
-      padding: EdgeInsets.symmetric(
+      padding: const EdgeInsets.symmetric(
         horizontal: 16,
         vertical: 10,
       ),
@@ -38,7 +38,7 @@ class CartCard extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 12,
               ),
               Expanded(
@@ -65,37 +65,37 @@ class CartCard extends StatelessWidget {
                   ],
                 ),
               ),
-              // Column(
-              //   children: [
-              //     GestureDetector(
-              //       onTap: () {
-              //         cartProvider.addQuantity(cart.id!);
-              //       },
-              //       child: Icon(Icons.add),
-              //     ),
-              //     SizedBox(
-              //       height: 2,
-              //     ),
-              //     Text(
-              //       cart.quantity.toString(),
-              //       style: primaryTextStyle.copyWith(
-              //         fontWeight: medium,
-              //       ),
-              //     ),
-              //     SizedBox(
-              //       height: 2,
-              //     ),
-              //     GestureDetector(
-              //       onTap: () {
-              //         cartProvider.reduceQuantity(cart.id!);
-              //       },
-              //       child: Icon(Icons.remove),
-              //     ),
-              //   ],
-              // ),
+              Column(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      cartProvider.addQuantity(cart.id!);
+                    },
+                    child: Icon(Icons.add),
+                  ),
+                  SizedBox(
+                    height: 2,
+                  ),
+                  Text(
+                    cart.quantity.toString(),
+                    style: primaryTextStyle.copyWith(
+                      fontWeight: medium,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 2,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      cartProvider.reduceQuantity(cart.id!);
+                    },
+                    child: Icon(Icons.remove),
+                  ),
+                ],
+              ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 12,
           ),
           GestureDetector(
@@ -104,8 +104,8 @@ class CartCard extends StatelessWidget {
             },
             child: Row(
               children: [
-                Icon(Icons.remove_shopping_cart),
-                SizedBox(
+                const Icon(Icons.remove_shopping_cart),
+                const SizedBox(
                   width: 4,
                 ),
                 Text(

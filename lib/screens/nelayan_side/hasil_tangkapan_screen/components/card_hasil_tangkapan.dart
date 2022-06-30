@@ -3,7 +3,6 @@ import 'package:flutter_ruang_nelayan/models/hasil_tangkapan_model.dart';
 import 'package:flutter_ruang_nelayan/providers/jenis_ikan_provider.dart';
 import 'package:flutter_ruang_nelayan/providers/jenis_pengerjaan_ikan.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 class CardHasilTangkapan extends StatelessWidget {
   const CardHasilTangkapan({
@@ -34,7 +33,7 @@ class CardHasilTangkapan extends StatelessWidget {
             color: Colors.grey.withOpacity(0.3),
             spreadRadius: 3,
             blurRadius: 4,
-            offset: Offset(0, 3), // changes position of shadow
+            offset: const Offset(0, 3), // changes position of shadow
           ),
         ],
       ),

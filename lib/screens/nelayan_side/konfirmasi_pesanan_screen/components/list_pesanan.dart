@@ -7,7 +7,7 @@ class ListPesanan extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CollapseCard(
+    return const CollapseCard(
       content: [
         HeaderTextIcon(
           title: 'List Pesanan',

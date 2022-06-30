@@ -8,7 +8,7 @@ class TambahIkanScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Hasil Tangkapan'),
+        title: const Text('Hasil Tangkapan'),
       ),
       body: TambahIkanBody(),
     );

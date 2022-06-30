@@ -2,7 +2,6 @@ import 'package:flutter_ruang_nelayan/boostrap.dart';
 import 'package:flutter_ruang_nelayan/models/user_model.dart';
 import 'package:flutter_ruang_nelayan/providers/auth_provider.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/laporan_harian_screen/components/profile_image.dart';
-import 'package:get/get.dart';
 
 class Header extends StatelessWidget {
   const Header({

@@ -13,7 +13,7 @@ class TransactionServices {
     double totalJasa,
     double ongkosKirim,
     String pembayaran,
-    int jasaPengantaran,
+    String tipePengantaran,
   ) async {
     var url = Uri.parse("$baseUrl/checkout");
 
@@ -37,7 +37,7 @@ class TransactionServices {
         'total_pembayaran': totalPrice,
         'total_jasa': totalJasa,
         'ongkos_kirim': ongkosKirim,
-        'id_jasa_pengantaran': jasaPengantaran,
+        'tipe_pengantaran': tipePengantaran,
         'id_nelayan': idNelayan,
       },
     );
@@ -124,9 +124,9 @@ class TransactionServices {
   }
 
   Future<List<TransactionModel>> getTransactionWithDate(
-      String status, String created_at) async {
+      String status, String createdAt) async {
     var url =
-        Uri.parse("$baseUrl/transaction?status=$status&created_at=$created_at");
+        Uri.parse("$baseUrl/transaction?status=$status&created_at=$createdAt");
 
     var headers = {
       'Content-Type': 'application/json',
@@ -197,6 +197,35 @@ class TransactionServices {
     int id,
   ) async {
     var url = Uri.parse("$baseUrl/confirm-status?id=$id");
+
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': loginState.read('token').toString(),
+    };
+    var body;
+
+    var response = await http.post(
+      url,
+      headers: headers,
+      body: body,
+    );
+
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body)['data'];
+      return true;
+    } else {
+      throw Exception('Gagal Melakukan Checkout!');
+    }
+  }
+
+  Future<bool> ediQty({
+    required int idHasilTangkapan,
+    required int qty,
+  }) async {
+    var url = Uri.parse(
+        "$baseUrl/confirm-status?idHasilTangkapan=$idHasilTangkapan&qty=$qty");
 
     var headers = {
       'Content-Type': 'application/json',

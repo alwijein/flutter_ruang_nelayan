@@ -39,7 +39,7 @@ class HeaderMenu extends StatelessWidget {
             },
           ),
         ),
-        Spacer(
+        const Spacer(
           flex: 1,
         ),
         Expanded(
@@ -55,7 +55,7 @@ class HeaderMenu extends StatelessWidget {
                       },
                       child: SvgPicture.asset('assets/icons/alarm.svg'),
                     )
-                  : SizedBox(),
+                  : const SizedBox(),
               GestureDetector(
                 onTap: () async {
                   await authProvider.getWithRole();
@@ -90,7 +90,7 @@ class HeaderMenu extends StatelessWidget {
                       onTap: () {
                         Get.toNamed('/cart');
                       },
-                      child: Icon(Icons.shopping_cart, color: kPrimaryColor),
+                      child: const Icon(Icons.shopping_cart, color: kPrimaryColor),
                     ),
               GestureDetector(
                   onTap: () async {

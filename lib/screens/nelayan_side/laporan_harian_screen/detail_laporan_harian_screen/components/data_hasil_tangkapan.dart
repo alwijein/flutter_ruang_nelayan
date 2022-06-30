@@ -1,6 +1,4 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
-import 'package:flutter_ruang_nelayan/models/hasil_tangkapan_model.dart';
-import 'package:flutter_ruang_nelayan/providers/hasil_tangkapan_provider.dart';
 
 class DataHasilTangkapan extends StatelessWidget {
   const DataHasilTangkapan({

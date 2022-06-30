@@ -71,7 +71,7 @@ class _OtpFormState extends State<OtpForm> {
           Get.offAllNamed('/home-costumer');
         }
       }
-    } on FirebaseAuthException catch (e) {
+    } on FirebaseAuthException {
       setState(() {
         isLoading = false;
       });

@@ -1,11 +1,8 @@
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:flutter_ruang_nelayan/boostrap.dart';
 import 'package:flutter_ruang_nelayan/models/hasil_tangkapan_model.dart';
 import 'package:flutter_ruang_nelayan/providers/hasil_tangkapan_provider.dart';
-import 'package:flutter_ruang_nelayan/providers/transaction_provider.dart';
-import 'package:flutter_ruang_nelayan/screens/nelayan_side/hasil_tangkapan_screen/components/card_hasil_tangkapan.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/laporan_harian_screen/detail_laporan_harian_screen/components/data_hasil_tangkapan.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/laporan_harian_screen/detail_laporan_harian_screen/components/data_penjualan.dart';
 import 'package:flutter_ruang_nelayan/screens/nelayan_side/laporan_harian_screen/detail_laporan_harian_screen/components/header.dart';
@@ -70,17 +67,17 @@ class DetailLaporanHarianBody extends StatelessWidget {
                   ),
                 ],
               ),
-              Divider(
+              const Divider(
                 thickness: 2.0,
               ),
               DataHasilTangkapan(
                 jumlahIkan: jumlahIkan,
                 totalHarga: totalHarga,
               ),
-              Divider(
+              const Divider(
                 thickness: 2.0,
               ),
-              DataPenjualan(),
+              const DataPenjualan(),
             ],
           ),
         ),
@@ -138,7 +135,7 @@ class DetailLaporanHarianBody extends StatelessWidget {
                           horizontal: getPropertionateScreenWidht(10)),
                       decoration: pw.BoxDecoration(
                         borderRadius: pw.BorderRadius.circular(10),
-                        color: PdfColor.fromInt(0xffE7F3FE),
+                        color: const PdfColor.fromInt(0xffE7F3FE),
                         // boxShadow: [
                         //   pw.BoxShadow(
                         //     color: PdfColor.fromInt(0xff999999),
@@ -164,7 +161,7 @@ class DetailLaporanHarianBody extends StatelessWidget {
                               children: [
                                 pw.TextSpan(
                                   text: hasil.jumlah.toString(),
-                                  style: pw.TextStyle(
+                                  style: const pw.TextStyle(
                                     fontSize: 20,
                                   ),
                                 ),
@@ -182,7 +179,7 @@ class DetailLaporanHarianBody extends StatelessWidget {
                                       .format(hasil.harga)
                                       .toString()
                                       .replaceAll(regex, ''),
-                                  style: pw.TextStyle(
+                                  style: const pw.TextStyle(
                                     fontSize: 20,
                                   ),
                                 ),
@@ -199,7 +196,7 @@ class DetailLaporanHarianBody extends StatelessWidget {
                                   text: hasil
                                       .jenisPengerjaanIkan!.jenisPengerjaan
                                       .toString(),
-                                  style: pw.TextStyle(
+                                  style: const pw.TextStyle(
                                     fontSize: 20,
                                   ),
                                 ),

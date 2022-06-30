@@ -1,7 +1,6 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
 import 'package:flutter_ruang_nelayan/models/transaction_model.dart';
 import 'package:flutter_ruang_nelayan/providers/transaction_provider.dart';
-import 'package:flutter_ruang_nelayan/screens/nelayan_side/laporan_harian_screen/data_penjualan_screen/data_penjualan_screen.dart';
 import 'package:get/get.dart';
 
 class DataPenjualan extends StatelessWidget {

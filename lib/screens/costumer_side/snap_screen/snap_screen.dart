@@ -27,7 +27,7 @@ class _SnapScreenState extends State<SnapScreen> {
   var alamat = Get.arguments[3]['alamat'];
   var total_jasa = Get.arguments[4]['total_jasa'];
   var ongkos_kirim = Get.arguments[5]['ongkos_kirim'];
-  var id_jasa_pengantaran = Get.arguments[6]['id_jasa_pengantaran'];
+  var tipePengantaran = Get.arguments[6]['tipe_pengantaran'];
   var id_nelayan = Get.arguments[7]['id_nelayan'];
 
   @override
@@ -64,7 +64,7 @@ class _SnapScreenState extends State<SnapScreen> {
               initialUrl: '',
               javascriptMode: JavascriptMode.unrestricted,
               gestureNavigationEnabled: true,
-              javascriptChannels: <JavascriptChannel>[
+              javascriptChannels: <JavascriptChannel>{
                 JavascriptChannel(
                   name: 'Print',
                   onMessageReceived: (JavascriptMessage receiver) {
@@ -99,7 +99,7 @@ class _SnapScreenState extends State<SnapScreen> {
                     print('==========>>>>>>>>>>>>>> END');
                   },
                 ),
-              ].toSet(),
+              },
               onWebViewCreated: (_controller) {
                 webViewController = _controller;
                 _loadHtmlFromAssets();
@@ -161,7 +161,7 @@ class _SnapScreenState extends State<SnapScreen> {
 
   _handleResponse(message) {
     try {
-      var title, desc;
+      String title, desc;
       Midtrans? midtrans;
       if (Platform.isAndroid) {
         switch (message) {
@@ -184,10 +184,11 @@ class _SnapScreenState extends State<SnapScreen> {
       var result = midtrans!.getResult();
       title = result[0];
       desc = result[1];
-      if (title.length == 0 && desc.length == 0)
+      if (title.isEmpty && desc.isEmpty) {
         Get.snackbar('success', 'success');
-      else
+      } else {
         _showConfirmDialog(title, desc);
+      }
     } catch (e) {}
   }
 
@@ -197,7 +198,7 @@ class _SnapScreenState extends State<SnapScreen> {
     await showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (BuildContext context) {
@@ -216,14 +217,14 @@ class _SnapScreenState extends State<SnapScreen> {
                   title,
                   style: primaryTextStyle,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 25,
                 ),
                 Text(
                   desc,
                   style: primaryTextStyle,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 25,
                 ),
                 DefaultButton(
@@ -239,7 +240,7 @@ class _SnapScreenState extends State<SnapScreen> {
                       alamat,
                       total_jasa,
                       ongkos_kirim,
-                      id_jasa_pengantaran,
+                      tipePengantaran,
                     ]);
                     if (await transactionProvider.checkout(
                       carts,
@@ -249,7 +250,7 @@ class _SnapScreenState extends State<SnapScreen> {
                       total_jasa,
                       ongkos_kirim,
                       'E-Pay',
-                      int.parse(id_jasa_pengantaran.toString()),
+                      tipePengantaran,
                     )) {
                       cartProvider.carts = [];
                       stateController.isReset();

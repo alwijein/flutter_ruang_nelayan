@@ -4,6 +4,7 @@ import 'package:flutter_ruang_nelayan/models/user_model.dart';
 import 'package:flutter_ruang_nelayan/providers/auth_provider.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:cross_connectivity/cross_connectivity.dart';
 
 class DetailChatScreen extends StatefulWidget {
   @override
@@ -53,7 +54,7 @@ class _DetailChatScreenState extends State<DetailChatScreen> {
 
     PreferredSize header() {
       return PreferredSize(
-        preferredSize: Size.fromHeight(70),
+        preferredSize: const Size.fromHeight(70),
         child: AppBar(
           backgroundColor: kBackgroundColor1,
           centerTitle: false,
@@ -62,7 +63,7 @@ class _DetailChatScreenState extends State<DetailChatScreen> {
               CircleAvatar(
                 backgroundImage: NetworkImage(nelayan.avatar.toString()),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 12,
               ),
               Column(
@@ -92,7 +93,7 @@ class _DetailChatScreenState extends State<DetailChatScreen> {
 
     Widget chatInput() {
       return Container(
-        margin: EdgeInsets.all(20),
+        margin: const EdgeInsets.all(20),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -102,7 +103,7 @@ class _DetailChatScreenState extends State<DetailChatScreen> {
                 Expanded(
                   child: Container(
                     height: 45,
-                    padding: EdgeInsets.symmetric(
+                    padding: const EdgeInsets.symmetric(
                       horizontal: 16,
                     ),
                     decoration: BoxDecoration(
@@ -121,12 +122,12 @@ class _DetailChatScreenState extends State<DetailChatScreen> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 20,
                 ),
                 GestureDetector(
                   onTap: handleAddMessage,
-                  child: Icon(Icons.send, color: kPrimaryColor),
+                  child: const Icon(Icons.send, color: kPrimaryColor),
                 ),
               ],
             ),
@@ -144,7 +145,7 @@ class _DetailChatScreenState extends State<DetailChatScreen> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return ListView(
-                padding: EdgeInsets.symmetric(
+                padding: const EdgeInsets.symmetric(
                   horizontal: 24,
                 ),
                 children: snapshot.data!
@@ -155,7 +156,7 @@ class _DetailChatScreenState extends State<DetailChatScreen> {
                     .toList(),
               );
             } else {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             }
@@ -167,7 +168,17 @@ class _DetailChatScreenState extends State<DetailChatScreen> {
       body: Column(
         children: [
           Expanded(
-            child: content(),
+            child: ConnectivityBuilder(builder: (context, isConnected, status) {
+              return isConnected == false
+                  ? Center(
+                      child: Icon(
+                        Icons.signal_wifi_off,
+                        color: kAlertColor,
+                        size: getPropertionateScreenWidht(100),
+                      ),
+                    )
+                  : content();
+            }),
           ),
           chatInput()
         ],

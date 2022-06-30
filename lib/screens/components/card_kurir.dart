@@ -1,7 +1,7 @@
 part of 'components.dart';
 
 class CardKurir extends StatelessWidget {
-  const CardKurir({
+  CardKurir({
     Key? key,
     required this.logo,
     required this.kurir,
@@ -14,23 +14,23 @@ class CardKurir extends StatelessWidget {
   Widget build(BuildContext context) {
     return CollapseCard(
       content: [
-        HeaderTextIcon(
+        const HeaderTextIcon(
           title: 'Kurir Pengantar',
           icon: Icons.car_repair,
         ),
         Row(
           children: [
-            Expanded(
-              flex: 1,
-              child: Container(
-                height: getPropertionateScreenHeight(50),
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(logo),
-                  ),
-                ),
-              ),
-            ),
+            // Expanded(
+            //   flex: 1,
+            //   child: Container(
+            //     height: getPropertionateScreenHeight(50),
+            //     decoration: BoxDecoration(
+            //       image: DecorationImage(
+            //         image: AssetImage(logo),
+            //       ),
+            //     ),
+            //   ),
+            // ),
             Expanded(
               flex: 3,
               child: Column(
@@ -41,7 +41,7 @@ class CardKurir extends StatelessWidget {
                     style: primaryTextStyle.copyWith(fontWeight: bold),
                   ),
                   Text(
-                    "Rp$harga",
+                    harga,
                     style: primaryLightTextStyle.copyWith(fontWeight: bold),
                   ),
                 ],

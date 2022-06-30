@@ -15,7 +15,7 @@ class AlamatPengantaran extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            HeaderTextIcon(
+            const HeaderTextIcon(
               icon: Icons.location_pin,
               title: 'Alamat Pengantaran',
             ),

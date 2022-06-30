@@ -22,8 +22,8 @@ class AuthServices {
       'no_hp': noTelp,
       'password': password,
       'role': role,
-      'alamat': '',
-      'avatar': 'assets/images/default_person.png',
+      'avatar':
+          'https://firebasestorage.googleapis.com/v0/b/ruang-nelayan.appspot.com/o/Hasil%20Tangkapan%2FFoto%20Profile%2Fdefault_person.png?alt=media&token=83a18cd2-2f2d-4f2a-9427-1ec1aa1dcb0e',
     });
 
     var response = await http.post(
@@ -239,7 +239,7 @@ class AuthServices {
   }
 
   Future<List<UserModel>> getWithRole() async {
-    var url;
+    Uri url = Uri.parse("$baseUrl/get-all?role=costumer");
     if (loginState.read('role').toString() != 'costumer') {
       url = Uri.parse("$baseUrl/get-all?role=costumer");
     } else if (loginState.read('role').toString() != 'nelayan') {

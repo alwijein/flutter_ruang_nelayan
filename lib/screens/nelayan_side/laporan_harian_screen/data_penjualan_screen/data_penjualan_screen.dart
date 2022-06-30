@@ -9,9 +9,9 @@ class DataPenjualanScreen extends StatelessWidget {
     SizeConfig().init(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Data Penjualan'),
+        title: const Text('Data Penjualan'),
       ),
-      body: DataPenjualanBody(),
+      body: const DataPenjualanBody(),
     );
   }
 }

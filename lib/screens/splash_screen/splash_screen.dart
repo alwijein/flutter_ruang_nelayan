@@ -1,10 +1,8 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
-import 'package:flutter_ruang_nelayan/models/user_model.dart';
 import 'package:flutter_ruang_nelayan/providers/auth_provider.dart';
 import 'package:flutter_ruang_nelayan/providers/hasil_tangkapan_provider.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:image_picker/image_picker.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -54,10 +52,10 @@ class _SplashScreenState extends State<SplashScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.asset('assets/images/logo.png'),
-                  SizedBox(
+                  const SizedBox(
                     height: 40,
                   ),
-                  CircularProgressIndicator(
+                  const CircularProgressIndicator(
                     valueColor:
                         AlwaysStoppedAnimation<Color>(kPrimaryLightColor),
                   ),
