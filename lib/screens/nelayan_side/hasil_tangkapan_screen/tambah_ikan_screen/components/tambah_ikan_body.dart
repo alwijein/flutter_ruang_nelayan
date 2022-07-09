@@ -12,6 +12,7 @@ import 'package:flutter_ruang_nelayan/providers/laporan_harian_provider.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:chips_choice_null_safety/chips_choice_null_safety.dart';
 
 class TambahIkanBody extends StatefulWidget {
   TambahIkanBody({Key? key}) : super(key: key);
@@ -39,11 +40,18 @@ class _TambahIkanBodyState extends State<TambahIkanBody> {
   int? idJenisPengerjaanIkan;
   late HasilTangkapanModel hasilTangkapanModel;
 
+  List<int> tags = [];
+
+  TextEditingController namaIkan = TextEditingController();
+  TextEditingController jenisIkan = TextEditingController();
+  TextEditingController harga = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     CounterController counterController = Get.put(CounterController());
 
     HasilTangkapanServices hasilTangkapanServices = HasilTangkapanServices();
+
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
 
     String toDayDate = FormatDate.formatDate(DateTime.now()).toString();
@@ -61,24 +69,22 @@ class _TambahIkanBodyState extends State<TambahIkanBody> {
     List<JasaPengerjaanModel> jenisPengerjaanIkanModel =
         jenisPengerjaanIkanProvider.jenisPengerjaanIkan;
 
-    TextEditingController namaIkan = TextEditingController();
-    TextEditingController jenisIkan = TextEditingController();
-    TextEditingController jenisPengerjaan = TextEditingController();
-    TextEditingController harga = TextEditingController();
+    List<JasaPengerjaanModel> options = [];
+    for (var data in jenisPengerjaanIkanModel) {
+      options.add(data);
+    }
 
     if (isEdit) {
       hasilTangkapanModel = Get.arguments[1]['hasilTangkapan'];
       namaIkan = TextEditingController(text: hasilTangkapanModel.namaIkan);
       jenisIkan =
           TextEditingController(text: hasilTangkapanModel.jenisIkan.toString());
-      jenisPengerjaan = TextEditingController(
-          text: hasilTangkapanModel.jenisPengerjaanIkan.toString());
+
       harga = TextEditingController(text: hasilTangkapanModel.harga.toString());
 
       counterController.jumlah.value = hasilTangkapanModel.jumlah!;
 
       idJenisIkan = hasilTangkapanModel.idJenisIkan;
-      idJenisPengerjaanIkan = hasilTangkapanModel.idJasaPengerjaanIkan;
     }
 
     return SingleChildScrollView(
@@ -144,7 +150,7 @@ class _TambahIkanBodyState extends State<TambahIkanBody> {
                             counterController.decrementJumlah();
                           }
                         },
-                        child: Icon(
+                        child: const Icon(
                           Icons.remove_circle_outline,
                         ),
                       ),
@@ -162,7 +168,7 @@ class _TambahIkanBodyState extends State<TambahIkanBody> {
                       ),
                       GestureDetector(
                         onTap: () => counterController.incrementJumlah(),
-                        child: Icon(
+                        child: const Icon(
                           Icons.add_circle_outline,
                         ),
                       ),
@@ -197,7 +203,7 @@ class _TambahIkanBodyState extends State<TambahIkanBody> {
                   SizedBox(
                     width: getPropertionateScreenWidht(100),
                     child: TextField(
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: '35.000',
                       ),
                       controller: harga,
@@ -239,15 +245,33 @@ class _TambahIkanBodyState extends State<TambahIkanBody> {
                   fontSize: 16,
                 ),
               ),
-              buildJasaPengerjaanIkan(
-                icon: Icons.kitesurfing_sharp,
-                input: jenisPengerjaan,
-                jasaPengerjaanIkan: jenisPengerjaanIkanModel,
-                hintText: isEdit
-                    ? hasilTangkapanModel.jenisPengerjaanIkan!.jenisPengerjaan
-                        .toString()
-                    : 'Pilih Jenis Pengerjaan Ikan',
-                selected: idJenisPengerjaanIkan,
+              ChipsChoice<int>.multiple(
+                value: tags,
+                onChanged: (val) {
+                  setState(() {
+                    tags = val;
+                  });
+                },
+                choiceItems: C2Choice.listFrom<int, dynamic>(
+                  source: options,
+                  value: (i, v) => v.id,
+                  label: (i, v) {
+                    return options[i].jenisPengerjaan.toString();
+                    // return i.toString();
+                  },
+                ),
+                choiceActiveStyle: const C2ChoiceStyle(
+                  color: kWhiteTextColor,
+                  backgroundColor: kPrimaryColor,
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                ),
+                choiceStyle: const C2ChoiceStyle(
+                  showCheckmark: false,
+                  color: kWhiteTextColor,
+                  backgroundColor: kSecondaryTextColor,
+                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                ),
+                wrapped: true,
               ),
               SizedBox(
                 height: getPropertionateScreenHeight(50),
@@ -322,7 +346,7 @@ class _TambahIkanBodyState extends State<TambahIkanBody> {
                                   jumlah: counterController.jumlah.value,
                                   harga: double.parse(harga.text),
                                   gambar: file!,
-                                  idJasaPengerjaanIkan: idJenisPengerjaanIkan!,
+                                  idJasaPengerjaanIkan: tags,
                                 );
                               } else {
                                 await hasilTangkapanServices
@@ -333,7 +357,7 @@ class _TambahIkanBodyState extends State<TambahIkanBody> {
                                   jumlah: counterController.jumlah.value,
                                   harga: double.parse(harga.text),
                                   gambar: file!,
-                                  idJasaPengerjaanIkan: idJenisPengerjaanIkan!,
+                                  idJasaPengerjaanIkan: tags,
                                 );
                               }
 
@@ -430,57 +454,6 @@ class _TambahIkanBodyState extends State<TambahIkanBody> {
         onChanged: (value) {},
         onSaved: (value) {
           idJenisIkan = selected;
-        },
-      ),
-    );
-  }
-
-  TextFieldContainer buildJasaPengerjaanIkan({
-    required TextEditingController input,
-    required List<JasaPengerjaanModel> jasaPengerjaanIkan,
-    required IconData icon,
-    required String hintText,
-    required int? selected,
-  }) {
-    return TextFieldContainer(
-      isWrapSize: false,
-      child: DropdownButtonFormField2(
-        decoration: InputDecoration(
-          icon: Icon(
-            icon,
-            color: kPrimaryLightColor,
-          ),
-          border: InputBorder.none,
-          hintText: hintText,
-          hintStyle: subtitleTextStyle.copyWith(
-            fontSize: 14,
-          ),
-        ),
-        isExpanded: true,
-        icon: const Icon(
-          Icons.arrow_drop_down,
-          color: Colors.black45,
-        ),
-        dropdownDecoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-        ),
-        items: jasaPengerjaanIkan
-            .map((item) => DropdownMenuItem<JasaPengerjaanModel>(
-                  value: item,
-                  child: Text(
-                    item.jenisPengerjaan.toString(),
-                    style: primaryTextStyle,
-                  ),
-                  onTap: () {
-                    selected = item.id;
-                  },
-                ))
-            .toList(),
-        onChanged: (value) {
-          print('test = ' + selected.toString());
-        },
-        onSaved: (value) {
-          idJenisPengerjaanIkan = selected;
         },
       ),
     );

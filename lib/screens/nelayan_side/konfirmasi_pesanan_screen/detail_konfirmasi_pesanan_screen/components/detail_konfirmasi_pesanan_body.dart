@@ -82,6 +82,19 @@ class DetailKonfirmasiPesananBody extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
+                        'Jasa Pengerjaan: ',
+                        style: primaryLightTextStyle,
+                      ),
+                      Text(
+                        transactionModel.namaJasa.toString(),
+                        style: primaryLightTextStyle.copyWith(fontWeight: bold),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
                         'Total: ',
                         style: primaryLightTextStyle,
                       ),
@@ -99,28 +112,30 @@ class DetailKonfirmasiPesananBody extends StatelessWidget {
               SizedBox(
                 height: getPropertionateScreenHeight(20),
               ),
-              DefaultButton(
-                text: Text(
-                  'Proses Pesanan',
-                  style: whiteTextStyle,
-                ),
-                press: () async {
-                  if (await transactionProvider.confirmStatus(
-                    id: int.parse(
-                      transactionModel.id.toString(),
-                    ),
-                  )) {
-                    for (var data in transactionModel.cartModel!) {
-                      transactionServices.ediQty(
-                        idHasilTangkapan: data.hasilTangkapanModel!.id!,
-                        qty: (data.hasilTangkapanModel!.jumlah! -
-                            data.quantity!),
-                      );
-                    }
-                    Get.toNamed("/proses-pemesanan-nelayan");
-                  }
-                },
-              ),
+              transactionModel.status != "SUDAH DI KONFIRMASI"
+                  ? DefaultButton(
+                      text: Text(
+                        'Proses Pesanan',
+                        style: whiteTextStyle,
+                      ),
+                      press: () async {
+                        if (await transactionProvider.confirmStatus(
+                          id: int.parse(
+                            transactionModel.id.toString(),
+                          ),
+                        )) {
+                          for (var data in transactionModel.cartModel!) {
+                            transactionServices.ediQty(
+                              idHasilTangkapan: data.hasilTangkapanModel!.id!,
+                              qty: (data.hasilTangkapanModel!.jumlah! -
+                                  data.quantity!),
+                            );
+                          }
+                          Get.toNamed("/proses-pemesanan-nelayan");
+                        }
+                      },
+                    )
+                  : SizedBox(),
             ],
           ),
         ),

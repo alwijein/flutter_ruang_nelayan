@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter_ruang_nelayan/models/cart_model.dart';
 import 'package:get/get.dart';
 
 class StateController extends GetxController {
@@ -37,5 +38,39 @@ class StateController extends GetxController {
 
   selectKurir() {
     isAmbilSendiri.value = !isAmbilSendiri.value;
+  }
+
+  // State for Jasa Ikan
+
+  var jasaPengerjaanIkan = [].obs;
+  CartModel cartModel = CartModel();
+  var jasa = ''.obs;
+
+  getTotalJasa() {}
+
+  setJasa(List<String> index, CartModel carts) {
+    for (var data in carts.hasilTangkapanModel!.jenisPengerjaanIkan!) {
+      for (var indexing in index) {
+        if (data.jenisPengerjaan == indexing) {
+          // jasaPengerjaanIkan.hasilTangkapanModel[carts.id].jenisPengerjaanIkan.add(carts);
+        }
+        // cartModel.hasilTangkapanModel.jenisPengerjaanIkan
+      }
+    }
+    setPengerjaanIkan(carts.id!);
+  }
+
+  setPengerjaanIkan(int id) {
+    String jasa = '';
+    for (var data
+        in jasaPengerjaanIkan[id].hasilTangkapanModel.jenisPengerjaanIkan) {
+      jasa += data.jenisPengerjaan;
+    }
+
+    this.jasa.value = jasa;
+  }
+
+  resetJasa(int id) {
+    jasaPengerjaanIkan[id].hasilTangkapanModel.jenisPengerjaanIkan = [];
   }
 }

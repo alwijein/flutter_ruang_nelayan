@@ -51,7 +51,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       });
 
       if (isCod) {
-        print('Success' + selectedValue.toString());
+        print('Success ${cartProvider.getPengerjaanIkan()}');
         if (await transactionProvider.checkout(
           cartProvider.carts,
           int.parse(
@@ -60,6 +60,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               cartProvider.totalJasa() +
               jasaPengantaranProvider.biaya),
           authProvider.user.alamat.toString(),
+          cartProvider.getPengerjaanIkan(),
           cartProvider.totalJasa(),
           jasaPengantaranProvider.biaya,
           'Cash or Delivery',
@@ -68,7 +69,18 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           stateController.isReset();
           cartProvider.carts = [];
           await hasilTangkapanProvider.getAllHasilTangkapan();
-          await Get.offNamed('home-costumer');
+
+          Get.snackbar(
+            'Berhasil',
+            'Pembelian berhasil dilakukan nelayan untuk meproses pembelian anda',
+            backgroundColor: kPrimaryColor,
+            colorText: kWhiteTextColor,
+            margin: EdgeInsets.symmetric(
+              vertical: getPropertionateScreenHeight(10),
+              horizontal: getPropertionateScreenHeight(24),
+            ),
+          );
+          Get.offNamed('home-costumer');
         }
       } else {
         String token = await transactionService.getToken(
@@ -84,6 +96,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             {'carts': cartProvider.carts},
             {'total_harga': cartProvider.totalPrice()},
             {'alamat': authProvider.user.alamat.toString()},
+            {'nama_jasa': cartProvider.getPengerjaanIkan()},
             {'total_jasa': cartProvider.totalJasa()},
             {'ongkos_kirim': jasaPengantaranProvider.biaya},
             {'tipe_pengantaran': _character},

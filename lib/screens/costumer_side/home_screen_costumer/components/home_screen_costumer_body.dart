@@ -286,14 +286,6 @@ class CardIkanTerbaru extends StatelessWidget {
               ),
               press: () {
                 cartProvider.addCart(hasilTangkapanModel);
-                Get.defaultDialog(
-                    title: 'Berhasil',
-                    middleText: 'Ikan Berhasil Dimasukkan Ke Keranjang',
-                    textConfirm: 'Lihat Keranjang',
-                    confirmTextColor: kWhiteTextColor,
-                    onConfirm: () {
-                      Get.offNamed('/cart');
-                    });
               }),
         ],
       ),

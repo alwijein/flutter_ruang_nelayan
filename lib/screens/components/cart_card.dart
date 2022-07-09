@@ -1,13 +1,20 @@
 part of 'components.dart';
 
-class CartCard extends StatelessWidget {
+class CartCard extends StatefulWidget {
   final CartModel cart;
   const CartCard(this.cart);
 
   @override
+  State<CartCard> createState() => _CartCardState();
+}
+
+List<String> tags = [];
+
+class _CartCardState extends State<CartCard> {
+  @override
   Widget build(BuildContext context) {
     CartProvider cartProvider = Provider.of<CartProvider>(context);
-
+    StateController controller = Get.put(StateController());
     return Container(
       margin: EdgeInsets.only(
         top: getPropertionateScreenWidht(24),
@@ -32,7 +39,7 @@ class CartCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                   image: DecorationImage(
                     image: NetworkImage(
-                      cart.hasilTangkapanModel!.gambar ??
+                      widget.cart.hasilTangkapanModel!.gambar ??
                           'assets/images/ikan_01.png',
                     ),
                   ),
@@ -46,20 +53,20 @@ class CartCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      cart.hasilTangkapanModel!.namaIkan!,
+                      widget.cart.hasilTangkapanModel!.namaIkan!,
                       style: primaryTextStyle.copyWith(
                         fontWeight: semiBold,
                       ),
                     ),
                     Text(
                       formatCurrency
-                          .format(cart.hasilTangkapanModel!.harga)
+                          .format(widget.cart.hasilTangkapanModel!.harga)
                           .toString()
                           .replaceAll(regex, ''),
                       style: priceTextStyle,
                     ),
                     Text(
-                      'Nelayan: ${cart.hasilTangkapanModel!.users!.name!}',
+                      'Nelayan: ${widget.cart.hasilTangkapanModel!.users!.name!}',
                       style: primaryTextStyle,
                     ),
                   ],
@@ -69,7 +76,7 @@ class CartCard extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      cartProvider.addQuantity(cart.id!);
+                      cartProvider.addQuantity(widget.cart.id!);
                     },
                     child: Icon(Icons.add),
                   ),
@@ -77,7 +84,7 @@ class CartCard extends StatelessWidget {
                     height: 2,
                   ),
                   Text(
-                    cart.quantity.toString(),
+                    widget.cart.quantity.toString(),
                     style: primaryTextStyle.copyWith(
                       fontWeight: medium,
                     ),
@@ -87,7 +94,7 @@ class CartCard extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      cartProvider.reduceQuantity(cart.id!);
+                      cartProvider.reduceQuantity(widget.cart.id!);
                     },
                     child: Icon(Icons.remove),
                   ),
@@ -95,29 +102,62 @@ class CartCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(
-            height: 12,
-          ),
-          GestureDetector(
-            onTap: () {
-              cartProvider.removeCart(cart.id!);
+          ChipsChoice<String>.multiple(
+            value: tags,
+            onChanged: (val) {
+              setState(() {
+                tags = val;
+                cartProvider.addOption(widget.cart.id!, tags);
+              });
+              // cartProvider.addTags(val);
             },
-            child: Row(
-              children: [
-                const Icon(Icons.remove_shopping_cart),
-                const SizedBox(
-                  width: 4,
-                ),
-                Text(
-                  'Hapus',
-                  style: primaryLightTextStyle.copyWith(
-                    fontSize: 12,
-                    fontWeight: light,
-                  ),
-                ),
-              ],
+            choiceItems: C2Choice.listFrom<String, dynamic>(
+              source: cartProvider.getOptions(widget.cart.id!),
+              value: (i, v) => v.jenisPengerjaan,
+              label: (i, v) {
+                return cartProvider
+                    .getOptions(widget.cart.id!)[i]
+                    .jenisPengerjaan
+                    .toString();
+                // return i.toString();
+              },
             ),
+            choiceActiveStyle: const C2ChoiceStyle(
+              color: kWhiteTextColor,
+              backgroundColor: kPrimaryColor,
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+            ),
+            choiceStyle: const C2ChoiceStyle(
+              showCheckmark: false,
+              color: kWhiteTextColor,
+              backgroundColor: kSecondaryTextColor,
+              borderRadius: BorderRadius.all(Radius.circular(15)),
+            ),
+            wrapped: true,
           ),
+          // const SizedBox(
+          //   height: 12,
+          // ),
+          // GestureDetector(
+          //   onTap: () {
+          //     cartProvider.removeCart(cart.id!);
+          //   },
+          //   child: Row(
+          //     children: [
+          //       const Icon(Icons.remove_shopping_cart),
+          //       const SizedBox(
+          //         width: 4,
+          //       ),
+          //       Text(
+          //         'Hapus',
+          //         style: primaryLightTextStyle.copyWith(
+          //           fontSize: 12,
+          //           fontWeight: light,
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );

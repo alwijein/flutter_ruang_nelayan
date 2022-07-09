@@ -186,23 +186,6 @@ class DetailLaporanHarianBody extends StatelessWidget {
                               ],
                             ),
                           ),
-                          pw.RichText(
-                            text: pw.TextSpan(
-                              text: 'Jasa Pengerjaan: ',
-                              style: pw.TextStyle(
-                                  fontSize: 20, fontWeight: pw.FontWeight.bold),
-                              children: [
-                                pw.TextSpan(
-                                  text: hasil
-                                      .jenisPengerjaanIkan!.jenisPengerjaan
-                                      .toString(),
-                                  style: const pw.TextStyle(
-                                    fontSize: 20,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
                           pw.SizedBox(
                             height: getPropertionateScreenHeight(5),
                           ),

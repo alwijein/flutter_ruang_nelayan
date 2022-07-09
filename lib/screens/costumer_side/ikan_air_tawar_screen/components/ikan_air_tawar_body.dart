@@ -51,7 +51,9 @@ class IkanAirTawarBody extends StatelessWidget {
                       height: getPropertionateScreenHeight(150),
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: NetworkImage(tipeIkan[count].img.toString()),
+                          image:
+                              NetworkImage("$storageUrl${tipeIkan[count].img}"),
+                          // "http://192.168.1.26:8000/storage/${tipeIkan[count].img}"),
                           fit: BoxFit.cover,
                         ),
                       ),

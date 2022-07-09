@@ -1,5 +1,7 @@
 import 'package:flutter_ruang_nelayan/boostrap.dart';
+import 'package:flutter_ruang_nelayan/controllers/state_controller.dart';
 import 'package:flutter_ruang_nelayan/providers/cart_provider.dart';
+import 'package:get/get.dart';
 
 class CartScreen extends StatelessWidget {
   @override
@@ -7,7 +9,7 @@ class CartScreen extends StatelessWidget {
     CartProvider cartProvider = Provider.of<CartProvider>(context);
 
     SizeConfig().init(context);
-
+    StateController controller = Get.put(StateController());
     Widget header() {
       return AppBar(
         backgroundColor: kBackgroundColor1,

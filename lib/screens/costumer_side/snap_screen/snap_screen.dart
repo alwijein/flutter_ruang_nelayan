@@ -25,10 +25,11 @@ class _SnapScreenState extends State<SnapScreen> {
   var carts = Get.arguments[1]['carts'];
   var total_harga = Get.arguments[2]['total_harga'];
   var alamat = Get.arguments[3]['alamat'];
-  var total_jasa = Get.arguments[4]['total_jasa'];
-  var ongkos_kirim = Get.arguments[5]['ongkos_kirim'];
-  var tipePengantaran = Get.arguments[6]['tipe_pengantaran'];
-  var id_nelayan = Get.arguments[7]['id_nelayan'];
+  var nama_jasa = Get.arguments[4]['nama_jasa'];
+  var total_jasa = Get.arguments[5]['total_jasa'];
+  var ongkos_kirim = Get.arguments[6]['ongkos_kirim'];
+  var tipePengantaran = Get.arguments[7]['tipe_pengantaran'];
+  var id_nelayan = Get.arguments[8]['id_nelayan'];
 
   @override
   void initState() {
@@ -247,6 +248,7 @@ class _SnapScreenState extends State<SnapScreen> {
                       int.parse(id_nelayan.toString()),
                       total_harga,
                       alamat,
+                      nama_jasa,
                       total_jasa,
                       ongkos_kirim,
                       'E-Pay',

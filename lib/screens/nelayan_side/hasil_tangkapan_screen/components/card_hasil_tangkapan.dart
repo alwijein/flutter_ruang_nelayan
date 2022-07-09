@@ -100,23 +100,22 @@ class CardHasilTangkapan extends StatelessWidget {
                       ],
                     ),
                   ),
-                  RichText(
-                    text: TextSpan(
-                      text: 'Jasa Pengerjaan: ',
-                      style: subtitleTextStyle.copyWith(
-                        fontSize: 11,
+                  Row(
+                    children: [
+                      Text(
+                        'Jasa Pengerjaan: ',
+                        style: subtitleTextStyle.copyWith(
+                          fontSize: 11,
+                        ),
                       ),
-                      children: [
-                        TextSpan(
-                            text: hasilTangkapanModel
-                                .jenisPengerjaanIkan!.jenisPengerjaan
-                                .toString(),
-                            style: primaryTextStyle.copyWith(
-                              fontWeight: bold,
-                              fontSize: 11,
-                            ))
-                      ],
-                    ),
+                      Row(
+                        children: hasilTangkapanModel.jenisPengerjaanIkan!
+                            .map(
+                              (hasil) => Text("${hasil.jenisPengerjaan},"),
+                            )
+                            .toList(),
+                      ),
+                    ],
                   ),
                   SizedBox(
                     height: getPropertionateScreenHeight(5),

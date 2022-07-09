@@ -140,7 +140,7 @@ class HasilTangkapanServices {
     required int jumlah,
     required double harga,
     required File gambar,
-    required int idJasaPengerjaanIkan,
+    required List<int> idJasaPengerjaanIkan,
   }) async {
     String fileName = basename(gambar.path);
 
@@ -156,8 +156,8 @@ class HasilTangkapanServices {
 
     String imageUrl = await ref.getDownloadURL();
 
+    print("ini id jenis ikan: $idJenisIkan");
     var url = Uri.parse("$baseUrl/hasil-tangkapan/tambah-ikan");
-
     var headers = {
       'Content-Type': 'application/json',
       'Authorization': loginState.read('token').toString(),
@@ -170,7 +170,7 @@ class HasilTangkapanServices {
       'jumlah': jumlah,
       'harga': harga,
       'gambar': imageUrl,
-      'id_jasa_pengerjaan_ikan': idJasaPengerjaanIkan,
+      'jenisPengerjaan': idJasaPengerjaanIkan,
     });
 
     var response = await http.post(
@@ -180,15 +180,12 @@ class HasilTangkapanServices {
     );
 
     print(response.body);
-    print('ini urlnya = ' + imageUrl);
 
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body)['data'];
 
       HasilTangkapanModel hasilTangkapanModel =
           HasilTangkapanModel.fromJson(data['data']);
-
-      print('success');
 
       return hasilTangkapanModel;
     } else {
@@ -205,7 +202,7 @@ class HasilTangkapanServices {
     required int jumlah,
     required double harga,
     required File gambar,
-    required int idJasaPengerjaanIkan,
+    required List<int> idJasaPengerjaanIkan,
   }) async {
     String fileName = basename(gambar.path);
     String? imageUrl;
@@ -223,8 +220,6 @@ class HasilTangkapanServices {
       imageUrl = await ref.getDownloadURL();
     } else {
       imageUrl = gambar.path;
-      print(imageUrl);
-      print(fileName);
     }
 
     var url = Uri.parse("$baseUrl/hasil-tangkapan/update-ikan?id=$id");
@@ -241,7 +236,7 @@ class HasilTangkapanServices {
       'jumlah': jumlah,
       'harga': harga,
       'gambar': imageUrl,
-      'id_jasa_pengerjaan_ikan': idJasaPengerjaanIkan,
+      'jenisPengerjaan': idJasaPengerjaanIkan,
     });
 
     var response = await http.post(

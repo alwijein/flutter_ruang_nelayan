@@ -20,7 +20,7 @@ class HasilTangkapanProvider with ChangeNotifier {
     required int jumlah,
     required double harga,
     required File gambar,
-    required int idJasaPengerjaanIkan,
+    required List<int> idJasaPengerjaanIkan,
   }) async {
     try {
       await HasilTangkapanServices().tambahHasilTangkapan(
@@ -48,7 +48,7 @@ class HasilTangkapanProvider with ChangeNotifier {
     required int jumlah,
     required double harga,
     required File gambar,
-    required int idJasaPengerjaanIkan,
+    required List<int> idJasaPengerjaanIkan,
   }) async {
     try {
       await HasilTangkapanServices().updateHasilTangkapan(

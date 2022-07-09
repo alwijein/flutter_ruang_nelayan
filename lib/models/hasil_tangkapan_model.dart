@@ -8,7 +8,7 @@ class HasilTangkapanModel {
   DateTime? createdAt, updatedAt;
   double? harga;
   int? jumlah;
-  JasaPengerjaanModel? jenisPengerjaanIkan;
+  List<JasaPengerjaanModel>? jenisPengerjaanIkan;
   JenisIkanModel? jenisIkan;
   UserModel? users;
 
@@ -37,11 +37,13 @@ class HasilTangkapanModel {
     idJasaPengerjaanIkan = json['id_jasa_pengerjaan_ikan'];
 
     // null check for jasa pengerjaan ikan
-    if (json['jasa_pengerjaan_ikan'] == null) {
+    if (json['jenis_pengerjaan_ikan'] == null) {
       jenisPengerjaanIkan = null;
     } else {
-      jenisPengerjaanIkan =
-          JasaPengerjaanModel.fromJson(json['jasa_pengerjaan_ikan']);
+      jenisPengerjaanIkan = json['jenis_pengerjaan_ikan']
+          .map<JasaPengerjaanModel>((item) =>
+              JasaPengerjaanModel.fromJson(item['jasa_pengerjaan_ikan']))
+          .toList();
     }
 
     // null check for jenis ikan
@@ -71,7 +73,8 @@ class HasilTangkapanModel {
       'harga': harga,
       'gambar': gambar,
       'id_jasa_pengerjaan_ikan': idJasaPengerjaanIkan,
-      'jenis_pengerjaan_ikan': jenisPengerjaanIkan!.toJson(),
+      'jenis_pengerjaan_ikan':
+          jenisPengerjaanIkan!.map((items) => items.toJson()).toList(),
       'jenis_ikan': jenisIkan!.toJson(),
       'users': users!.toJson(),
       'created_at': createdAt,

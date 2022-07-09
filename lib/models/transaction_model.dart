@@ -12,7 +12,7 @@ class TransactionModel {
 
   UserModel? user;
 
-  String? tipePengantaran;
+  String? tipePengantaran, namaJasa;
 
   DateTime? createdAt, updatedAt;
 
@@ -24,6 +24,7 @@ class TransactionModel {
     this.status,
     this.totalPembayaran,
     this.ongkosKirim,
+    this.namaJasa,
     this.totalJasa,
     this.tipePengantaran,
     this.cartModel,
@@ -38,6 +39,7 @@ class TransactionModel {
     pembayaran = json['pembayaran'];
     totalPembayaran = double.parse(json['total_pembayaran'].toString());
     ongkosKirim = double.parse(json['ongkos_kirim'].toString());
+    namaJasa = json['nama_jasa'].toString();
     totalJasa = double.parse(json['total_jasa'].toString());
     status = json['status'];
     createdAt = DateTime.parse(json['created_at']);
@@ -59,6 +61,7 @@ class TransactionModel {
       'pembayaran': pembayaran,
       'total_pembayaran': totalPembayaran,
       'ongkos_kirim': ongkosKirim,
+      'nama_jasa': namaJasa,
       'total_jasa': totalJasa,
       'status': status,
       'created_at': createdAt,
