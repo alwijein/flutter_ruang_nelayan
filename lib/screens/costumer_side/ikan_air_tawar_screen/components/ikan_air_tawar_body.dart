@@ -85,7 +85,8 @@ class IkanAirTawarBody extends StatelessWidget {
                       press: () async {
                         await hasilTangkapanProvider
                             .getNamaIkan(tipeIkan[count].title!.toLowerCase());
-                        Get.toNamed("/detail-ikan");
+                        Get.toNamed("/detail-ikan",
+                            arguments: "$storageUrl${tipeIkan[count].img}");
                       },
                     ),
                   ],

@@ -11,7 +11,7 @@ class DetailIkanBody extends StatelessWidget {
   Widget build(BuildContext context) {
     HasilTangkapanProvider hasilTangkapanProvider =
         Provider.of<HasilTangkapanProvider>(context);
-
+    String imgUrl = Get.arguments;
     return SafeArea(
       child: SizedBox(
         width: double.infinity,
@@ -19,10 +19,10 @@ class DetailIkanBody extends StatelessWidget {
           children: [
             Container(
               height: getPropertionateScreenHeight(300),
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.fill,
-                  image: AssetImage('assets/images/ikan_01.png'),
+                  image: NetworkImage(imgUrl),
                 ),
               ),
             ),

@@ -79,7 +79,7 @@ class CardIkan extends StatelessWidget {
                     ),
                     children: [
                       TextSpan(
-                          text: "${cartModel.hasilTangkapanModel!.jumlah} Kg",
+                          text: "${cartModel.quantity} Kg",
                           style: primaryTextStyle.copyWith(
                             fontWeight: bold,
                             fontSize: 11,

@@ -46,10 +46,9 @@ class _TambahIkanBodyState extends State<TambahIkanBody> {
   TextEditingController jenisIkan = TextEditingController();
   TextEditingController harga = TextEditingController();
 
+  CounterController counterController = Get.put(CounterController());
   @override
   Widget build(BuildContext context) {
-    CounterController counterController = Get.put(CounterController());
-
     HasilTangkapanServices hasilTangkapanServices = HasilTangkapanServices();
 
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
@@ -353,19 +352,21 @@ class _TambahIkanBodyState extends State<TambahIkanBody> {
                                     .tambahHasilTangkapan(
                                   idUsers: authProvider.user.id!,
                                   namaIkan: namaIkan.text,
-                                  idJenisIkan: idJenisIkan!,
+                                  idJenisIkan:
+                                      counterController.idJenisIkan.value,
                                   jumlah: counterController.jumlah.value,
                                   harga: double.parse(harga.text),
                                   gambar: file!,
                                   idJasaPengerjaanIkan: tags,
                                 );
                               }
-
                               if (toDayDate != loginState.read('lastVisit') &&
                                   !isEdit) {
                                 await laporanHarianProvider.inputLaporan();
                                 loginState.write('lastVisit', toDayDate);
                               }
+
+                              counterController.resetAll();
 
                               Get.snackbar(
                                 'Berhasil',
@@ -451,7 +452,9 @@ class _TambahIkanBodyState extends State<TambahIkanBody> {
                   },
                 ))
             .toList(),
-        onChanged: (value) {},
+        onChanged: (value) {
+          counterController.setIdJenisIkan(int.parse(selected.toString()));
+        },
         onSaved: (value) {
           idJenisIkan = selected;
         },

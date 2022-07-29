@@ -6,4 +6,15 @@ class CounterController extends GetxController {
   void incrementJumlah() => jumlah++;
 
   void decrementJumlah() => jumlah--;
+
+  var idJenisIkan = 0.obs;
+
+  void setIdJenisIkan(int id) {
+    idJenisIkan.value = id;
+  }
+
+  void resetAll() {
+    jumlah.value = 0;
+    idJenisIkan.value = 0;
+  }
 }

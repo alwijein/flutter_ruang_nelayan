@@ -37,128 +37,133 @@ class CardHasilTangkapan extends StatelessWidget {
           ),
         ],
       ),
-      child: Stack(
+      child: Row(
         children: [
-          Row(
-            children: [
-              Container(
-                width: getPropertionateScreenWidht(90),
-                height: getPropertionateScreenHeight(110),
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: NetworkImage(
-                      hasilTangkapanModel.gambar.toString(),
-                    ),
-                    fit: BoxFit.fill,
+          Flexible(
+            flex: 1,
+            child: Container(
+              width: getPropertionateScreenWidht(90),
+              height: getPropertionateScreenHeight(110),
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(
+                    hasilTangkapanModel.gambar.toString(),
                   ),
+                  fit: BoxFit.fill,
                 ),
               ),
-              SizedBox(
-                width: getPropertionateScreenWidht(7),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    hasilTangkapanModel.namaIkan.toString(),
-                    style: primaryTextStyle.copyWith(
-                      fontWeight: semiBold,
-                    ),
+            ),
+          ),
+          SizedBox(
+            width: getPropertionateScreenWidht(7),
+          ),
+          Flexible(
+            flex: 3,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  hasilTangkapanModel.namaIkan.toString(),
+                  style: primaryTextStyle.copyWith(
+                    fontWeight: semiBold,
                   ),
-                  RichText(
-                    text: TextSpan(
-                      text: 'hasil tangkapan: ',
-                      style: subtitleTextStyle.copyWith(
-                        fontSize: 11,
-                      ),
-                      children: [
-                        TextSpan(
-                            text: hasilTangkapanModel.jumlah.toString(),
-                            style: primaryTextStyle.copyWith(
-                              fontWeight: bold,
-                              fontSize: 11,
-                            ))
-                      ],
+                ),
+                RichText(
+                  text: TextSpan(
+                    text: 'hasil tangkapan: ',
+                    style: subtitleTextStyle.copyWith(
+                      fontSize: 11,
                     ),
-                  ),
-                  RichText(
-                    text: TextSpan(
-                      text: 'Harga Per Kilo: ',
-                      style: subtitleTextStyle.copyWith(
-                        fontSize: 11,
-                      ),
-                      children: [
-                        TextSpan(
-                            text: formatCurrency
-                                .format(hasilTangkapanModel.harga)
-                                .toString()
-                                .replaceAll(regex, ''),
-                            style: primaryTextStyle.copyWith(
-                              fontWeight: bold,
-                              fontSize: 11,
-                            ))
-                      ],
-                    ),
-                  ),
-                  Row(
                     children: [
-                      Text(
-                        'Jasa Pengerjaan: ',
-                        style: subtitleTextStyle.copyWith(
-                          fontSize: 11,
-                        ),
-                      ),
-                      Row(
-                        children: hasilTangkapanModel.jenisPengerjaanIkan!
-                            .map(
-                              (hasil) => Text("${hasil.jenisPengerjaan},"),
-                            )
-                            .toList(),
-                      ),
+                      TextSpan(
+                          text: hasilTangkapanModel.jumlah.toString(),
+                          style: primaryTextStyle.copyWith(
+                            fontWeight: bold,
+                            fontSize: 11,
+                          ))
                     ],
                   ),
-                  SizedBox(
-                    height: getPropertionateScreenHeight(5),
+                ),
+                RichText(
+                  text: TextSpan(
+                    text: 'Harga Per Kilo: ',
+                    style: subtitleTextStyle.copyWith(
+                      fontSize: 11,
+                    ),
+                    children: [
+                      TextSpan(
+                          text: formatCurrency
+                              .format(hasilTangkapanModel.harga)
+                              .toString()
+                              .replaceAll(regex, ''),
+                          style: primaryTextStyle.copyWith(
+                            fontWeight: bold,
+                            fontSize: 11,
+                          ))
+                    ],
                   ),
-                  DefaultButtonOutlined(
-                    isInfinity: false,
-                    text: Text(
-                      'Edit',
-                      style: primaryTextStyle.copyWith(
-                        fontSize: 12,
-                        color: kPrimaryColor,
-                        fontWeight: medium,
+                ),
+                Wrap(
+                  children: [
+                    Text(
+                      'Jasa Pengerjaan: ',
+                      style: subtitleTextStyle.copyWith(
+                        fontSize: 11,
                       ),
                     ),
-                    press: () async {
-                      await jenisIkanProvider.getJenisIkan();
-                      await jenisPengerjaanIkanProvider
-                          .getJenisPengerjaanIkan();
-
-                      Get.toNamed("/hasil-tangkapan-nelayan/tambah-ikan",
-                          arguments: [
-                            {'isEdit': true},
-                            {'hasilTangkapan': hasilTangkapanModel}
-                          ]);
-                    },
-                  ),
-                ],
-              ),
-            ],
-          ),
-          Align(
-            alignment: Alignment.topRight,
-            child: DefaultButtonGradient(
-              text: Text(
-                hasilTangkapanModel.jenisIkan!.jenisIkan.toString(),
-                style: whiteTextStyle.copyWith(
-                  fontSize: 8,
+                    Row(
+                      children: hasilTangkapanModel.jenisPengerjaanIkan!
+                          .map(
+                            (hasil) => Text("${hasil.jenisPengerjaan},"),
+                          )
+                          .toList(),
+                    ),
+                  ],
                 ),
-              ),
-              press: () {},
-              isInfinity: false,
-              color1: kColorLightkGreen,
-              color2: kColorDarkGreen,
+                SizedBox(
+                  height: getPropertionateScreenHeight(5),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    DefaultButtonOutlined(
+                      isInfinity: false,
+                      text: Text(
+                        'Edit',
+                        style: primaryTextStyle.copyWith(
+                          fontSize: 12,
+                          color: kPrimaryColor,
+                          fontWeight: medium,
+                        ),
+                      ),
+                      press: () async {
+                        await jenisIkanProvider.getJenisIkan();
+                        await jenisPengerjaanIkanProvider
+                            .getJenisPengerjaanIkan();
+
+                        Get.toNamed("/hasil-tangkapan-nelayan/tambah-ikan",
+                            arguments: [
+                              {'isEdit': true},
+                              {'hasilTangkapan': hasilTangkapanModel}
+                            ]);
+                      },
+                    ),
+                    // Align(
+                    DefaultButtonGradient(
+                      text: Text(
+                        hasilTangkapanModel.jenisIkan!.jenisIkan.toString(),
+                        style: whiteTextStyle.copyWith(
+                          fontSize: 8,
+                        ),
+                      ),
+                      press: () {},
+                      isInfinity: false,
+                      color1: kColorLightkGreen,
+                      color2: kColorDarkGreen,
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         ],
